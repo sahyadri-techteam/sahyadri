@@ -1,21 +1,32 @@
 ---
 layout: base
 ---
+
 <style>
-  /* Base style: Hide the back button by default (Desktops and Tablets) */
+  /* Force the back button to show on ALL devices */
   .back-navigation {
-    display: none;
+    margin-top: 12.5vw;
+    display: block !important;
+  }
+  /* Style targeting the author subheadings to use Amatic SC */
+  .post-subheading {
+    font-family: 'Amatic SC', cursive, sans-serif;
   }
 
-  .post-heading {
-      margin-top: 12.5vw;
+  .port-subtitle, .post-subtitle2 {
+      font-family: 'Amatic SC', cursive, sans-serif;      
+  }
+  
+
+  /* Ensure the links within the subheading inherit the Amatic SC styling */
+  .post-subheading a {
+    font-family: inherit;
+    color: #5f745f;
+    text-decoration: none;
   }
 
-  /* Mobile-only style: Show the button only on screens narrower than 768px */
-  @media (max-width: 767px) {
-    .back-navigation {
-      display: block; /* or 'flex' depending on your layout preference */
-    }
+  .post-subheading a:hover {
+    text-decoration: underline;
   }
 </style>
 
@@ -23,8 +34,8 @@ layout: base
   <div class="row">
     <div class="{% if page.full-width %} col {% else %} col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 {% endif %}">
 
-     <div class="back-navigation">
-  <a href="#" id="back-button" onclick="window.history.back(); return false;">
+      <div class="back-navigation mb-4">
+  <a href="/profiles" id="back-button" onclick="if(document.referrer !== '') { window.history.back(); return false; }">
     <i class="fas fa-chevron-left"></i> 
     Back
   </a>
@@ -38,10 +49,23 @@ layout: base
         </span>
 
         {% if page.subtitle %}
+          {% comment %} Extract main author's first name slug {% endcomment %}
+          {% assign author1_parts = page.subtitle | split: ' ' %}
+          {% assign author1_slug = author1_parts[0] | downcase %}
+          
           <h2 class="post-subheading">
-            {{ page.subtitle }}
+            By <a href="{{ '/profiles/' | relative_url }}{{ author1_slug }}">{{ page.subtitle }}</a>{% if page.subtitle2 %}{% comment %} Extract co-author's first name slug {% endcomment %}{% assign author2_parts = page.subtitle2 | split: ' ' %}{% assign author2_slug = author2_parts[0] | downcase %} and <a href="{{ '/profiles/' | relative_url }}{{ author2_slug }}">{{ page.subtitle2 }}</a>{% endif %}
           </h2>
         {% endif %}
+
+        {% if page.image_id %}
+          <div class="post-image" style="margin: 20px 0; text-align: center;">
+            <a href="{{ post.url | relative_url }}">
+              <img src="https://lh3.googleusercontent.com/d/{{ post.image }}" alt="{{ post.title }}">
+            </a>
+          </div>
+        {% endif %}
+        
         <hr class="small">
       </div>
 
@@ -105,11 +129,9 @@ layout: base
 
   <script>
 function goBack() {
-  // If there is history to go back to, do it
   if (document.referrer !== "") {
     window.history.back();
   } else {
-    // Optional: Fallback to your home or blog page if no history exists
     window.location.href = "{{ '/' | relative_url }}";
   }
 }
