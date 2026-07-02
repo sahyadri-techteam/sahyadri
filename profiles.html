@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Profiles
-subtitle: Select a profile to view more details
+subtitle: Click on a profile to view more details
 ---
 
 <head>
@@ -28,7 +28,6 @@ subtitle: Select a profile to view more details
             gap: 3%;
             width: 100%;
             max-width: 1400px;
-            /* CHANGED: Top margin configured strictly to 0.5vw relative to top navigation bar */
             margin: 0.5vw auto 30px auto; 
             padding: 0 2% !important;
         }
@@ -145,7 +144,6 @@ subtitle: Select a profile to view more details
                 flex-direction: column;
                 align-items: center;
                 gap: 20px;
-                /* Maintains layout padding standard across responsive shifts */
                 margin-top: 0.5vw; 
             }
 
@@ -224,13 +222,13 @@ subtitle: Select a profile to view more details
         <div class="profiles-content">
             <div class="profile-grid" id="main-grid">
 
-                {% assign sorted_profiles = site.profiles | sort: "last_modified_at" | reverse %}
+                {% assign sorted_profiles = site.profiles | sort: "date" | reverse %}
 
                 {% for profile in sorted_profiles %}
                 <a href="{{ profile.url | relative_url }}" class="profile-card" data-academic-year="{{ profile.academic-year }}">
                     <div class="profile-img-wrapper">
                         {% if profile.profile-image %}
-                            <img src="{{ profile.profile-image }}" alt="{{ profile.title }}">
+                            <img src="https://lh3.googleusercontent.com/d/{{ profile.profile-image }}" alt="{{ profile.title }}">
                         {% else %}
                             <img src="/assets/img/default-avatar.png" alt="Fallback Avatar">
                         {% endif %}
