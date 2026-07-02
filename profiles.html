@@ -21,7 +21,7 @@ subtitle: Select a profile to view more details
             flex: 0 0 100% !important;
         }
 
-        /* 2. MAIN CONTAINER - Converted to Block style from Photos Layout */
+        /* 2. MAIN CONTAINER */
         .profiles-page-container {
             display: block !important; 
             width: 100% !important;
@@ -31,7 +31,7 @@ subtitle: Select a profile to view more details
             box-sizing: border-box;
         }
 
-        /* 3. HORIZONTAL NAVIGATION - Replaces TOC Sidebar */
+        /* 3. HORIZONTAL NAVIGATION */
         .sub-nav-options {
             display: block !important;
             width: 100% !important;
@@ -199,22 +199,38 @@ subtitle: Select a profile to view more details
         <div class="profiles-content">
             <div class="profile-grid" id="main-grid">
 
-                {% assign sorted_profiles = site.profiles | sort: "date" | reverse %}
-
-                {% for profile in sorted_profiles %}
-                <a href="{{ profile.url | relative_url }}" class="profile-card" data-academic-year="{{ profile.academic-year }}">
-                    <div class="profile-img-wrapper">
-                        {% if profile.profile-image %}
-                            <img src="https://lh3.googleusercontent.com/d/{{ profile.profile-image }}" alt="{{ profile.title }}">
-                        {% else %}
-                            <img src="/assets/img/default-avatar.png" alt="Fallback Avatar">
-                        {% endif %}
-                    </div>
-                    <div class="profile-name">{{ profile.title }}</div>
-                    {% if profile.subtitle %}
-                        <div class="profile-role">{{ profile.subtitle }}</div>
+                {% for profile in site.profiles %}
+                    {% comment %} Assign a clear weight based on the grade string for JS sorting execution {% endcomment %}
+                    {% assign sub_clean = profile.subtitle | downcase %}
+                    {% assign weight = 0 %}
+                    
+                    {% if sub_clean contains "grade 12" or sub_clean contains "class 12" %}{% assign weight = 12 %}
+                    {% elsif sub_clean contains "grade 11" or sub_clean contains "class 11" %}{% assign weight = 11 %}
+                    {% elsif sub_clean contains "grade 10" or sub_clean contains "class 10" %}{% assign weight = 10 %}
+                    {% elsif sub_clean contains "grade 9" or sub_clean contains "class 9" %}{% assign weight = 9 %}
+                    {% elsif sub_clean contains "grade 8" or sub_clean contains "class 8" %}{% assign weight = 8 %}
+                    {% elsif sub_clean contains "grade 7" or sub_clean contains "class 7" %}{% assign weight = 7 %}
+                    {% elsif sub_clean contains "grade 6" or sub_clean contains "class 6" %}{% assign weight = 6 %}
+                    {% elsif sub_clean contains "grade 5" or sub_clean contains "class 5" %}{% assign weight = 5 %}
+                    {% elsif sub_clean contains "grade 4" or sub_clean contains "class 4" %}{% assign weight = 4 %}
+                    {% elsif sub_clean contains "grade 3" or sub_clean contains "class 3" %}{% assign weight = 3 %}
+                    {% elsif sub_clean contains "grade 2" or sub_clean contains "class 2" %}{% assign weight = 2 %}
+                    {% elsif sub_clean contains "grade 1" or sub_clean contains "class 1" %}{% assign weight = 1 %}
                     {% endif %}
-                </a>
+                    
+                    <a href="{{ profile.url | relative_url }}" class="profile-card" data-academic-year="{{ profile.academic-year }}" data-grade-weight="{{ weight }}">
+                        <div class="profile-img-wrapper">
+                            {% if profile.profile-image %}
+                                <img src="https://lh3.googleusercontent.com/d/{{ profile.profile-image }}" alt="{{ profile.title }}">
+                            {% else %}
+                                <img src="/assets/img/default-avatar.png" alt="Fallback Avatar">
+                            {% endif %}
+                        </div>
+                        <div class="profile-name">{{ profile.title }}</div>
+                        {% if profile.subtitle %}
+                            <div class="profile-role">{{ profile.subtitle }}</div>
+                        {% endif %}
+                    </a>
                 {% endfor %}
 
             </div>
@@ -233,17 +249,29 @@ subtitle: Select a profile to view more details
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             currentYearFilter = year;
+            const grid = document.getElementById('main-grid');
             const allItems = Array.from(document.querySelectorAll('.profile-card'));
 
             document.querySelectorAll('.sub-nav-list li').forEach(li => li.classList.remove('active'));
             if(element) element.classList.add('active');
 
-            allItems.forEach(item => item.classList.add('hidden-item'));
-
+            // 1. Filter out the items matching selected academic year
             const matched = allItems.filter(item => 
                 item.getAttribute('data-academic-year') === year
             );
 
+            // 2. Sort the matched subgroup internally by grade weight (Highest 12 down to 0)
+            matched.sort((a, b) => {
+                return parseInt(b.getAttribute('data-grade-weight')) - parseInt(a.getAttribute('data-grade-weight'));
+            });
+
+            // 3. Clear all items and clean-hide everything initially
+            allItems.forEach(item => item.classList.add('hidden-item'));
+
+            // 4. Re-append items in correct grade order to the DOM grid layout
+            matched.forEach(item => grid.appendChild(item));
+
+            // 5. Unhide first calculation slice limits
             matched.slice(0, itemsPerPage).forEach(item => {
                 item.classList.remove('hidden-item');
             });
