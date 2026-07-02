@@ -7,7 +7,7 @@ layout: base
     <div class="{% if page.full-width %} col {% else %} col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 {% endif %}">
 
       <div class="back-navigation mb-4">
-        <a href="/profiles" id="back-button">
+        <a href="/profiles" id="back-button" onclick="if(document.referrer !== '') { window.history.back(); return false; }">
           <i class="fas fa-chevron-left"></i> 
           Back
         </a>
@@ -17,20 +17,19 @@ layout: base
         
         <div class="col-3 col-md-2 text-center text-md-start">
           {% if page.profile-image %}
-            <img src="{{ page.profile-image | relative_url }}" alt="{{ page.title }}" class="img-fluid rounded-circle profile-pic">
+            <img src="https://lh3.googleusercontent.com/d/{{ page.profile-image }}" alt="{{ page.title }}" class="img-fluid rounded-circle profile-pic">
           {% else %}
             <img src="/assets/img/default-avatar.png" alt="Default Avatar" class="img-fluid rounded-circle profile-pic">
           {% endif %}
         </div>
 
         <div class="col-9 col-md-10">
-          <!-- Added clean CSS class overrides for typography reduction -->
-          <h3 class="post-title mb-1">{{ page.title }}</h1>
+          <h3 class="post-title mb-1">{{ page.title }}</h3>
           
           {% if page.subtitle %}
             <h4 class="post-subtitle text-muted fw-normal mb-2">
               {{ page.subtitle }}
-            </h2>
+            </h4>
           {% endif %}
           
           <span class="profile-meta text-muted small">
@@ -51,7 +50,6 @@ layout: base
 </main>
 
 <style>
-/* Keeps your avatar structure sound and clean */
 .profile-pic {
   width: 100%;
   aspect-ratio: 2 / 2.5;
@@ -59,13 +57,11 @@ layout: base
   max-width: 25vw;
 }
 
-/* Reduced heading size by 50% (Standard H1 is ~2.5rem) */
 .profile-name {
   font-size: 1.5vw !important;
   font-weight: bold;
 }
 
-/* Reduced subheading size by 50% (Standard H4 is ~1.5rem) */
 .profile-subheading {
   font-size: 1.25vw !important;
 }
