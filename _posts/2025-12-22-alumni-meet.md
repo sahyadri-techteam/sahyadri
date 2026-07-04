@@ -2,7 +2,8 @@
 layout: post
 title: "Alumni Meet: 30 Years of Sahyadri"
 date: 2025-12-22
-subtitle: "Reya Shah and Swara Bathe (Grade 11)"
+subtitle: "Reya Shah"
+subtitle2: "Swara Bathe (Grade 11)"
 category: December 2025
 image: 1xKpmMkaglKHQL4PTfwaB2acjnc8TW4OB
 ---
