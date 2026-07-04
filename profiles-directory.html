@@ -3,9 +3,35 @@ layout: default
 title: Profile not made yet
 permalink: /not_done_yet
 ---
+<style>
+  /* Force the back button to show on ALL devices */
+
+  .back-navigation {
+
+    margin-top: 12.5vw;
+
+    display: block !important;
+
+  }
+</style>
+  
+
+<br/>
   <br/>
   <br/>
-  <br/>
+ 
+
+<div class="back-navigation mb-4">
+
+  <a href="/profiles" id="back-button" onclick="if(document.referrer !== '') { window.history.back(); return false; }">
+
+    <i class="fas fa-chevron-left"></i> 
+
+    Back
+
+  </a>
+
+</div>
   <br/>
   <br/>
   <h1>Sorry, The person has not made their profile yet. Please wait for them to make it</h1>
