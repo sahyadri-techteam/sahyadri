@@ -2,7 +2,8 @@
 layout: post
 title: "New Year's Eve"
 date: 2025-12-31
-subtitle: "Avishi Chaudhary and Ira Akode (Grade 8)"
+subtitle: "Avishi Chaudhary"
+subtitle2: "Ira Akode (Grade 8)"
 category: December 2025 
 image: 1BUMHl8CQ2LapGIu6vY3hkKHAsq0e5qah
 ---
