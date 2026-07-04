@@ -2,7 +2,8 @@
 layout: post
 title: "Christmas Eve"
 date: 2025-12-24
-subtitle: "Riddhim Inamke and Swara Bathe (Grade 11)"
+subtitle: "Riddhim Inamke"
+subtitle2: "Swara Bathe (Grade 11)"
 category: December 2025
 image: 19lWWhw8ssmGyJ3mBzFrGD6SMrqnDy4Nf
 ---
