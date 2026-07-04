@@ -6,10 +6,9 @@ subtitle: "Swara Bathe (Grade 11)"
 category: August 2025
 image: 1UvSe0jGCgAsGMwPJtmITVLhHkCaoXoTv
 ---
+![Marathi Assembly](https://lh3.googleusercontent.com/d/{{ page.image }})
 
 On 5th August, 2025, the children of classes 5 to 8 presented an assembly In which the children gave detailed and insightful information about Maharashtra’s cultural traditions through the medium of folk songs. 
-
-![Marathi Assembly](https://lh3.googleusercontent.com/d/{{ page.image }})
 
 
 #### Folk Traditions Showcased
