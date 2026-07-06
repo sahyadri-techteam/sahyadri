@@ -7,4 +7,4 @@ academic-year: "2026-27"
 profile-image: "1irRMv3rDOpJsPODblqudJEJvhyNFNoWt"
 ---
 
-I joined Sahyadri School in Grade 11th. I wanted to connect with nature and experience independent life before college. So far, my experience has been really nice and comforting.
+I joined Sahyadri School in Grade 11th. I wanted to connect with nature and experience independent life before college. My experience has been really nice and comforting so far.
