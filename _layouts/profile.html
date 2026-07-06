@@ -1,7 +1,3 @@
----
-layout: base
----
-
 <main class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %}">
   <div class="row">
     <div class="{% if page.full-width %} col {% else %} col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 {% endif %}">
@@ -15,7 +11,8 @@ layout: base
 
       <div class="profile-header row align-items-center mb-4">
         
-        <div class="col-3 col-md-2 text-center text-md-start">
+        <!-- Increased column width from col-3 to col-4 and col-md-2 to col-md-3 -->
+        <div class="col-4 col-md-3 text-center text-md-start">
           {% if page.profile-image %}
             <img src="https://lh3.googleusercontent.com/d/{{ page.profile-image }}" alt="{{ page.title }}" class="img-fluid rounded-circle profile-pic">
           {% else %}
@@ -23,7 +20,7 @@ layout: base
           {% endif %}
         </div>
 
-        <div class="col-9 col-md-10">
+        <div class="col-8 col-md-9">
           <h3 class="post-title mb-1">{{ page.title }}</h3>
           
           {% if page.subtitle %}
@@ -52,9 +49,11 @@ layout: base
 <style>
 .profile-pic {
   width: 100%;
-  aspect-ratio: 2 / 2.5;
+  /* Changed to 1:1 aspect ratio */
+  aspect-ratio: 1 / 1; 
   object-fit: cover;
-  max-width: 37.5vw;
+  /* Increased max-width to make the image larger */
+  max-width: 50vw; 
 }
 
 .profile-name {
