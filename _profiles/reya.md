@@ -7,7 +7,7 @@ academic-year: "2026-27"
 profile-image: "1AWHehX8FAH2ehaXgg0-QSDQHcQZxJMUP"
 ---
 
-I joined Sahyadri School in Grade Grade 7.
+I joined Sahyadri School in Grade 7.
 
 Since Grade 9, I have actively contributed to school life by taking on leadership roles across publications, student governance, and events. I served as a two-time Editor of *Ninad*, our biennial school magazine, anchored the Newsletter Committee in Grade 11, and was a member of both the Dorm Affairs Committee and the Student Council, where I helped organize community events and contribute to school policymaking.
 
