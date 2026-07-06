@@ -3,11 +3,18 @@ layout: base
 ---
 
 <style>
-  /* Force the back button to show on ALL devices */
+  /* Fix the content tracking behavior so it respects the top navbar height */
+  .post-container {
+    padding-top: 40px;
+    position: relative;
+  }
+
+  /* Style the back button cleanly without breaking layout flows */
   .back-navigation {
-    margin-top: 12.5vw;
+    margin-bottom: 0.15vw;
     display: block !important;
   }
+
   /* Style targeting the author subheadings to use Amatic SC */
   .post-subheading {
     font-family: 'Amatic SC', cursive, sans-serif;
@@ -16,7 +23,6 @@ layout: base
   .port-subtitle, .post-subtitle2 {
       font-family: 'Amatic SC', cursive, sans-serif;      
   }
-  
 
   /* Ensure the links within the subheading inherit the Amatic SC styling */
   .post-subheading a {
@@ -28,18 +34,27 @@ layout: base
   .post-subheading a:hover {
     text-decoration: underline;
   }
+
+  /* Clear fix layout container to force images to stay below header boundaries */
+  .post-image-wrapper {
+    display: block;
+    width: 100%;
+    margin: 25px auto 35px auto;
+    text-align: center;
+    clear: both;
+  }
 </style>
 
-<main class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %}">
+<main class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %} post-container">
   <div class="row">
     <div class="{% if page.full-width %} col {% else %} col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 {% endif %}">
 
-      <div class="back-navigation mb-4">
-  <a href="/profiles" id="back-button" onclick="if(document.referrer !== '') { window.history.back(); return false; }">
-    <i class="fas fa-chevron-left"></i> 
-    Back
-  </a>
-</div>
+      <div class="back-navigation">
+        <a href="/posts" id="back-button" onclick="return handleBackNavigation();">
+          <i class="fas fa-chevron-left"></i> 
+          Back
+        </a>
+      </div>
 
       <div class="post-heading">
         <h1>{{ page.title }}</h1>
@@ -57,17 +72,16 @@ layout: base
             By <a href="{{ '/profiles/' | relative_url }}{{ author1_slug }}">{{ page.subtitle }}</a>{% if page.subtitle2 %}{% comment %} Extract co-author's first name slug {% endcomment %}{% assign author2_parts = page.subtitle2 | split: ' ' %}{% assign author2_slug = author2_parts[0] | downcase %} and <a href="{{ '/profiles/' | relative_url }}{{ author2_slug }}">{{ page.subtitle2 }}</a>{% endif %}
           </h2>
         {% endif %}
-
-        {% if page.image_id %}
-          <div class="post-image" style="margin: 20px 0; text-align: center;">
-            <a href="{{ post.url | relative_url }}">
-              <img src="https://lh3.googleusercontent.com/d/{{ post.image }}" alt="{{ post.title }}">
-            </a>
-          </div>
-        {% endif %}
         
         <hr class="small">
       </div>
+
+      {% assign current_image = page.image_id | default: page.image %}
+      {% if current_image %}
+        <div class="post-image-wrapper">
+          <img src="https://lh3.googleusercontent.com/d/{{ current_image }}?sz=9999" alt="{{ page.title }}" style="max-width: 75%; height: auto; border-radius: 4px; display: inline-block;">
+        </div>
+      {% endif %}
 
       {% if page.gh-repo %}
         {% assign gh_split =  page.gh-repo | split:'/'  %}
@@ -128,12 +142,31 @@ layout: base
   </div>
 
   <script>
-function goBack() {
-  if (document.referrer !== "") {
-    window.history.back();
-  } else {
-    window.location.href = "{{ '/' | relative_url }}";
+  function handleBackNavigation() {
+    const referrer = document.referrer;
+    
+    if (referrer !== "") {
+      const url = new URL(referrer);
+      const path = url.pathname;
+      
+      // If the path contains a subfolder indicative of another article, or ends with a distinct slug
+      // (Bypassing top-level list directories like /posts, /profiles, /activities, or the root homepage /)
+      const isArticlePage = path.split('/').filter(Boolean).length >= 2 || 
+                            (path !== '/' && !['/posts/'].includes(path));
+
+      if (isArticlePage) {
+        // Force routing back to the central Newsletter/Posts feed
+        window.location.href = "{{ '/posts' | relative_url }}";
+        return false;
+      }
+      
+      // Otherwise, safely take them back to wherever they came from (e.g. Profiles or Activities lists)
+      window.history.back();
+      return false;
+    }
+    
+    // Direct link fall-through default behavior handled natively by href="/posts"
+    return true;
   }
-}
 </script>
 </main>
