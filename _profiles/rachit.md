@@ -7,7 +7,7 @@ academic-year: "2026-27"
 profile-image: "1kP_nWx_LpG1FchVZC114Jf2_K39ylSzZ"
 ---
 
-I joined Sahyadri School in Grade Grade 4(2019).
+I joined Sahyadri School in Grade 4(2019).
 
 One thread runs through what I do: trying to make complex things feel human. In CS, that's a research project on trust and reputation between AI agents, using poker as a testbed to study cooperation and deception — work I'm now preparing for publication.
 
