@@ -54,7 +54,7 @@ permalink: /geeth
 
   <figure class="ninad-card">
     {% include pdf.html 
-       thumbnail_path="/assets/GeethGunjan/transliterated-thumb.png" 
+       thumbnail_path="/assets/GeethGunjan/transliterated.png" 
        pdf_path="https://drive.google.com/uc?export=download&id=1o1U1PIGIDH2eo_rkz38BUjVd5DxU5sDt" 
        only_thumbnail=true %} 
     <figcaption class="ninad-caption-banner">Geeth Gunjan (English Transliterated)</figcaption>
@@ -62,7 +62,7 @@ permalink: /geeth
 
   <figure class="ninad-card">
     {% include pdf.html 
-       thumbnail_path="/assets/GeethGunjan/original-thumb.png" 
+       thumbnail_path="/assets/GeethGunjan/original.png" 
        pdf_path="https://drive.google.com/uc?export=download&id=YOUR_ORIGINAL_DRIVE_ID" 
        only_thumbnail=true %} 
     <figcaption class="ninad-caption-banner">Geeth Gunjan (Original)</figcaption>
