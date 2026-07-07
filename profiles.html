@@ -78,15 +78,15 @@ subtitle: Select a profile to view more details
         .profile-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 30px; /* Increased padding slightly for larger cards */
+            gap: 12px; /* Tightly reduced margins between items to reclaim spacing area */
             justify-content: center;
         }
 
-        /* MAJOR DESKTOP UPGRADE: Adjusted to 3 columns per row to expand card layout bounds natively by ~20% */
+        /* DESKTOP FOCUS: Compacted card side gaps and allocated it straight into sizing volume */
         .profile-card {
-            flex: 0 0 calc(33.333% - 20px); 
-            min-width: 250px; /* Scaled up ~20% from 210px */
-            margin-bottom: 36px;
+            flex: 0 0 calc(33.333% - 8px); 
+            min-width: 270px; /* Increased structural width base */
+            margin-bottom: 28px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -100,11 +100,11 @@ subtitle: Select a profile to view more details
             transform: translateY(-5px);
         }
 
-        /* MINOR ADJUSTMENTS: Scaled image dynamic brackets up exactly 20% for desktop screens */
+        /* IMAGE SCALING: Expanded photo container footprint across desktop resolutions */
         .profile-img-wrapper {
-            width: 80%;
-            max-width: 216px; /* Increased by 20% from 180px */
-            min-width: 156px; /* Increased by 20% from 130px */
+            width: 92%; /* Increased up from 80% to occupy nearly the full card footprint */
+            max-width: 245px; /* Boosted ceiling boundary up from 216px */
+            min-width: 190px; /* Boosted baseline up from 156px */
             aspect-ratio: 1 / 1;
             overflow: hidden;
             border-radius: 50%;
@@ -120,7 +120,7 @@ subtitle: Select a profile to view more details
         }
 
         .profile-card .profile-name {
-            font-size: 1.45rem !important; /* Scaled text presentation size to stay proportionate */
+            font-size: 1.5rem !important; /* Marginally updated scale for visual equilibrium */
             font-weight: bold;
             text-align: center;
             margin: 4px 0 2px 0;
@@ -134,17 +134,17 @@ subtitle: Select a profile to view more details
             white-space: normal;
         }
 
-        /* 5. RESPONSIVE BREAKPOINTS (PRESERVES THE DYNAMIC GRID SHIFTS) */
+        /* 5. RESPONSIVE BREAKPOINTS */
         
-        /* Laptops / Smaller Desktops */
+        /* Laptops / Mid-sized screens */
         @media (max-width: 1100px) {
             .profile-card {
-                flex: 0 0 calc(33.333% - 16px);
-                min-width: 210px;
+                flex: 0 0 calc(33.333% - 8px);
+                min-width: 230px;
             }
             .profile-img-wrapper {
-                width: 80%;
-                max-width: 180px;
+                width: 88%;
+                max-width: 210px;
             }
         }
 
@@ -154,35 +154,38 @@ subtitle: Select a profile to view more details
                 gap: 1.5rem;
             }
             .profile-card {
-                flex: 0 0 calc(33.333% - 16px);
+                flex: 0 0 calc(33.333% - 8px);
                 min-width: 160px;
             }
             .profile-img-wrapper {
                 width: 85%;
-                max-width: 140px;
+                max-width: 160px;
             }
         }
 
         /* Large Mobile Devices */
         @media (max-width: 768px) {
+            .profile-grid {
+                gap: 16px;
+            }
             .profile-card {
-                flex: 0 0 calc(50% - 12px);
+                flex: 0 0 calc(50% - 8px);
                 min-width: 140px;
             }
             .profile-img-wrapper {
-                width: 75%;
-                max-width: 150px;
+                width: 80%;
+                max-width: 170px;
             }
         }
 
         /* Small Mobile Devices */
         @media (max-width: 480px) {
             .profile-card {
-                flex: 0 0 80%;
+                flex: 0 0 85%;
             }
             .profile-img-wrapper {
-                width: 65%;
-                max-width: 160px;
+                width: 70%;
+                max-width: 180px;
             }
         }
         
@@ -280,7 +283,7 @@ subtitle: Select a profile to view more details
     </div>
 
     <script>
-        const itemsPerPage = 9; // Kept at 9 since a 3-column layout maps cleanly to pages of 9 profiles
+        const itemsPerPage = 9;
         let currentYearFilter = "{{ latest_year }}";
 
         function filterAcademicYear(year, element) {
