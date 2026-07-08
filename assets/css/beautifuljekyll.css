@@ -1125,3 +1125,31 @@ pre {
     display: inline-block;
   }
 }
+
+/* Ensure all main content clears the fixed navbar with a small margin */
+
+/* 1. Mobile & Tablet Screens (< 1200px) */
+.navbar-custom ~ header,
+.navbar-custom ~ main,
+.intro-header {
+    margin-top: calc(50px + 20px) !important; /* 50px navbar height + 20px margin */
+}
+
+/* 2. Desktop Screens (>= 1200px) */
+@media (min-width: 1200px) {
+    .navbar-custom ~ header,
+    .navbar-custom ~ main,
+    .intro-header {
+        margin-top: calc(90px + 30px) !important; /* 90px expanded navbar height + 30px margin */
+    }
+}
+
+/* 3. Handle pages that use the Large Hero Image Layout (.big-img) */
+.intro-header.big-img {
+    margin-top: 50px !important;
+}
+@media (min-width: 1200px) {
+    .intro-header.big-img {
+        margin-top: 90px !important;
+    }
+}
