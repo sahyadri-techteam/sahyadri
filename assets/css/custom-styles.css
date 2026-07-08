@@ -1000,3 +1000,26 @@ main.container-md,
         width: 95% !important;
     }
 }
+
+/* 1. Override the 0-margin reset on structural content containers */
+main.container-md, 
+.container-md, 
+.container-lg, 
+header.intro-header,
+.intro-header .container-md {
+    margin-top: 140px !important; /* Forcefully pushes everything safely down */
+    margin-bottom: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* 2. Responsive safety net for smaller screens */
+@media (max-width: 1199px) {
+    main.container-md, 
+    .container-md, 
+    .container-lg, 
+    header.intro-header,
+    .intro-header .container-md {
+        margin-top: 90px !important;
+    }
+}
