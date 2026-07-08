@@ -1,19 +1,10 @@
 ---
 layout: null
 ---
-/**
- * Beautiful Jekyll Theme - Core Stylesheet
- * * Features:
- * - Liquid templating variables injected via Jekyll site settings.
- * - Flexbox sticky footer architecture.
- * - Responsive navigation and custom overlay search system.
- * - Fixed/Sticky navigation layout offset corrections.
- */
-
 @import url("pygment_highlights.css");
 
 :root {
-  /* Dynamic CSS Variables injected from Jekyll config file (_config.yml) */
+  /* config file CSS variables */
   --page-col: {{ site.page-col | default: "#FFFFFF" }};
   --text-col: {{ site.text-col | default: "#404040" }};
   --link-col: {{ site.link-col | default: "#008AFF" }};
@@ -26,18 +17,16 @@ layout: null
   --footer-link-col: {{ site.footer-link-col | default: "#404040" }};
   --footer-hover-col: {{ site.footer-hover-col | default: "#0085A1" }};
 
-  /* Hardcoded Theme Design Tokens */
+  /* common CSS variables */
   --body-font: 'POIRET ONE', 'sans-serif';
   --header-font: 'JULIUS SANS ONE';
   --mid-col: #808080;
 }
 
-/* ==========================================================================
-   General Styles & Typography
-   ========================================================================== */
+/* --- General --- */
 
 html {
-  font-size: 100%;
+  font-size: 100%
 }
 
 body {
@@ -46,68 +35,61 @@ body {
   color: var(--text-col);
   position: relative;
   background-color: var(--page-col);
-  overflow-wrap: break-word;
-  min-height: 100vh;
-  
-  /* Flexbox configuration to achieve a sticky footer layout */
-  display: flex;
-  flex-direction: column;
-  
-  /* Dynamic Background Image injection */
   {% if site.page-img %}
   background-image: url({{ site.page-img | relative_url }});
   background-attachment: fixed;
   {% endif %}
+  overflow-wrap: break-word;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-
-/* Pushes the footer down when page content is short */
 body > main {
   flex: 1;
 }
-
 p {
   line-height: 1.5;
   margin: 1.875rem 0;
 }
-
-h1, h2, h3, h4, h5, h6 {
+h1,h2,h3,h4,h5,h6 {
   font-family: var(--header-font);
   font-weight: 800;
   line-height: 1.1;
   text-transform: uppercase;
+  
 }
-
-h1 { font-size: 2.225rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.5rem; }
-h4 { font-size: 1.125rem; }
-
+h1 {
+  font-size: 2.225rem;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.5rem;
+}
+h4 {
+  font-size: 1.125rem;
+}
 h1, h2, h3, h4 {
   margin-top: 1.25rem;
 }
-
 a {
   color: var(--link-col);
 }
-
 a:hover,
 a:focus {
   color: var(--hover-col);
 }
-
 blockquote {
   color: var(--mid-col);
   font-style: italic;
 }
-
 blockquote p:first-child {
   margin-top: 0;
 }
-
 .jumbotron {
   background: #EEE;
 }
-
 hr.small {
   max-width: 6.25rem;
   margin: 1rem auto;
@@ -116,11 +98,11 @@ hr.small {
   border-radius: 0.1875rem;
 }
 
-/* Prevents in-page anchors from clipping underneath the fixed header */
+/* fix in-page anchors to not be behind fixed header */
 :target:before {
   content: "";
   display: block;
-  height: 3.125rem; /* Equivalent to navbar height */
+  height: 3.125rem; /* navbar height */
   margin: -3.125rem 0 0;
 }
 
@@ -128,7 +110,6 @@ hr.small {
   display: none;
 }
 
-/* Custom text selection colors */
 ::-moz-selection {
   color: var(--page-col);
   background-color: var(--hover-col);
@@ -157,32 +138,31 @@ img {
   margin-top: -1.5625rem;
 }
 
-/* Disqus Comments responsive spacing */
+/* Comments */
+
 .disqus-comments {
   margin-top: 1.875rem;
 }
+
 @media (min-width: 768px) {
   .disqus-comments {
     margin-top: 2.5rem;
   }
 }
 
-/* ==========================================================================
-   Navigation Bar Styles
-   ========================================================================== */
+/* --- Navbar --- */
 
 .navbar-custom {
   background-color: var(--navbar-col);
   border-bottom: 1px solid var(--navbar-border-col);
   font-family: var(--header-font);
+  {% if site.navbar-img %}
+    background-image: url({{ site.navbar-img | relative_url }});
+    background-attachment: fixed;
+  {% endif %}
   -webkit-transition: padding .5s ease-in-out;
   -moz-transition: padding .5s ease-in-out;
   transition: padding .5s ease-in-out;
-  
-  {% if site.navbar-img %}
-  background-image: url({{ site.navbar-img | relative_url }});
-  background-attachment: fixed;
-  {% endif %}
 }
 
 .navbar-custom,
@@ -197,8 +177,6 @@ img {
   padding-top: 0.625rem;
   padding-bottom: 0.625rem;
   font-size: 1.125rem;
-  font-weight: 800;
-  color: var(--navbar-text-col);
 }
 
 .navbar-custom .navbar-brand-logo {
@@ -236,6 +214,10 @@ img {
   line-height: 1.25rem;
   padding-top: 0.9375rem;
   padding-bottom: 0.9375rem;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-nav .nav-link {
   font-weight: 800;
   color: var(--navbar-text-col);
 }
@@ -244,7 +226,6 @@ img {
   font-size: 1rem;
   margin: 0.5rem 0;
 }
-
 .navbar-custom .navbar-toggler:focus,
 .navbar-custom .navbar-toggler:hover {
   background-color: initial;
@@ -258,32 +239,37 @@ img {
   border-width: 0.4em;
 }
 
-/* Navbar Widescreen Desktop Adjustments (>= 1200px) */
 @media (min-width: 1200px) {
   .navbar-custom {
     padding-top: 1.25rem;
     padding-bottom: 1.25rem;
   }
+
   .navbar-custom .navbar-brand-logo {
     padding-top: 0;
     padding-bottom: 0;
   }
+
   .navbar-custom .navbar-brand-logo img {
     height: 3.125rem;
   }
+
   .navbar-expand-xl .navbar-nav .nav-link {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
   }
+
   .navbar-expand-xl .navbar-nav .nav-item:not(.dropdown):last-child .nav-link {
     padding-right: 0;
   }
+}
+
+@media (min-width: 1200px) {
   .navbar-custom .nav-item.dropdown:hover {
     background: rgba(0, 0, 0, 0.1);
   }
 }
 
-/* Dropdown Sub-menus */
 .navbar-custom .nav-item.dropdown.show {
   background: rgba(0, 0, 0, 0.2);
 }
@@ -317,38 +303,42 @@ img {
   .navbar-custom .nav-item.dropdown .dropdown-menu {
     text-align: center;
   }
+
   .navbar-custom .nav-item.dropdown .dropdown-menu .dropdown-item {
     padding-left: 0.625rem;
     border: 1px solid var(--navbar-border-col);
     border-width: 0 1px 1px;
   }
+
   .navbar-custom .nav-item.dropdown .dropdown-menu .dropdown-item:first-child {
     border-top-width: 1px;
   }
 }
 
-/* Mobile & Tablet Dropdown Adjustments (< 1200px) */
 @media (max-width: 1199px) {
   .navbar-custom .navbar-collapse {
     border-top: 1px solid var(--navbar-border-col);
     margin: 0 -1rem;
   }
+
   .navbar-custom .navbar-nav {
     padding: 0.5rem 0;
   }
+
   .navbar-custom .navbar-nav .nav-link {
     padding: 0.675rem 0 0.675rem 1rem;
   }
+
   .navbar-custom .nav-item.dropdown.show {
     background: rgba(0, 0, 0, 0.2);
   }
+
   .navbar-custom .nav-item.dropdown .dropdown-menu .dropdown-item {
     padding-left: 2rem;
   }
 }
-
 .navbar-custom .navbar-brand:hover,
-.navbar-custom .navbar-brand:focus,
+.navbar-custom .navbar-brand:focus ,
 .navbar-custom .navbar-nav .nav-link:hover,
 .navbar-custom .navbar-nav .nav-link:focus,
 .navbar-custom .navbar-nav .dropdown-menu .dropdown-item:hover,
@@ -356,7 +346,6 @@ img {
   color: var(--hover-col);
 }
 
-/* Floating Navigation Avatar Frame */
 .navbar-custom .avatar-container {
   position: absolute;
   left: 50%;
@@ -366,7 +355,6 @@ img {
   -webkit-transition: opacity 0.5s ease-in-out;
   -moz-transition: opacity 0.5s ease-in-out;
 }
-
 .navbar-custom.top-nav-short .avatar-container {
   opacity: 0;
   visibility: hidden;
@@ -379,19 +367,18 @@ img {
   width: 100%;
   margin-left: -50%;
   {% unless site.round-avatar == false %}
-  border-radius: 50%;
-  box-shadow: 0 0 0.5rem rgba(0, 0, 0, .8);
-  -webkit-box-shadow: 0 0 0.3125rem rgba(0, 0, 0, .8);
-  -moz-box-shadow: 0 0 0.5rem rgba(0, 0, 0, .8);
+    border-radius: 50%;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, .8);
+    -webkit-box-shadow: 0 0 0.3125rem rgba(0, 0, 0, .8);
+    -moz-box-shadow: 0 0 0.5rem rgba(0, 0, 0, .8);
   {% endunless %}
 }
-
 .navbar-custom .avatar-container .avatar-img {
   width: 100%;
-  display: block;
   {% unless site.round-avatar == false %}
-  border-radius: 50%;
+    border-radius: 50%;
   {% endunless %}
+  display: block;
 }
 
 .navbar-custom.top-nav-expanded .avatar-container {
@@ -403,6 +390,7 @@ img {
     width: 6.25rem;
     bottom: -1.9375rem;
   }
+
   .navbar-custom.top-nav-regular .avatar-container .avatar-img-border {
     width: 100%;
     {% unless site.round-avatar == false %}
@@ -411,14 +399,13 @@ img {
     -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, .8);
     {% endunless %}
   }
+
   .navbar-custom.top-nav-regular .avatar-container .avatar-img {
     width: 100%;
   }
 }
 
-/* ==========================================================================
-   Footer Styles
-   ========================================================================== */
+/* --- Footer --- */
 
 footer {
   padding: 1.875rem 0;
@@ -426,10 +413,9 @@ footer {
   margin-top: 3.125rem;
   font-size: 0.875rem;
   background-color: var(--footer-col);
-  
   {% if site.footer-img %}
-  background-image: url({{ site.footer-img | relative_url }});
-  background-attachment: fixed;
+    background-image: url({{ site.footer-img | relative_url }});
+    background-attachment: fixed;
   {% endif %}
 }
 
@@ -483,18 +469,18 @@ footer .footer-custom-content {
   footer .footer-links {
     font-size: 1.125rem;
   }
-  footer .copyright,
+  footer .copyright {
+    font-size: 1rem;
+  }
   footer .footer-custom-content {
     font-size: 1rem;
   }
 }
 
-/* ==========================================================================
-   Post Preview Feed
-   ========================================================================== */
+/* --- Post preview (feed) --- */
 
 .posts-list {
-  margin: 0;
+    margin: 0;
 }
 
 .post-preview {
@@ -502,6 +488,7 @@ footer .footer-custom-content {
   border-bottom: 1px solid #eee;
   overflow: hidden;
 }
+
 @media (min-width: 768px) {
   .post-preview {
     padding: 2.1875rem 0;
@@ -528,18 +515,11 @@ footer .footer-custom-content {
   font-size: 1.875rem;
   margin-top: 0;
 }
-@media (min-width: 768px) {
-  .post-preview .post-title {
-    font-size: 2.25rem;
-  }
-}
-
 .post-preview .post-subtitle {
   margin: 0;
   font-weight: 300;
   margin-bottom: 0.625rem;
 }
-
 .post-preview .post-meta,
 .post-heading .post-meta {
   color: var(--mid-col);
@@ -560,17 +540,16 @@ footer .footer-custom-content {
 .post-heading .post-meta .middot {
   margin: 0 0.625rem;
 }
-
 .post-preview .post-entry {
   width: 100%;
 }
-
-/* Dynamic Hover Effects on Post Cover Art Images */
 .post-preview .post-image {
   float: right;
   margin-left: 0.625rem;
   height: 12rem;
   width: 12rem;
+}
+.post-preview .post-image {
   filter: grayscale(40%);
 }
 .post-preview .post-image:hover {
@@ -592,8 +571,6 @@ footer .footer-custom-content {
     margin-top: 0;
   }
 }
-
-/* Image scaling for small layouts */
 .post-preview .post-image-small {
   width: 100%;
   height: 100%;
@@ -617,9 +594,13 @@ footer .footer-custom-content {
   font-weight: 800;
 }
 
-/* ==========================================================================
-   Post Taxonomy Tags
-   ========================================================================== */
+@media (min-width: 768px) {
+  .post-preview .post-title {
+    font-size: 2.25rem;
+  }
+}
+
+/* --- Tags --- */
 
 .blog-tags {
   font-family: var(--header-font);
@@ -655,13 +636,15 @@ footer .footer-custom-content {
   margin-top: 0.3125rem;
   margin-bottom: 0;
 }
+
 @media (min-width: 768px) {
   .post-preview .blog-tags {
     margin-top: 0.625rem;
   }
 }
 
-/* Dedicated Tags Page */
+/* Tags page */
+
 .tag-btn {
   margin: 0.3125rem;
 }
@@ -669,21 +652,22 @@ footer .footer-custom-content {
 #full-tags-list {
   font-family: var(--header-font);
 }
+
 #full-tags-list .tag-entry {
   margin: 0 0 0.9375rem 1.5625rem;
 }
+
 #full-tags-list .tag-entry a {
   font-size: 1.25rem;
 }
+
 #full-tags-list .tag-entry .entry-date {
   color: var(--mid-col);
   font-style: italic;
   font-size: 1rem;
 }
 
-/* ==========================================================================
-   Post and Page Banners (Hero Headers)
-   ========================================================================== */
+/* --- Post and page headers --- */
 
 .intro-header {
   margin: 5rem 0 1.25rem;
@@ -695,18 +679,15 @@ footer .footer-custom-content {
   -moz-background-size: cover;
   background-size: cover;
   -o-background-size: cover;
-  margin-top: 3.1875rem; /* Navbar height compensation (50px + border) */
+  margin-top: 3.1875rem; /* The small navbar is 50px tall + 1px border */
   margin-bottom: 2.1875rem;
 }
-
 nav.top-nav-short-permanent ~ header > .intro-header {
   margin-top: 5rem;
 }
 nav.top-nav-short-permanent ~ header > .intro-header.big-img {
   margin-top: 3.1875rem;
 }
-
-/* Image transition effect framework */
 .intro-header.big-img .big-img-transition {
   position: absolute;
   width: 100%;
@@ -721,18 +702,15 @@ nav.top-nav-short-permanent ~ header > .intro-header.big-img {
   -moz-transition: opacity 1s linear;
   transition: opacity 1s linear;
 }
-
 .intro-header .page-heading {
   text-align: center;
 }
-
 .intro-header.big-img .page-heading,
 .intro-header.big-img .post-heading {
   padding: 6.25rem 0;
   color: #FFF;
   text-shadow: 1px 1px 3px #000;
 }
-
 .intro-header .page-heading h1 {
   margin-top: 0;
   font-size: 3.125rem;
@@ -741,7 +719,6 @@ nav.top-nav-short-permanent ~ header > .intro-header.big-img {
   margin-top: 0;
   font-size: 2.1875rem;
 }
-
 .intro-header .page-heading .page-subheading,
 .intro-header .post-heading .post-subheading {
   font-size: 1.6875rem;
@@ -758,7 +735,6 @@ nav.top-nav-short-permanent ~ header > .intro-header.big-img {
 .intro-header.big-img .post-heading .post-subheading {
   font-weight: 400;
 }
-
 .intro-header.big-img .page-heading hr {
   box-shadow: 1px 1px 3px #000;
   -webkit-box-shadow: 1px 1px 3px #000;
@@ -767,8 +743,6 @@ nav.top-nav-short-permanent ~ header > .intro-header.big-img {
 .intro-header.big-img .post-heading .post-meta {
   color: #EEE;
 }
-
-/* Background image caption descriptive row */
 .intro-header.big-img .img-desc {
   background: rgba(30, 30, 30, 0.6);
   position: absolute;
@@ -780,13 +754,12 @@ nav.top-nav-short-permanent ~ header > .intro-header.big-img {
   bottom: 0;
   display: none;
 }
-
 @media (min-width: 1200px) {
   .intro-header {
     margin-top: 8.125rem;
   }
   .intro-header.big-img {
-    margin-top: 5.6875rem; /* Large viewport padding scaling factor calculation */
+    margin-top: 5.6875rem; /* Full navbar is small navbar + 20px padding on each side when expanded */
   }
   .intro-header.big-img .page-heading,
   .intro-header.big-img .post-heading {
@@ -803,7 +776,6 @@ nav.top-nav-short-permanent ~ header > .intro-header.big-img {
   }
 }
 
-/* Embedded GitHub Metadata Badges */
 #header-gh-btns {
   margin-bottom: 0.9375rem;
 }
@@ -814,20 +786,21 @@ nav.top-nav-short-permanent ~ header > .intro-header.big-img {
   }
 }
 
-/* ==========================================================================
-   Pagination Rules
-   ========================================================================== */
+/* --- Pagination --- */
 
 .pagination {
   margin: 0.625rem 0 0;
   justify-content: space-between;
 }
+
 .pagination.blog-pager {
   margin-top: 0;
 }
+
 .pagination .page-item.next {
   margin-left: auto;
 }
+
 @media (min-width: 768px) {
   .pagination.blog-pager {
     margin-top: 0.625rem;
@@ -840,6 +813,7 @@ nav.top-nav-short-permanent ~ header > .intro-header.big-img {
   font-size: 0.875rem;
   font-weight: 800;
   letter-spacing: 1px;
+  padding: 0.625rem 0.3125rem;
   background-color: var(--page-col);
   border-radius: 0;
   color: var(--text-col);
@@ -857,9 +831,7 @@ nav.top-nav-short-permanent ~ header > .intro-header.big-img {
   background-color: var(--hover-col);
 }
 
-/* ==========================================================================
-   Table Configurations
-   ========================================================================== */
+/* --- Tables --- */
 
 table {
   padding: 0;
@@ -894,11 +866,8 @@ table tr td :last-child {
   margin-bottom: 0;
 }
 
-/* ==========================================================================
-   Code Blocks and Syntax Highlighting
-   ========================================================================== */
+/* --- Code blocks --- */
 
-/* Inline text code formatting */
 code {
   padding: 0.125rem 0.25rem;
   color: #c7254e;
@@ -918,7 +887,6 @@ pre {
   border-radius: 0.25rem;
   padding: 0.59375rem;
 }
-
 .highlight pre {
   border: none;
   background: none;
@@ -932,12 +900,12 @@ pre {
   border: 1px solid rgba(0,0,0,0.1);
   border-left: 0.4375rem solid #444;
 }
-.highlight > pre:not([class~="highlight"]) {
+.highlight > pre:not([class~="highlight"]) { /* code block with line number */
   padding: 0;
 }
 .highlight table,
 .highlight tr,
-.highlight td {
+.highlight td { /* to be removed after fixing table styles */
   border: none;
   background: none;
   padding: 0;
@@ -949,36 +917,35 @@ pre {
   border-right: 2px solid #444;
 }
 
-/* Protects line numbers from getting collected during mouse text sweeps */
+/* Make line numbers unselectable: excludes line numbers from copy-paste user ops */
 .lineno {
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
-.lineno::selection, 
-.lineno::-moz-selection {
+.lineno::selection, .lineno::-moz-selection {
   background: none;
 }
 
-/* GitHub Gist embedding support variables override adjustments */
+/* Fix table border github gist snippets */
+
 .gist, .gist-file table tr {
   border: unset;
 }
+
 .gist, .gist-file table tr td {
   border: unset;
 }
 
-/* ==========================================================================
-   Social Components and Callout Notifications
-   ========================================================================== */
+/* --- Social media sharing section --- */
 
 #social-share-section {
   margin-bottom: 1.875rem;
   margin-top: 1.875rem;
 }
 
-/* Contextual Notification Banners (Markdown callouts) */
+/* --- Notification boxes --- */
 .box-note,
 .box-warning,
 .box-error,
@@ -994,22 +961,23 @@ pre {
   background-color: #eee;
   border-left-color: #2980b9;
 }
+
 .box-warning {
   background-color: #fdf5d4;
   border-left-color: #f1c40f;
 }
+
 .box-error {
   background-color: #f4dddb;
   border-left-color: #c0392b;
 }
+
 .box-success {
   background-color: #98FB98;
   border-left-color: #3CB371;
 }
 
-/* ==========================================================================
-   Miscellaneous Article Typographics
-   ========================================================================== */
+/* --- Misc blog post styles --- */
 
 .blog-post :first-child {
   margin-top: 0;
@@ -1044,6 +1012,7 @@ pre {
   font-size: 1.1rem;
   border-left: 0.3125rem solid #eee;
 }
+
 .blog-post blockquote p:last-child {
   margin-bottom: 0;
 }
@@ -1053,10 +1022,7 @@ pre {
   margin: 0 auto;
 }
 
-/* ==========================================================================
-   Overlay Internal Search System Engine
-   ========================================================================== */
-
+/* Search bar */
 #beautifuljekyll-search-overlay {
   font-family: var(--header-font);
   display: none;
@@ -1085,7 +1051,6 @@ pre {
 #nav-search-exit:hover {
   color: #000;
 }
-
 #nav-search-input {
   text-align: center;
   background: #e7edee;
@@ -1100,22 +1065,31 @@ pre {
   border: none;
   padding: 0 3rem;
 }
+
+@media (max-width: 1199px) {
+  #nav-search-input {
+    width: 75%;
+  }
+  #nav-search-exit {
+    right: 12.5%;
+  }
+}
+@media (max-width: 767px) {
+  #nav-search-input {
+    width: 100%;
+  }
+  #nav-search-exit {
+    right: 0;
+  }
+}
 #nav-search-input:focus {
   background: #f3f8fe;
   box-shadow: 0px 0.15rem 1rem #e7f4ff;
   outline: none;
 }
+
 #nav-search-input::placeholder {
   color: #777;
-}
-
-@media (max-width: 1199px) {
-  #nav-search-input { width: 75%; }
-  #nav-search-exit { right: 12.5%; }
-}
-@media (max-width: 767px) {
-  #nav-search-input { width: 100%; }
-  #nav-search-exit { right: 0; }
 }
 
 #search-results-container {
@@ -1142,41 +1116,12 @@ pre {
 #nav-search-text {
   display: none;
 }
+
 @media (max-width: 1199px) {
-  #nav-search-icon { display: none; }
-  #nav-search-text { display: inline-block; }
-}
-
-/* ==========================================================================
-   Structural Fixed Header Safety Offsets
-   ========================================================================== */
-
-/* 1. Mobile & Tablet Screens (< 1200px) */
-.navbar-custom ~ header,
-.navbar-custom ~ main,
-.intro-header,
-header.intro-header,
-main.container-md {
-  margin-top: 75px !important; /* Fixed Nav clear buffer space calculation */
-  padding-top: 10px !important;
-}
-
-/* 2. Desktop Screens (>= 1200px) */
-@media (min-width: 1200px) {
-  .navbar-custom ~ header,
-  .navbar-custom ~ main,
-  .intro-header,
-  header.intro-header,
-  main.container-md {
-    margin-top: 120px !important; /* Pushes element content below fully expanded navbar */
-    padding-top: 15px !important;
+  #nav-search-icon {
+    display: none;
   }
-}
-
-/* 3. Safety net override preventing links from being overlapped by floating containers */
-a[href*="back"], 
-.back-link,
-a:contains("Back") {
-  position: relative;
-  z-index: 10;
+  #nav-search-text {
+    display: inline-block;
+  }
 }
