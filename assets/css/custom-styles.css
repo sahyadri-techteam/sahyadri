@@ -1002,24 +1002,25 @@ main.container-md,
 }
 
 /* 1. Override the 0-margin reset on structural content containers */
+/* Fluid, screen-relative spacing to clear the navbar */
 main.container-md, 
 .container-md, 
 .container-lg, 
 header.intro-header,
 .intro-header .container-md {
-    margin-top: 140px !important; /* Forcefully pushes everything safely down */
+    margin-top: 12vh !important; /* Dynamically scales with the screen height */
     margin-bottom: 0 !important;
     margin-left: auto !important;
     margin-right: auto !important;
 }
 
-/* 2. Responsive safety net for smaller screens */
-@media (max-width: 1199px) {
+/* Safety minimum for small mobile screens or short windows */
+@media (max-height: 600px) {
     main.container-md, 
     .container-md, 
     .container-lg, 
     header.intro-header,
     .intro-header .container-md {
-        margin-top: 90px !important;
+        margin-top: 75px !important; /* Prevents the content from hitting the navbar on short screens */
     }
 }
