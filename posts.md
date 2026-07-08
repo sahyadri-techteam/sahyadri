@@ -159,7 +159,7 @@ permalink: /posts/
       <aside class="toc-sidebar">
         <nav class="toc-card">
           <h2 class="toc-title">Editions</h2>
-          <ul class="toc-list">
+          <h3 class="toc-list">
             {% for group in grouped_posts %}
               {% assign has_current_posts = false %}
               {% for item in group.items %}
@@ -174,7 +174,7 @@ permalink: /posts/
                 <li><a href="#{{ category_id }}">{{ group.name | default: "General Updates" }}</a></li>
               {% endif %}
             {% endfor %}
-          </ul>
+          </h3>
         </nav>
       </aside>
 
@@ -194,23 +194,30 @@ permalink: /posts/
                   <a href="{{ post.url | relative_url }}" style="text-decoration: none;">
                     <h3 class="post-title">{{ post.title }}</h3>
                   </a>
+                  
                   {% if post.subtitle %}
+                    {% comment %} Extract the first two words from the subtitle and join with a hyphen {% endcomment %}
                     {% assign author1_parts = post.subtitle | split: ' ' %}
-                    {% assign author1_slug = author1_parts[0] | downcase %}
-                    {% assign profile1_url = '/profiles/' | append: author1_slug | relative_url %}
+                    {% capture author1_slug %}{{ author1_parts[0] | downcase }}-{{ author1_parts[1] | downcase }}{% endcapture %}
+                    {% assign profile1_url = '/profiles/' | append: author1_slug | append: '/' | relative_url %}
+                    
                     <h4 class="post-subtitle">
-                      By <a href="{{ profile1_url }}">{{ post.subtitle }}</a>{% if post.subtitle2 %}{% assign author2_parts = post.subtitle2 | split: ' ' %}{% assign author2_slug = author2_parts[0] | downcase %}{% assign profile2_url = '/profiles/' | append: author2_slug | relative_url %} and <a href="{{ profile2_url }}">{{ post.subtitle2 }}</a>{% endif %}
+                      By <a href="{{ profile1_url }}">{{ post.subtitle }}</a>{% if post.subtitle2 %}{% assign author2_parts = post.subtitle2 | split: ' ' %}{% capture author2_slug %}{{ author2_parts[0] | downcase }}-{{ author2_parts[1] | downcase }}{% endcapture %}{% assign profile2_url = '/profiles/' | append: author2_slug | append: '/' | relative_url %} and <a href="{{ profile2_url }}">{{ post.subtitle2 }}</a>{% endif %}
                     </h4>
                   {% endif %}
+                  
                   <p class="post-meta">Posted on {{ post.date | date: site.date_format | default: "%B %d, %Y" }}</p>
                   <div class="post-entry-container">
-                    {% if post.image %}
+                    
+                    {% assign current_image = post.image_id | default: post.image %}
+                    {% if current_image %}
                       <div class="post-image">
                         <a href="{{ post.url | relative_url }}">
-                          <img src="https://lh3.googleusercontent.com/d/{{ post.image }}" alt="{{ post.title }}">
+                          <img src="https://lh3.googleusercontent.com/d/{{ current_image }}?sz=9999" alt="{{ post.title }}" style="max-width: 180px; height: auto;">
                         </a>
                       </div>
                     {% endif %}
+                    
                     <div class="post-entry">
                       {{ post.excerpt | strip_html | truncatewords: 30 }}
                       <a href="{{ post.url | relative_url }}" class="post-read-more">Read More</a>
