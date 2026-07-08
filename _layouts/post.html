@@ -64,12 +64,15 @@ layout: base
         </span>
 
         {% if page.subtitle %}
-          {% comment %} Extract main author's first name slug {% endcomment %}
+          {% comment %} 
+            Extract the first two words from subtitle, map to lowercase, and join with a hyphen.
+            Example: "Sachin Patil (Teacher)" -> words[0]="Sachin", words[1]="Patil" -> "sachin-patil"
+          {% endcomment %}
           {% assign author1_parts = page.subtitle | split: ' ' %}
-          {% assign author1_slug = author1_parts[0] | downcase %}
+          {% capture author1_slug %}{{ author1_parts[0] | downcase }}-{{ author1_parts[1] | downcase }}{% endcapture %}
           
           <h2 class="post-subheading">
-            By <a href="{{ '/profiles/' | relative_url }}{{ author1_slug }}">{{ page.subtitle }}</a>{% if page.subtitle2 %}{% comment %} Extract co-author's first name slug {% endcomment %}{% assign author2_parts = page.subtitle2 | split: ' ' %}{% assign author2_slug = author2_parts[0] | downcase %} and <a href="{{ '/profiles/' | relative_url }}{{ author2_slug }}">{{ page.subtitle2 }}</a>{% endif %}
+            By <a href="{{ '/profiles/' | relative_url }}{{ author1_slug }}/">{{ page.subtitle }}</a>{% if page.subtitle2 %}{% comment %} Extract co-author's first two words slug layout {% endcomment %}{% assign author2_parts = page.subtitle2 | split: ' ' %}{% capture author2_slug %}{{ author2_parts[0] | downcase }}-{{ author2_parts[1] | downcase }}{% endcapture %} and <a href="{{ '/profiles/' | relative_url }}{{ author2_slug }}/">{{ page.subtitle2 }}</a>{% endif %}
           </h2>
         {% endif %}
         
