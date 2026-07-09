@@ -1,6 +1,6 @@
 ---
 layout: profile
-title: "Aradhya"
+title: "Aradhya Bhura"
 subtitle: "Student (Class 11)"
 date: 2026-07-06
 academic-year: "2026-27"
