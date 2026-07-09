@@ -69,7 +69,7 @@ subtitle: Select a profile to view more details
             font-weight: bold;
         }
 
-        /* 4. TWO-COLUMN LAYOUT WITH TOC SIDEBAR */
+        /* 4. TWO-COLUMN LAYOUT WITH DYNAMIC SIDEBAR INTERFACE */
         .profiles-layout-wrapper {
             display: flex;
             gap: 2rem;
@@ -114,15 +114,22 @@ subtitle: Select a profile to view more details
             margin-bottom: 0.5rem;
         }
 
-        .toc-list a {
+        .toc-list button {
+            background: none;
+            border: none;
+            padding: 0;
             color: #718096;
-            text-decoration: none;
             font-size: 1rem;
-            transition: color 0.2s ease;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            transition: all 0.2s ease;
+            outline: none;
         }
 
-        .toc-list a:hover {
+        .toc-list button:hover, .toc-list button.active {
             color: #5f745f;
+            font-weight: bold;
             text-decoration: underline;
         }
 
@@ -131,10 +138,15 @@ subtitle: Select a profile to view more details
             width: 100%;
         }
 
-        /* CATEGORY SECTION STRUCTURING */
+        /* ISOLATION STYLES FOR THE PANE DISPLAY */
         .grade-section {
+            display: none; /* Hide panels globally by default */
             margin-bottom: 3rem;
-            scroll-margin-top: 30px;
+            animation: paneFadeIn 0.35s ease;
+        }
+
+        .grade-section.active {
+            display: block; /* Force visible on match activation overlay */
         }
 
         .category-heading {
@@ -154,7 +166,7 @@ subtitle: Select a profile to view more details
             width: 100%;
         }
 
-        /* FLEXIBLE SIZING MAINTAINED */
+        /* FLEXIBLE SIZING PROPERTIES MAINTAINED */
         .profile-card {
             flex: 1 1 340px;
             max-width: 480px !important;
@@ -203,27 +215,17 @@ subtitle: Select a profile to view more details
             color: #707070;
             white-space: normal;
         }
-
-        .back-to-top {
-            text-align: right;
-            margin-top: 1rem;
-        }
-
-        .back-to-top a {
-            color: #5f745f;
-            text-decoration: none;
-            font-size: 0.95rem;
-        }
-
-        .back-to-top a:hover {
-            text-decoration: underline;
-        }
         
         .no-profiles-msg {
             color: #718096;
             font-style: italic;
             padding: 2rem 0;
             text-align: center;
+        }
+
+        @keyframes paneFadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* 5. RESPONSIVE ADJUSTMENTS */
@@ -245,6 +247,9 @@ subtitle: Select a profile to view more details
             .toc-list li {
                 margin-bottom: 0;
             }
+            .toc-list button {
+                width: auto;
+            }
         }
 
         @media (max-width: 480px) {
@@ -258,8 +263,6 @@ subtitle: Select a profile to view more details
 </head>
 
 <body>
-    <div id="top" style="scroll-margin-top: 200px;"></div>
-
     {% assign raw_years = "" %}
     {% for profile in site.profiles %}
         {% if profile.academic-year %}
@@ -285,7 +288,7 @@ subtitle: Select a profile to view more details
         <div class="profiles-layout-wrapper">
             <aside class="toc-sidebar">
                 <nav class="toc-card">
-                    <h2 class="toc-title">Grades</h2>
+                    <h2 class="toc-title">Categories</h2>
                     <ul class="toc-list" id="dynamic-toc-list">
                         </ul>
                 </nav>
@@ -330,7 +333,6 @@ subtitle: Select a profile to view more details
     </div>
 
     <script>
-        // Extract matrix from DOM Store on generation
         const rawNodes = Array.from(document.querySelectorAll('.raw-profile-node')).map(el => ({
             ay: el.getAttribute('data-ay'),
             weight: parseInt(el.getAttribute('data-weight')),
@@ -344,17 +346,13 @@ subtitle: Select a profile to view more details
         let currentYearFilter = "{{ latest_year }}";
 
         function filterAcademicYear(year, element) {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
             currentYearFilter = year;
 
-            // Handle Tab Selection Highlight Shift
             document.querySelectorAll('.sub-nav-list li').forEach(li => li.classList.remove('active'));
             if(element) element.classList.add('active');
 
-            // Isolate items matching selected year
             const filtered = rawNodes.filter(item => item.ay === year);
 
-            // Group filtered nodes by Category
             const groups = {};
             filtered.forEach(item => {
                 if(!groups[item.category]) {
@@ -367,10 +365,9 @@ subtitle: Select a profile to view more details
                 groups[item.category].items.push(item);
             });
 
-            // Convert groups map to array and sort according to highest weight value descending
+            // Highest weight first 
             const sortedGroups = Object.values(groups).sort((a, b) => b.weight - a.weight);
 
-            // Render Output Containers and Sidebar Navigation Targets
             const tocList = document.getElementById('dynamic-toc-list');
             const contentContainer = document.getElementById('profiles-sections-container');
             
@@ -382,24 +379,41 @@ subtitle: Select a profile to view more details
                 return;
             }
 
-            sortedGroups.forEach(group => {
+            // Identify highest grade present in current list dynamically
+            const defaultTargetSlugId = 'cat-' + sortedGroups[0].name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+
+            sortedGroups.forEach((group, index) => {
                 const slugId = 'cat-' + group.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
                 
-                // Add Entry to Sidebar TOC
+                // Sidebar Buttons acting as switches instead of links
                 const li = document.createElement('li');
-                const a = document.createElement('a');
-                a.href = '#' + slugId;
-                a.textContent = group.name;
-                li.appendChild(a);
+                const btn = document.createElement('button');
+                btn.type = "button";
+                btn.id = 'btn-' + slugId;
+                btn.textContent = group.name;
+                
+                // If it has the highest index position in the current data payload list, apply active styling
+                if (slugId === defaultTargetSlugId) {
+                    btn.className = 'active';
+                }
+
+                btn.onclick = function() {
+                    switchGradePane(slugId);
+                };
+                
+                li.appendChild(btn);
                 tocList.appendChild(li);
 
-                // Sort children profiles inside group alphabetically by name parameter
                 group.items.sort((a, b) => a.name.localeCompare(b.name));
 
-                // Construct Section DOM Element block
                 const section = document.createElement('section');
                 section.className = 'grade-section';
                 section.id = slugId;
+                
+                // Set the highest grade card group panel to visible active state instantly
+                if (slugId === defaultTargetSlugId) {
+                    section.classList.add('active');
+                }
 
                 const heading = document.createElement('h2');
                 heading.className = 'category-heading';
@@ -427,15 +441,27 @@ subtitle: Select a profile to view more details
                 });
 
                 section.appendChild(grid);
-
-                // Append Back to Top smooth link indicator node
-                const btt = document.createElement('div');
-                btt.className = 'back-to-top';
-                btt.innerHTML = '<a href="#top">↑ Back to top</a>';
-                section.appendChild(btt);
-
                 contentContainer.appendChild(section);
             });
+        }
+
+        // Action function responsible for hiding unused segments and displaying selection
+        function switchGradePane(targetSlugId) {
+            // Hide all grade containers
+            document.querySelectorAll('.grade-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            // Remove active formatting parameters from selection buttons
+            document.querySelectorAll('.toc-list button').forEach(b => {
+                b.classList.remove('active');
+            });
+
+            // Display target panel element frame
+            const targetSection = document.getElementById(targetSlugId);
+            const targetBtn = document.getElementById('btn-' + targetSlugId);
+            
+            if(targetSection) targetSection.classList.add('active');
+            if(targetBtn) targetBtn.classList.add('active');
         }
 
         document.addEventListener("DOMContentLoaded", function() {
