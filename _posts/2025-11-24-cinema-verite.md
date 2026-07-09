@@ -2,9 +2,9 @@
 layout: post
 title: "Cinéma Vérité: Film Club (For grades 10-12)"
 date: 2025-09-25
-subtitle: "Kayea Riva Gautam (Grade 10)"
+subtitle: "Kayea Gautam (Grade 10)"
 category: November 2025
-image: 1fSk5xqUB5RRN4TwnQsqUd0zAJos-gJxq
+image: "1fSk5xqUB5RRN4TwnQsqUd0zAJos-gJxq"
 ---
 
 Everyone, in the school and otherwise, loves movies. This is why the seniors go to watch the movies screened for juniors, and the juniors glance behind the senior auditorium curtains to catch a glimpse of the movies screened for seniors before they are sent back. This is why some of us even scream in excitement while watching movies like ‘F1: The Movie’ or ‘Thunderbolts’. 
