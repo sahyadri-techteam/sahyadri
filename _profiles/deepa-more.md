@@ -4,7 +4,7 @@ title: "Deepa Milind More"
 subtitle: "Faculty"
 date: 2026-07-09
 academic-year: "2026-27"
-profile-image: ""
+profile-image: "1yG46pAevXjdWVo0zUwbaJIMngR3hD3y6"
 ---
 
 As a seasoned professional in energy efficiency, environment conservation, and climate change, I have dedicated the past 30 years to academic, research, and consulting roles in these areas. My academic background includes Master's degrees in engineering, management, and research from esteemed government institutions in India and abroad.
