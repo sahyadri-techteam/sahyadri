@@ -5,7 +5,7 @@ date: 2025-12-24
 subtitle: "Riddhim Inamke"
 subtitle2: "Swara Bathe (Grade 11)"
 category: December 2025
-image: 19lWWhw8ssmGyJ3mBzFrGD6SMrqnDy4Nf
+image: "19lWWhw8ssmGyJ3mBzFrGD6SMrqnDy4Nf"
 ---
 
 Like every year, Sahyadri was filled with the Christmas spirit this December too. There was that quiet excitement that comes every December, the kind that settles into the corridors and dorms and makes every place feel just a little more alive. Not to forget the carol singing that takes place every year, with tunes of Joy to the World, Silent Night, O Holy Night dancing about in the air, weaving themselves into conversations and laughter. Mira Akka used to organise the carol singing each year and this year we felt her absence acutely. However, the cultural committee ably stepped in to continue the legacy she had left. 
