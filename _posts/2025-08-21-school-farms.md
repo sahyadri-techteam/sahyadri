@@ -2,7 +2,7 @@
 layout: post
 title: "School Farms and Outreach"
 date: 2025-08-21
-subtitle: "Deepa Akka"
+subtitle: "Deepa More (Teacher)"
 category: August 2025
 image: 1nMXxx7WPnw-Houk74Va_VevCGAwaVn-S
 ---
