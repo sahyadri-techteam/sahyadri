@@ -4,7 +4,7 @@ title: "Dorm Hikes"
 date: 2025-07-06
 subtitle: "Dimpika Mittal (Grade 11)"
 category: August 2025
-image: 10mfr_b00RK5IlRW1ELHtNJGreGpXpw8l
+image: "10mfr_b00RK5IlRW1ELHtNJGreGpXpw8l"
 ---
 
 On 6th July, Grade 11 set out for a hike to Shringeshwar. We started early in the morning, the air still cool from the night. The sky was cloudy, and soon a light drizzle began to fall. The gentle rain added freshness to the air, making the green hills shine and the earthy smell of wet soil fill our senses. 
