@@ -35,7 +35,7 @@ subtitle: Select a profile to view more details
         .sub-nav-options {
             display: block !important;
             width: 100% !important;
-            margin: 0 auto 3rem auto !important;
+            margin: 0 auto 2rem auto !important;
             padding-bottom: 1rem;
             border-bottom: 1px solid #e2e8f0;
             text-align: center;
@@ -69,26 +69,97 @@ subtitle: Select a profile to view more details
             font-weight: bold;
         }
 
-        /* 4. PROFILE GRID CONTENT */
+        /* 4. TWO-COLUMN LAYOUT WITH TOC SIDEBAR */
+        .profiles-layout-wrapper {
+            display: flex;
+            gap: 2rem;
+            width: 100%;
+            align-items: flex-start;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+
+        .toc-sidebar {
+            width: 240px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 20px;
+        }
+
+        .toc-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .toc-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: #2d3748;
+            border-bottom: 2px solid #5f745f;
+            padding-bottom: 0.5rem;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc-list a {
+            color: #718096;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.2s ease;
+        }
+
+        .toc-list a:hover {
+            color: #5f745f;
+            text-decoration: underline;
+        }
+
         .profiles-content {
-            display: block !important;
-            width: 100% !important;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        /* CATEGORY SECTION STRUCTURING */
+        .grade-section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 30px;
+        }
+
+        .category-heading {
+            font-size: 2rem;
+            color: #2d3748;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            text-transform: capitalize;
         }
 
         .profile-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 0 !important; /* Margins completely stripped */
-            justify-content: center;
+            gap: 0 !important;
+            justify-content: flex-start;
             width: 100%;
         }
 
-        /* FLEXIBLE SIZING: Increased minimum baseline to 340px while maintaining the 480px cap */
+        /* FLEXIBLE SIZING MAINTAINED */
         .profile-card {
-            flex: 1 1 340px; /* Raised baseline from 280px to force a larger overall presentation */
-            max-width: 480px !important; /* Strict maximum ceiling layout boundary */
+            flex: 1 1 340px;
+            max-width: 480px !important;
             margin: 0 !important;
-            padding: 30px 16px; /* Slightly padded for better spatial balance */
+            padding: 30px 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -102,10 +173,9 @@ subtitle: Select a profile to view more details
             transform: translateY(-5px);
         }
 
-        /* IMAGE SCALING BASELINES */
         .profile-img-wrapper {
             width: 85%;
-            max-width: 380px; /* Scaled up from 320px to match the broader minimum footprint */
+            max-width: 380px;
             aspect-ratio: 1 / 1;
             overflow: hidden;
             border-radius: 50%;
@@ -120,7 +190,7 @@ subtitle: Select a profile to view more details
         }
 
         .profile-card .profile-name {
-            font-size: 1.7rem !important; /* Adjusted slightly up for proportional legibility */
+            font-size: 1.7rem !important;
             font-weight: bold;
             text-align: center;
             margin: 4px 0 2px 0;
@@ -134,7 +204,49 @@ subtitle: Select a profile to view more details
             white-space: normal;
         }
 
-        /* 5. RESPONSIVE MOBILE ADJUSTMENTS */
+        .back-to-top {
+            text-align: right;
+            margin-top: 1rem;
+        }
+
+        .back-to-top a {
+            color: #5f745f;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .back-to-top a:hover {
+            text-decoration: underline;
+        }
+        
+        .no-profiles-msg {
+            color: #718096;
+            font-style: italic;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        /* 5. RESPONSIVE ADJUSTMENTS */
+        @media (max-width: 991px) {
+            .profiles-layout-wrapper {
+                flex-direction: column;
+            }
+            .toc-sidebar {
+                width: 100%;
+                position: relative;
+                top: 0;
+                margin-bottom: 2rem;
+            }
+            .toc-list {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            .toc-list li {
+                margin-bottom: 0;
+            }
+        }
+
         @media (max-width: 480px) {
             .profile-card {
                 flex: 0 0 100%;
@@ -142,33 +254,12 @@ subtitle: Select a profile to view more details
                 padding: 24px 12px;
             }
         }
-        
-        .hidden-item { display: none !important; }
-        
-        .load-more-container {
-            text-align: center;
-            margin-top: 3rem;
-            width: 100%;
-        }
-
-        .btn-load-more {
-            background-color: #5f745f;
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-        .btn-load-more:hover {
-            background-color: #4a5b4a;
-        }
     </style>
 </head>
 
 <body>
+    <div id="top" style="scroll-margin-top: 200px;"></div>
+
     {% assign raw_years = "" %}
     {% for profile in site.profiles %}
         {% if profile.academic-year %}
@@ -191,113 +282,165 @@ subtitle: Select a profile to view more details
             </ul>
         </nav>
 
-        <div class="profiles-content">
-            <div class="profile-grid" id="main-grid">
+        <div class="profiles-layout-wrapper">
+            <aside class="toc-sidebar">
+                <nav class="toc-card">
+                    <h2 class="toc-title">Grades</h2>
+                    <ul class="toc-list" id="dynamic-toc-list">
+                        </ul>
+                </nav>
+            </aside>
 
-                {% for profile in site.profiles %}
-                    {% assign sub_clean = profile.subtitle | downcase %}
-                    {% assign weight = 0 %}
-                    
-                    {% if sub_clean contains "teacher" %}{% assign weight = 100 %}
-                    {% elsif sub_clean contains "grade 12" or sub_clean contains "class 12" %}{% assign weight = 12 %}
-                    {% elsif sub_clean contains "grade 11" or sub_clean contains "class 11" %}{% assign weight = 11 %}
-                    {% elsif sub_clean contains "grade 10" or sub_clean contains "class 10" %}{% assign weight = 10 %}
-                    {% elsif sub_clean contains "grade 9" or sub_clean contains "class 9" %}{% assign weight = 9 %}
-                    {% elsif sub_clean contains "grade 8" or sub_clean contains "class 8" %}{% assign weight = 8 %}
-                    {% elsif sub_clean contains "grade 7" or sub_clean contains "class 7" %}{% assign weight = 7 %}
-                    {% elsif sub_clean contains "grade 6" or sub_clean contains "class 6" %}{% assign weight = 6 %}
-                    {% elsif sub_clean contains "grade 5" or sub_clean contains "class 5" %}{% assign weight = 5 %}
-                    {% elsif sub_clean contains "grade 4" or sub_clean contains "class 4" %}{% assign weight = 4 %}
-                    {% elsif sub_clean contains "grade 3" or sub_clean contains "class 3" %}{% assign weight = 3 %}
-                    {% elsif sub_clean contains "grade 2" or sub_clean contains "class 2" %}{% assign weight = 2 %}
-                    {% elsif sub_clean contains "grade 1" or sub_clean contains "class 1" %}{% assign weight = 1 %}
-                    {% endif %}
-                    
-                    <a href="{{ profile.url | relative_url }}" class="profile-card" data-academic-year="{{ profile.academic-year }}" data-grade-weight="{{ weight }}">
-                        <div class="profile-img-wrapper">
-                            {% if profile.profile-image %}
-                                <img src="https://lh3.googleusercontent.com/d/{{ profile.profile-image }}" alt="{{ profile.title }}">
-                            {% else %}
-                                <img src="/assets/img/default-avatar.png" alt="Fallback Avatar">
-                            {% endif %}
-                        </div>
-                        <div class="profile-name">{{ profile.title }}</div>
-                        {% if profile.subtitle %}
-                            <div class="profile-role">{{ profile.subtitle }}</div>
-                        {% endif %}
-                    </a>
-                {% endfor %}
-
-            </div>
-
-            <div class="load-more-container">
-                <button id="load-more-btn" class="btn-load-more">Load More</button>
-            </div>
+            <div class="profiles-content" id="profiles-sections-container">
+                </div>
         </div>
     </div>
 
+    <div id="raw-profiles-data-store" style="display: none !important;">
+        {% for profile in site.profiles %}
+            {% assign sub_clean = profile.subtitle | downcase %}
+            {% assign weight = 0 %}
+            {% assign display_category = "General Updates" %}
+            
+            {% if sub_clean contains "teacher" %}{% assign weight = 100 %}{% assign display_category = "Teachers" %}
+            {% elsif sub_clean contains "grade 12" or sub_clean contains "class 12" %}{% assign weight = 12 %}{% assign display_category = "Grade 12" %}
+            {% elsif sub_clean contains "grade 11" or sub_clean contains "class 11" %}{% assign weight = 11 %}{% assign display_category = "Grade 11" %}
+            {% elsif sub_clean contains "grade 10" or sub_clean contains "class 10" %}{% assign weight = 10 %}{% assign display_category = "Grade 10" %}
+            {% elsif sub_clean contains "grade 9" or sub_clean contains "class 9" %}{% assign weight = 9 %}{% assign display_category = "Grade 9" %}
+            {% elsif sub_clean contains "grade 8" or sub_clean contains "class 8" %}{% assign weight = 8 %}{% assign display_category = "Grade 8" %}
+            {% elsif sub_clean contains "grade 7" or sub_clean contains "class 7" %}{% assign weight = 7 %}{% assign display_category = "Grade 7" %}
+            {% elsif sub_clean contains "grade 6" or sub_clean contains "class 6" %}{% assign weight = 6 %}{% assign display_category = "Grade 6" %}
+            {% elsif sub_clean contains "grade 5" or sub_clean contains "class 5" %}{% assign weight = 5 %}{% assign display_category = "Grade 5" %}
+            {% elsif sub_clean contains "grade 4" or sub_clean contains "class 4" %}{% assign weight = 4 %}{% assign display_category = "Grade 4" %}
+            {% elsif sub_clean contains "grade 3" or sub_clean contains "class 3" %}{% assign weight = 3 %}{% assign display_category = "Grade 3" %}
+            {% elsif sub_clean contains "grade 2" or sub_clean contains "class 2" %}{% assign weight = 2 %}{% assign display_category = "Grade 2" %}
+            {% elsif sub_clean contains "grade 1" or sub_clean contains "class 1" %}{% assign weight = 1 %}{% assign display_category = "Grade 1" %}
+            {% endif %}
+            
+            <div class="raw-profile-node" 
+                 data-ay="{{ profile.academic-year }}" 
+                 data-weight="{{ weight }}" 
+                 data-category="{{ display_category }}"
+                 data-name="{{ profile.title | escape }}"
+                 data-url="{{ profile.url | relative_url }}"
+                 data-role="{{ profile.subtitle | escape }}"
+                 data-image="{% if profile.profile-image %}https://lh3.googleusercontent.com/d/{{ profile.profile-image }}{% else %}/assets/img/default-avatar.png{% endif %}">
+            </div>
+        {% endfor %}
+    </div>
+
     <script>
-        const itemsPerPage = 12;
+        // Extract matrix from DOM Store on generation
+        const rawNodes = Array.from(document.querySelectorAll('.raw-profile-node')).map(el => ({
+            ay: el.getAttribute('data-ay'),
+            weight: parseInt(el.getAttribute('data-weight')),
+            category: el.getAttribute('data-category'),
+            name: el.getAttribute('data-name'),
+            url: el.getAttribute('data-url'),
+            role: el.getAttribute('data-role'),
+            image: el.getAttribute('data-image')
+        }));
+
         let currentYearFilter = "{{ latest_year }}";
 
         function filterAcademicYear(year, element) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
-
             currentYearFilter = year;
-            const grid = document.getElementById('main-grid');
-            const allItems = Array.from(document.querySelectorAll('.profile-card'));
 
+            // Handle Tab Selection Highlight Shift
             document.querySelectorAll('.sub-nav-list li').forEach(li => li.classList.remove('active'));
             if(element) element.classList.add('active');
 
-            const matched = allItems.filter(item => 
-                item.getAttribute('data-academic-year') === year
-            );
+            // Isolate items matching selected year
+            const filtered = rawNodes.filter(item => item.ay === year);
 
-            matched.sort((a, b) => {
-                const weightA = parseInt(a.getAttribute('data-grade-weight'));
-                const weightB = parseInt(b.getAttribute('data-grade-weight'));
-                
-                if (weightB !== weightA) {
-                    return weightB - weightA;
-                } else {
-                    const nameA = a.querySelector('.profile-name').textContent.trim().toLowerCase();
-                    const nameB = b.querySelector('.profile-name').textContent.trim().toLowerCase();
-                    return nameA.localeCompare(nameB);
+            // Group filtered nodes by Category
+            const groups = {};
+            filtered.forEach(item => {
+                if(!groups[item.category]) {
+                    groups[item.category] = {
+                        name: item.category,
+                        weight: item.weight,
+                        items: []
+                    };
                 }
+                groups[item.category].items.push(item);
             });
 
-            allItems.forEach(item => item.classList.add('hidden-item'));
-            matched.forEach(item => grid.appendChild(item));
+            // Convert groups map to array and sort according to highest weight value descending
+            const sortedGroups = Object.values(groups).sort((a, b) => b.weight - a.weight);
 
-            matched.slice(0, itemsPerPage).forEach(item => {
-                item.classList.remove('hidden-item');
-            });
+            // Render Output Containers and Sidebar Navigation Targets
+            const tocList = document.getElementById('dynamic-toc-list');
+            const contentContainer = document.getElementById('profiles-sections-container');
+            
+            tocList.innerHTML = '';
+            contentContainer.innerHTML = '';
 
-            updateLoadMoreButton(matched);
-        }
-
-        function updateLoadMoreButton(matchedList) {
-            const btn = document.getElementById('load-more-btn');
-            const hiddenItemsInMatch = matchedList.filter(item => item.classList.contains('hidden-item'));
-
-            if (hiddenItemsInMatch.length > 0) {
-                btn.parentElement.style.display = 'block';
-                btn.onclick = function() {
-                    const nextBatch = hiddenItemsInMatch.slice(0, itemsPerPage);
-                    nextBatch.forEach(el => el.classList.remove('hidden-item'));
-                    updateLoadMoreButton(matchedList);
-                };
-            } else {
-                btn.parentElement.style.display = 'none';
+            if(sortedGroups.length === 0) {
+                contentContainer.innerHTML = '<p class="no-profiles-msg">No profiles found for this academic period.</p>';
+                return;
             }
+
+            sortedGroups.forEach(group => {
+                const slugId = 'cat-' + group.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+                
+                // Add Entry to Sidebar TOC
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = '#' + slugId;
+                a.textContent = group.name;
+                li.appendChild(a);
+                tocList.appendChild(li);
+
+                // Sort children profiles inside group alphabetically by name parameter
+                group.items.sort((a, b) => a.name.localeCompare(b.name));
+
+                // Construct Section DOM Element block
+                const section = document.createElement('section');
+                section.className = 'grade-section';
+                section.id = slugId;
+
+                const heading = document.createElement('h2');
+                heading.className = 'category-heading';
+                heading.textContent = group.name;
+                section.appendChild(heading);
+
+                const grid = document.createElement('div');
+                grid.className = 'profile-grid';
+
+                group.items.forEach(p => {
+                    const card = document.createElement('a');
+                    card.href = p.url;
+                    card.className = 'profile-card';
+
+                    let roleMarkup = p.role ? `<div class="profile-role">${p.role}</div>` : '';
+
+                    card.innerHTML = `
+                        <div class="profile-img-wrapper">
+                            <img src="${p.image}" alt="${p.name}">
+                        </div>
+                        <div class="profile-name">${p.name}</div>
+                        ${roleMarkup}
+                    `;
+                    grid.appendChild(card);
+                });
+
+                section.appendChild(grid);
+
+                // Append Back to Top smooth link indicator node
+                const btt = document.createElement('div');
+                btt.className = 'back-to-top';
+                btt.innerHTML = '<a href="#top">↑ Back to top</a>';
+                section.appendChild(btt);
+
+                contentContainer.appendChild(section);
+            });
         }
 
         document.addEventListener("DOMContentLoaded", function() {
             const initialActiveTab = document.querySelector('.sub-nav-list li.active');
-            if (initialActiveTab) {
-                filterAcademicYear(currentYearFilter, initialActiveTab);
-            }
+            filterAcademicYear(currentYearFilter, initialActiveTab);
         });
     </script>
 </body>
