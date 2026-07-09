@@ -303,19 +303,18 @@ subtitle: Select a profile to view more details
             {% assign weight = 0 %}
             {% assign display_category = "General Updates" %}
             
-            {% if sub_clean contains "teacher" %}{% assign weight = 100 %}{% assign display_category = "Teachers" %}
-            {% elsif sub_clean contains "grade 12" or sub_clean contains "class 12" %}{% assign weight = 12 %}{% assign display_category = "Grade 12" %}
-            {% elsif sub_clean contains "grade 11" or sub_clean contains "class 11" %}{% assign weight = 11 %}{% assign display_category = "Grade 11" %}
-            {% elsif sub_clean contains "grade 10" or sub_clean contains "class 10" %}{% assign weight = 10 %}{% assign display_category = "Grade 10" %}
-            {% elsif sub_clean contains "grade 9" or sub_clean contains "class 9" %}{% assign weight = 9 %}{% assign display_category = "Grade 9" %}
-            {% elsif sub_clean contains "grade 8" or sub_clean contains "class 8" %}{% assign weight = 8 %}{% assign display_category = "Grade 8" %}
-            {% elsif sub_clean contains "grade 7" or sub_clean contains "class 7" %}{% assign weight = 7 %}{% assign display_category = "Grade 7" %}
-            {% elsif sub_clean contains "grade 6" or sub_clean contains "class 6" %}{% assign weight = 6 %}{% assign display_category = "Grade 6" %}
-            {% elsif sub_clean contains "grade 5" or sub_clean contains "class 5" %}{% assign weight = 5 %}{% assign display_category = "Grade 5" %}
-            {% elsif sub_clean contains "grade 4" or sub_clean contains "class 4" %}{% assign weight = 4 %}{% assign display_category = "Grade 4" %}
-            {% elsif sub_clean contains "grade 3" or sub_clean contains "class 3" %}{% assign weight = 3 %}{% assign display_category = "Grade 3" %}
-            {% elsif sub_clean contains "grade 2" or sub_clean contains "class 2" %}{% assign weight = 2 %}{% assign display_category = "Grade 2" %}
-            {% elsif sub_clean contains "grade 1" or sub_clean contains "class 1" %}{% assign weight = 1 %}{% assign display_category = "Grade 1" %}
+            {% if sub_clean contains "teacher" %}{% assign weight = 12 %}{% assign display_category = "Teachers" %}
+            {% elsif sub_clean contains "faculty" or sub_clean contains "staff" %}{% assign weight = 11 %}{% assign display_category = "Faculty" %}
+            {% elsif sub_clean contains "grade 12" or sub_clean contains "class 12" %}{% assign weight = 10 %}{% assign display_category = "Grade 12" %}
+            {% elsif sub_clean contains "grade 11" or sub_clean contains "class 11" %}{% assign weight = 9 %}{% assign display_category = "Grade 11" %}
+            {% elsif sub_clean contains "grade 10" or sub_clean contains "class 10" %}{% assign weight = 8 %}{% assign display_category = "Grade 10" %}
+            {% elsif sub_clean contains "grade 9" or sub_clean contains "class 9" %}{% assign weight = 7 %}{% assign display_category = "Grade 9" %}
+            {% elsif sub_clean contains "grade 8" or sub_clean contains "class 8" %}{% assign weight = 6 %}{% assign display_category = "Grade 8" %}
+            {% elsif sub_clean contains "grade 7" or sub_clean contains "class 7" %}{% assign weight = 5 %}{% assign display_category = "Grade 7" %}
+            {% elsif sub_clean contains "grade 6" or sub_clean contains "class 6" %}{% assign weight = 4 %}{% assign display_category = "Grade 6" %}
+            {% elsif sub_clean contains "grade 5" or sub_clean contains "class 5" %}{% assign weight = 3 %}{% assign display_category = "Grade 5" %}
+            {% elsif sub_clean contains "grade 4" or sub_clean contains "class 4" %}{% assign weight = 2 %}{% assign display_category = "Grade 4" %}
+            {% elsif sub_clean contains "pre school" or sub_clean contains "pre-school" %}{% assign weight = 1 %}{% assign display_category = "Pre-School" %}
             {% endif %}
             
             <div class="raw-profile-node" 
