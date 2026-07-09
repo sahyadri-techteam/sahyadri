@@ -5,7 +5,7 @@ date: 2025-12-22
 subtitle: "Reya Shah"
 subtitle2: "Swara Bathe (Grade 11)"
 category: December 2025
-image: 1xKpmMkaglKHQL4PTfwaB2acjnc8TW4OB
+image: "1xKpmMkaglKHQL4PTfwaB2acjnc8TW4OB"
 ---
 
 We used to wonder why Sahyadri had not had an Alumni Meet where we could connect with alumni and they with the school. Alumni not only have a special connection with Sahyadri but they also undertake a range of interesting actions that they can share with us. 
