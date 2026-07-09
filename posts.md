@@ -213,7 +213,7 @@ permalink: /posts/
                     {% if current_image %}
                       <div class="post-image">
                         <a href="{{ post.url | relative_url }}">
-                          <img src="https://lh3.googleusercontent.com/d/{{ current_image }}?sz=9999" alt="{{ post.title }}" style="max-width: 180px; height: auto;">
+                          <img src="https://lh3.googleusercontent.com/d/{{ current_image }}?sz=9999" alt="{{ post.title }}">
                         </a>
                       </div>
                     {% endif %}
