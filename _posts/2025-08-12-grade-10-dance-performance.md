@@ -4,7 +4,7 @@ title: "Grade 10 Dance Performance"
 date: 2025-08-12
 subtitle: "Aarna Gautam (Grade 10)"
 category: September 2025
-image: 1aA_nuonDIQfsxQb3KSsoJ8L5R-drKjRi
+image: "1aA_nuonDIQfsxQb3KSsoJ8L5R-drKjRi"
 ---
 
 On August 12, 8 of us from Grade 10 – Shachi, Aarna, Zaara, Prisha, Kriti, Nehal, Ishita and I put on a spectacular and immersive dance performance.
