@@ -63,7 +63,7 @@ permalink: /geet
   <figure class="ninad-card">
     {% include pdf.html 
        thumbnail_path="/assets/GeethGunjan/original.png" 
-       pdf_path="https://drive.google.com/uc?export=download&id="1ybQifay7oFupzEqj_le-JemM0szJZEEo" 
+       pdf_path="https://drive.google.com/uc?export=download&id=1ybQifay7oFupzEqj_le-JemM0szJZEEo" 
        only_thumbnail=true %} 
     <figcaption class="ninad-caption-banner">Geet Gunjan (Original)</figcaption>
   </figure>
