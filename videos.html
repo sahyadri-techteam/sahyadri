@@ -308,24 +308,23 @@ subtitle: Click on the thumbnail to watch
     <script>
         const itemsPerPage = 12;
 
-        function getAcademicYear(dateText) {
+       function getAcademicYear(dateText) {
     const months = ["January", "February", "March", "April", "May", "June", 
                     "July", "August", "September", "October", "November", "December"];
     
-    // Improved regex: find 2 or 4 digit years
-    const yearMatch = dateText.match(/(\d{4}|\d{2})/);
-    if (!yearMatch) return "Unknown";
-    
-    let year = parseInt(yearMatch[0]);
-    // Handle 2-digit years (assuming 20xx)
-    if (year < 100) year += 2000;
-    
+    // 1. Clean the text: Remove everything before the month to avoid "25th" confusion
+    // This finds the first month name in the string
     const monthMatch = dateText.match(/(January|February|March|April|May|June|July|August|September|October|November|December)/i);
     if (!monthMatch) return "Unknown";
     
     const monthIndex = months.findIndex(m => m.toLowerCase() === monthMatch[0].toLowerCase());
+    
+    // 2. Find the year in the remaining part of the string
+    const yearMatch = dateText.match(/\d{4}/);
+    if (!yearMatch) return "Unknown";
+    const year = parseInt(yearMatch[0]);
 
-    // Academic Year Logic
+    // 3. Logic: June (5) to May (4) cycle
     if (monthIndex >= 5) {
         return `${year}-${(year + 1).toString().slice(-2)}`;
     } else {
