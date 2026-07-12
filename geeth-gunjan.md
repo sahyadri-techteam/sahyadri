@@ -1,8 +1,8 @@
 ---
 layout: page
-title: Geeth Gunjan
+title: Geet Gunjan
 subtitle: Click thumbnail to download Geeth Gunjan
-permalink: /geeth
+permalink: /geet
 ---
 
 <style>
@@ -57,7 +57,7 @@ permalink: /geeth
        thumbnail_path="/assets/GeethGunjan/transliterated.png" 
        pdf_path="https://drive.google.com/uc?export=download&id=1o1U1PIGIDH2eo_rkz38BUjVd5DxU5sDt" 
        only_thumbnail=true %} 
-    <figcaption class="ninad-caption-banner">Geeth Gunjan (English Transliterated)</figcaption>
+    <figcaption class="ninad-caption-banner">Geet Gunjan (English Transliterated)</figcaption>
   </figure>
 
   <figure class="ninad-card">
@@ -65,7 +65,7 @@ permalink: /geeth
        thumbnail_path="/assets/GeethGunjan/original.png" 
        pdf_path="https://drive.google.com/uc?export=download&id=YOUR_ORIGINAL_DRIVE_ID" 
        only_thumbnail=true %} 
-    <figcaption class="ninad-caption-banner">Geeth Gunjan (Original)</figcaption>
+    <figcaption class="ninad-caption-banner">Geet Gunjan (Original)</figcaption>
   </figure>
 
 </div>
