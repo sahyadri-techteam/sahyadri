@@ -309,26 +309,29 @@ subtitle: Click on the thumbnail to watch
         const itemsPerPage = 12;
 
         function getAcademicYear(dateText) {
-            const months = ["January", "February", "March", "April", "May", "June", 
-                            "July", "August", "September", "October", "November", "December"];
-            
-            const yearMatch = dateText.match(/\d{4}/);
-            if (!yearMatch) return "Unknown";
-            
-            const year = parseInt(yearMatch[0]);
-            const monthMatch = dateText.match(/(January|February|March|April|May|June|July|August|September|October|November|December)/i);
-            
-            if (!monthMatch) return "Unknown";
-            
-            const monthIndex = months.findIndex(m => m.toLowerCase() === monthMatch[0].toLowerCase());
+    const months = ["January", "February", "March", "April", "May", "June", 
+                    "July", "August", "September", "October", "November", "December"];
+    
+    // Improved regex: find 2 or 4 digit years
+    const yearMatch = dateText.match(/(\d{4}|\d{2})/);
+    if (!yearMatch) return "Unknown";
+    
+    let year = parseInt(yearMatch[0]);
+    // Handle 2-digit years (assuming 20xx)
+    if (year < 100) year += 2000;
+    
+    const monthMatch = dateText.match(/(January|February|March|April|May|June|July|August|September|October|November|December)/i);
+    if (!monthMatch) return "Unknown";
+    
+    const monthIndex = months.findIndex(m => m.toLowerCase() === monthMatch[0].toLowerCase());
 
-            // June (5) to May (4) logic
-            if (monthIndex >= 5) {
-                return `${year}-${(year + 1).toString().slice(-2)}`;
-            } else {
-                return `${year - 1}-${year.toString().slice(-2)}`;
-            }
-        }
+    // Academic Year Logic
+    if (monthIndex >= 5) {
+        return `${year}-${(year + 1).toString().slice(-2)}`;
+    } else {
+        return `${year - 1}-${year.toString().slice(-2)}`;
+    }
+}
 
         function initPage() {
             const items = Array.from(document.querySelectorAll('.video-item'));
