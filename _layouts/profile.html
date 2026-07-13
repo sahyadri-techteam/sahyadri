@@ -2,20 +2,36 @@
 layout: base
 ---
 
-<main class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %}">
+<style>
+  .profile-pic {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    max-width: 100%; /* constrained by its column, not the viewport */
+  }
+
+  .post-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .post-subtitle {
+    font-size: 1.25rem;
+  }
+</style>
+
+<main class="{% if page.full-width %}container-fluid{% else %}container-md{% endif %}">
   <div class="row">
-    <div class="{% if page.full-width %} col {% else %} col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 {% endif %}">
+    <div class="{% if page.full-width %}col{% else %}col-xl-8 offset-xl-2 col-lg-10 offset-lg-1{% endif %}">
 
       <div class="back-navigation mb-4">
-        <a href="/profiles" id="back-button" onclick="if(document.referrer !== '') { window.history.back(); return false; }">
-          <i class="fas fa-chevron-left"></i> 
+        <a href="/profiles" id="back-button" onclick="if (document.referrer !== '') { window.history.back(); return false; }">
+          <i class="fas fa-chevron-left"></i>
           Back
         </a>
       </div>
 
       <div class="profile-header row align-items-center mb-4">
-        
-        <!-- Increased column width from col-3 to col-4 and col-md-2 to col-md-3 -->
         <div class="col-4 col-md-3 text-center text-md-start">
           {% if page.profile-image %}
             <img src="https://lh3.googleusercontent.com/d/{{ page.profile-image }}" alt="{{ page.title }}" class="img-fluid rounded-circle profile-pic">
@@ -23,21 +39,19 @@ layout: base
             <img src="/assets/img/default-avatar.png" alt="Default Avatar" class="img-fluid rounded-circle profile-pic">
           {% endif %}
         </div>
-
         <div class="col-8 col-md-9">
           <h3 class="post-title mb-1">{{ page.title }}</h3>
-          
+
           {% if page.subtitle %}
             <h4 class="post-subtitle text-muted fw-normal mb-2">
               {{ page.subtitle }}
             </h4>
           {% endif %}
-          
+
           <span class="profile-meta text-muted small">
             Last updated on {{ page.date | date: "%B %-d, %Y" }}
           </span>
         </div>
-        
       </div>
 
       <hr class="my-4">
@@ -45,27 +59,6 @@ layout: base
       <div class="profile-content">
         {{ content }}
       </div>
-
     </div>
   </div>
 </main>
-
-<style>
-.profile-pic {
-  width: 100%;
-  /* Changed to 1:1 aspect ratio */
-  aspect-ratio: 1 / 1; 
-  object-fit: cover;
-  /* Increased max-width to make the image larger */
-  max-width: 75vw; 
-}
-
-.profile-name {
-  font-size: 1.5vw !important;
-  font-weight: bold;
-}
-
-.profile-subheading {
-  font-size: 1.25vw !important;
-}
-</style>
