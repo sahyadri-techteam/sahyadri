@@ -1,4 +1,4 @@
-----
+---
 layout: profile
 title: "Rachit Agrawal"
 subtitle: "Student (Class 12)"
