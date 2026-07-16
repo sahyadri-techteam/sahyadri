@@ -3,6 +3,7 @@ layout: post
 title: "Medical Outreach Program"
 date: 2025-08-05
 subtitle: "Reshma Shah (Teacher)"
+profile-link: https://www.sahyadrischool.org/dr-reshma-shah/
 category: August 2025
 image: "1_rwMHBbqkYLuPk2FXjp3y7YWQMOFuGFY"
 ---
