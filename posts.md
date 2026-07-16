@@ -196,13 +196,28 @@ permalink: /posts/
                   </a>
                   
                   {% if post.subtitle %}
-                    {% comment %} Extract the first two words from the subtitle and join with a hyphen {% endcomment %}
-                    {% assign author1_parts = post.subtitle | split: ' ' %}
-                    {% capture author1_slug %}{{ author1_parts[0] | downcase }}-{{ author1_parts[1] | downcase }}{% endcapture %}
-                    {% assign profile1_url = '/profiles/' | append: author1_slug | append: '/' | relative_url %}
-                    
                     <h4 class="post-subtitle">
-                      By <a href="{{ profile1_url }}">{{ post.subtitle }}</a>{% if post.subtitle2 %}{% assign author2_parts = post.subtitle2 | split: ' ' %}{% capture author2_slug %}{{ author2_parts[0] | downcase }}-{{ author2_parts[1] | downcase }}{% endcapture %}{% assign profile2_url = '/profiles/' | append: author2_slug | append: '/' | relative_url %} and <a href="{{ profile2_url }}">{{ post.subtitle2 }}</a>{% endif %}
+                      By 
+                      {% if post.profile-link %}
+                        <a href="{{ post.profile-link }}" target="_blank" rel="noopener noreferrer">{{ post.subtitle }}</a>
+                      {% else %}
+                        {% assign author1_parts = post.subtitle | split: ' ' %}
+                        {% capture author1_slug %}{{ author1_parts[0] | downcase }}-{{ author1_parts[1] | downcase }}{% endcapture %}
+                        {% assign profile1_url = '/profiles/' | append: author1_slug | append: '/' | relative_url %}
+                        <a href="{{ profile1_url }}">{{ post.subtitle }}</a>
+                      {% endif %}
+                      
+                      {% if post.subtitle2 %}
+                        and 
+                        {% if post.profile-link2 %}
+                          <a href="{{ post.profile-link2 }}" target="_blank" rel="noopener noreferrer">{{ post.subtitle2 }}</a>
+                        {% else %}
+                          {% assign author2_parts = post.subtitle2 | split: ' ' %}
+                          {% capture author2_slug %}{{ author2_parts[0] | downcase }}-{{ author2_parts[1] | downcase }}{% endcapture %}
+                          {% assign profile2_url = '/profiles/' | append: author2_slug | append: '/' | relative_url %}
+                          <a href="{{ profile2_url }}">{{ post.subtitle2 }}</a>
+                        {% endif %}
+                      {% endif %}
                     </h4>
                   {% endif %}
                   
