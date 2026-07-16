@@ -4,7 +4,7 @@ title: "Sidhartha Jain"
 subtitle: "Student (Class 11)"
 date: 2026-07-05
 academic-year: "2026-27"
-profile-image: ""
+profile-image: "15F3zvUZKOGAhxKUJhJIhqU4Ve_BGUDnG"
 ---
 
 I joined Sahyadri School in Grade 4.
