@@ -11,9 +11,11 @@ permissions:
   id-token: write
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -42,14 +44,15 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
-    
-    # Moving concurrency here ensures the build completes, 
+
+    # Moving concurrency here ensures the build completes,
     # and the deployment queues up gracefully without crashing.
     concurrency:
       group: "pages"
-      cancel-in-progress: true  # Changes to true to terminate the pending queue conflict safely
-      
+      cancel-in-progress: true
+
     steps:
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
