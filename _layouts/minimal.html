@@ -1,9 +1,11 @@
 ---
 common-css:
   - "/assets/css/beautifuljekyll-minimal.css"
+
 common-ext-css:
   - href: "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     sri: "sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+
 common-ext-js:
   - href: "https://code.jquery.com/jquery-3.5.1.slim.min.js"
     sri: "sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
@@ -20,7 +22,10 @@ common-ext-js:
 
   <body>
 
-    <main class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %} main-content">
+    <!-- Main Content -->
+    <main class="{% if page.full-width %}container-fluid{% else %}container-md{% endif %} main-content">
+
+      <!-- Before Content -->
       {% if page.before-content %}
         <div class="before-content">
           {% for file in page.before-content %}
@@ -29,8 +34,10 @@ common-ext-js:
         </div>
       {% endif %}
 
+      <!-- Page Content -->
       {{ content }}
 
+      <!-- After Content -->
       {% if page.after-content %}
         <div class="after-content">
           {% for file in page.after-content %}
@@ -38,11 +45,13 @@ common-ext-js:
           {% endfor %}
         </div>
       {% endif %}
+
     </main>
 
+    <!-- Footer & Scripts -->
     {% include footer-minimal.html %}
-
     {% include footer-scripts.html %}
 
   </body>
+
 </html>
