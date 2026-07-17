@@ -1,48 +1,58 @@
-# Define standard eol format
+# .gitattributes
+# Define standard EOL (end-of-line) format for file types
 
 # Web Files
-*.html text eol=lf
-*.md text eol=lf
-*.css text eol=lf
-*.js text eol=lf
+*.html  text eol=lf
+*.md    text eol=lf
+*.css   text eol=lf
+*.js    text eol=lf
 
-# Jekyll related files
-*.yml text eol=lf
+# Jekyll Configuration
+*.yml   text eol=lf
 
-# Git related files
-.gittattributes text eol=lf
-.gitignore text eol=lf
-.gitkeep text eol=lf
+# Git Configuration
+.gitattributes  text eol=lf
+.gitignore      text eol=lf
+.gitkeep        text eol=lf
 
-# Ruby files
-*.rb text eol=lf
-Gemfile text eol=lf
+# Ruby
+*.rb        text eol=lf
+Gemfile     text eol=lf
 Gemfile.lock text eol=lf
 
-# Github specific fies
-LICENCE text eol=lf
+# Documentation
+LICENCE     text eol=lf
+README*     text eol=lf
 
-# Docker specific files
-Dockerfile text eol=lf
+# Docker
+Dockerfile  text eol=lf
 
-# VSCode files
-*.json text eol=lf
+# Configuration
+*.json      text eol=lf
 
-# General multimedia files
-*.jpg binary
-*.jpeg binary
-*.gif binary
-*.png binary
-*.t3x binary
-*.t3d binary
-*.exe binary
-*.data binary
-*.ttf binary
-*.eof binary
-*.eot binary
-*.swf binary
-*.mov binary
-*.mp4 binary
-*.mp3 binary
-*.ogg binary
-*.flv binary
+# Binary Media Files
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.png   binary
+
+# Binary Fonts
+*.ttf   binary
+*.eot   binary
+*.eof   binary
+
+# Binary Video
+*.mov   binary
+*.mp4   binary
+*.flv   binary
+
+# Binary Audio
+*.mp3   binary
+*.ogg   binary
+
+# Binary Data
+*.t3x   binary
+*.t3d   binary
+*.exe   binary
+*.data  binary
+*.swf   binary
