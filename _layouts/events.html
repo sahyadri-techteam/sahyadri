@@ -11,7 +11,7 @@ layout: base
 
   /* Style the back button cleanly without breaking layout flows */
   .back-navigation {
-    margin-bottom: 0.15rem; /* was 0.15vw — rem is almost certainly what was intended */
+    margin-bottom: 0.15rem;
     display: block !important;
   }
 
@@ -47,6 +47,7 @@ layout: base
   <div class="row">
     <div class="{% if page.full-width %}col{% else %}col-xl-8 offset-xl-2 col-lg-10 offset-lg-1{% endif %}">
 
+      <!-- Back Navigation -->
       <div class="back-navigation">
         <a href="/activities" id="back-button" onclick="return handleBackNavigation();">
           <i class="fas fa-chevron-left"></i>
@@ -54,6 +55,7 @@ layout: base
         </a>
       </div>
 
+      <!-- Post Heading -->
       <div class="post-heading">
         <h1>{{ page.title }}</h1>
 
@@ -61,6 +63,7 @@ layout: base
           Posted on {{ page.date | date: "%B %-d, %Y" }}
         </span>
 
+        <!-- Author(s) -->
         {% if page.subtitle %}
           {% comment %}
             Build a profile-page slug from the author name, e.g.
@@ -75,7 +78,8 @@ layout: base
           {% endif %}
 
           <h2 class="post-subheading">
-            By <a href="{{ '/profiles/' | relative_url }}{{ author1_slug }}/">{{ page.subtitle }}</a>{% if page.subtitle2 %}
+            By <a href="{{ '/profiles/' | relative_url }}{{ author1_slug }}/">{{ page.subtitle }}</a>
+            {% if page.subtitle2 %}
               {% comment %} Same slug logic for a co-author, if present {% endcomment %}
               {% assign author2_parts = page.subtitle2 | split: ' ' %}
               {% if author2_parts.size > 1 %}
@@ -91,6 +95,7 @@ layout: base
         <hr class="small">
       </div>
 
+      <!-- Post Image -->
       {% assign current_image = page.image_id | default: page.image %}
       {% if current_image %}
         <div class="post-image-wrapper">
@@ -102,6 +107,7 @@ layout: base
         </div>
       {% endif %}
 
+      <!-- GitHub Badges -->
       {% if page.gh-repo %}
         {% assign gh_split = page.gh-repo | split: '/' %}
         {% assign gh_user = gh_split[0] %}
@@ -112,23 +118,49 @@ layout: base
             {% for badge in page.gh-badge %}
               {% case badge %}
                 {% when 'star' %}
-                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=star&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                  <iframe
+                    src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=star&count=true"
+                    frameborder="0"
+                    scrolling="0"
+                    width="120px"
+                    height="20px"
+                  ></iframe>
                 {% when 'watch' %}
-                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=watch&v=2&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                  <iframe
+                    src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=watch&v=2&count=true"
+                    frameborder="0"
+                    scrolling="0"
+                    width="120px"
+                    height="20px"
+                  ></iframe>
                 {% when 'fork' %}
-                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=fork&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                  <iframe
+                    src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=fork&count=true"
+                    frameborder="0"
+                    scrolling="0"
+                    width="120px"
+                    height="20px"
+                  ></iframe>
                 {% when 'follow' %}
-                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&type=follow&count=true" frameborder="0" scrolling="0" width="220px" height="20px"></iframe>
+                  <iframe
+                    src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&type=follow&count=true"
+                    frameborder="0"
+                    scrolling="0"
+                    width="220px"
+                    height="20px"
+                  ></iframe>
               {% endcase %}
             {% endfor %}
           {% endif %}
         </div>
       {% endif %}
 
+      <!-- Post Content -->
       <div class="blog-post">
         {{ content }}
       </div>
 
+      <!-- Post Tags -->
       {% if page.tags.size > 0 %}
         <div class="blog-tags">
           <span>Tags:</span>
@@ -138,10 +170,17 @@ layout: base
         </div>
       {% endif %}
 
+      <!-- Post Navigation -->
       <ul class="pagination blog-pager">
         {% if page.previous.url %}
           <li class="page-item previous">
-            <a class="page-link" href="{{ page.previous.url | relative_url }}" data-toggle="tooltip" data-placement="top" title="{{ page.previous.title | strip_html | xml_escape }}">
+            <a
+              class="page-link"
+              href="{{ page.previous.url | relative_url }}"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="{{ page.previous.title | strip_html | xml_escape }}"
+            >
               <i class="fas fa-arrow-left" alt="Previous Post"></i>
               <span class="d-none d-sm-inline-block">Previous Post</span>
             </a>
@@ -149,7 +188,13 @@ layout: base
         {% endif %}
         {% if page.next.url %}
           <li class="page-item next">
-            <a class="page-link" href="{{ page.next.url | relative_url }}" data-toggle="tooltip" data-placement="top" title="{{ page.next.title | strip_html | xml_escape }}">
+            <a
+              class="page-link"
+              href="{{ page.next.url | relative_url }}"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="{{ page.next.title | strip_html | xml_escape }}"
+            >
               <span class="d-none d-sm-inline-block">Next Post</span>
               <i class="fas fa-arrow-right" alt="Next Post"></i>
             </a>
@@ -157,10 +202,13 @@ layout: base
         {% endif %}
       </ul>
 
+      <!-- Comments -->
       {% include comments.html %}
+
     </div>
   </div>
 
+  <!-- Back Navigation Handler Script -->
   <script>
     function handleBackNavigation() {
       const referrer = document.referrer;
@@ -191,4 +239,5 @@ layout: base
       return false;
     }
   </script>
+
 </main>
