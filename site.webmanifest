@@ -1,0 +1,15 @@
+---
+---
+{
+  "name": "{{ site.title }}",
+  "short_name": "{{ site.title }}",
+  "icons": [
+    {
+      "src": "/favicon.ico"
+    },
+    {
+      "src": "/assets/img/favicon-512.png"
+    }
+  ],
+  "display": "standalone"
+}
