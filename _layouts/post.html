@@ -63,27 +63,50 @@ layout: base
 
         {% if page.subtitle %}
           {% comment %}
-            Build a profile-page slug from the author name, e.g.
-            "Sachin Patil" -> "sachin-patil". Falls back gracefully
-            if the name is only one word.
+            Check if a manual profile-link is provided.
+            If yes, use it and open in a new tab.
+            If no, build a profile-page slug from the author name.
           {% endcomment %}
-          {% assign author1_parts = page.subtitle | split: ' ' %}
-          {% if author1_parts.size > 1 %}
-            {% capture author1_slug %}{{ author1_parts[0] | downcase }}-{{ author1_parts[1] | downcase }}{% endcapture %}
+          
+          {% if page.profile-link %}
+            {% assign author1_url = page.profile-link %}
+            {% assign author1_target = '_blank' %}
+            {% assign author1_rel = 'noopener noreferrer' %}
           {% else %}
-            {% capture author1_slug %}{{ author1_parts[0] | downcase }}{% endcapture %}
+            {% assign author1_parts = page.subtitle | split: ' ' %}
+            {% if author1_parts.size > 1 %}
+              {% capture author1_slug %}{{ author1_parts[0] | downcase }}-{{ author1_parts[1] | downcase }}{% endcapture %}
+            {% else %}
+              {% capture author1_slug %}{{ author1_parts[0] | downcase }}{% endcapture %}
+            {% endif %}
+            {% assign author1_url = '/profiles/' | relative_url | append: author1_slug | append: '/' %}
+            {% assign author1_target = '' %}
+            {% assign author1_rel = '' %}
           {% endif %}
 
           <h2 class="post-subheading">
-            By <a href="{{ '/profiles/' | relative_url }}{{ author1_slug }}/">{{ page.subtitle }}</a>{% if page.subtitle2 %}
-              {% comment %} Same slug logic for a co-author, if present {% endcomment %}
-              {% assign author2_parts = page.subtitle2 | split: ' ' %}
-              {% if author2_parts.size > 1 %}
-                {% capture author2_slug %}{{ author2_parts[0] | downcase }}-{{ author2_parts[1] | downcase }}{% endcapture %}
+            By <a href="{{ author1_url }}" {% if author1_target %}target="{{ author1_target }}" rel="{{ author1_rel }}"{% endif %}>{{ page.subtitle }}</a>
+            
+            {% if page.subtitle2 %}
+              {% comment %} Same logic for a co-author, if present {% endcomment %}
+              
+              {% if page.profile-link2 %}
+                {% assign author2_url = page.profile-link2 %}
+                {% assign author2_target = '_blank' %}
+                {% assign author2_rel = 'noopener noreferrer' %}
               {% else %}
-                {% capture author2_slug %}{{ author2_parts[0] | downcase }}{% endcapture %}
+                {% assign author2_parts = page.subtitle2 | split: ' ' %}
+                {% if author2_parts.size > 1 %}
+                  {% capture author2_slug %}{{ author2_parts[0] | downcase }}-{{ author2_parts[1] | downcase }}{% endcapture %}
+                {% else %}
+                  {% capture author2_slug %}{{ author2_parts[0] | downcase }}{% endcapture %}
+                {% endif %}
+                {% assign author2_url = '/profiles/' | relative_url | append: author2_slug | append: '/' %}
+                {% assign author2_target = '' %}
+                {% assign author2_rel = '' %}
               {% endif %}
-              and <a href="{{ '/profiles/' | relative_url }}{{ author2_slug }}/">{{ page.subtitle2 }}</a>
+              
+              and <a href="{{ author2_url }}" {% if author2_target %}target="{{ author2_target }}" rel="{{ author2_rel }}"{% endif %}>{{ page.subtitle2 }}</a>
             {% endif %}
           </h2>
         {% endif %}
