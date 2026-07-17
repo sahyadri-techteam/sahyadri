@@ -7,7 +7,7 @@ layout: base
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    max-width: 100%; /* constrained by its column, not the viewport */
+    max-width: 100%;
   }
 
   .post-title {
@@ -24,23 +24,42 @@ layout: base
   <div class="row">
     <div class="{% if page.full-width %}col{% else %}col-xl-8 offset-xl-2 col-lg-10 offset-lg-1{% endif %}">
 
+      <!-- Back Navigation -->
       <div class="back-navigation mb-4">
-        <a href="/profiles" id="back-button" onclick="if (document.referrer !== '') { window.history.back(); return false; }">
+        <a
+          href="/profiles"
+          id="back-button"
+          onclick="if (document.referrer !== '') { window.history.back(); return false; }"
+        >
           <i class="fas fa-chevron-left"></i>
           Back
         </a>
       </div>
 
+      <!-- Profile Header -->
       <div class="profile-header row align-items-center mb-4">
+        <!-- Profile Image -->
         <div class="col-4 col-md-3 text-center text-md-start">
           {% if page.profile-image %}
-            <img src="https://lh3.googleusercontent.com/d/{{ page.profile-image }}" alt="{{ page.title }}" class="img-fluid rounded-circle profile-pic">
+            <img
+              src="https://lh3.googleusercontent.com/d/{{ page.profile-image }}"
+              alt="{{ page.title }}"
+              class="img-fluid rounded-circle profile-pic"
+            >
           {% else %}
-            <img src="/assets/img/default-avatar.png" alt="Default Avatar" class="img-fluid rounded-circle profile-pic">
+            <img
+              src="/assets/img/default-avatar.png"
+              alt="Default Avatar"
+              class="img-fluid rounded-circle profile-pic"
+            >
           {% endif %}
         </div>
+
+        <!-- Profile Info -->
         <div class="col-8 col-md-9">
-          <h3 class="post-title mb-1">{{ page.title }}</h3>
+          <h3 class="post-title mb-1">
+            {{ page.title }}
+          </h3>
 
           {% if page.subtitle %}
             <h4 class="post-subtitle text-muted fw-normal mb-2">
@@ -56,9 +75,11 @@ layout: base
 
       <hr class="my-4">
 
+      <!-- Profile Content -->
       <div class="profile-content">
         {{ content }}
       </div>
+
     </div>
   </div>
 </main>
