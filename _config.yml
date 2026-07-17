@@ -1,14 +1,15 @@
+# Sahyadri Connect - Jekyll Configuration
+
+# --- Site Settings ---
 url: "https://connect.sahyadrischool.org"
 baseurl: ""
-title: Sahyadri Connect
+title: "Sahyadri Connect"
+author: "Sahyadri"
 
-# Your name to show in the footer
-author: Sahyadri
+# Add the website title to the title of every page
+title-on-all-pages: true
 
-###############################################
-# --- List of links in the navigation bar --- #
-###############################################
-
+# --- Navigation Bar ---
 navbar-links:
   Activities: "activities"
   Krishnamurti: "kfi"
@@ -22,117 +23,106 @@ navbar-links:
   Information:
     - Communication: "comms"
 
-  # _config.yml
-################
-# --- Logo --- #
-################
+# --- Logo & Branding ---
+# Image to show in the navigation bar (works best with square image)
+# avatar: "/assets/img/avatar-icon.png"
 
-# Image to show in the navigation bar - works best with a square image
-# Remove this parameter if you don't want an image in the navbar
-#avatar: "/assets/img/avatar-icon.png"
+# Cut image into circle (set to false to disable)
+# round-avatar: true
 
-# By default, the image is cut into a circle. You can disable this behaviour by setting 'round-avatar: false'
-#round-avatar: true
+# Image logo in top-left corner instead of title
+# title-img: /path/to/image
 
-# If you want to have an image logo in the top-left corner instead of having the title of the website,
-# then specify the following parameter
-#title-img: /path/to/image
+# --- RSS Feed ---
+# Provide a description to generate RSS feed at https://<your_website>/feed.xml
+rss-description:
 
-# If you want your website to generate an RSS feed, provide a description
-# The URL for the feed will be https://<your_website>/feed.xml
-rss-description: 
-
-
-# Add the website title to the title of every page
-title-on-all-pages: true
-
-# Excerpt word length - Truncate the excerpt of each post on the feed page to the specified number of words
+# --- Post and Feed Settings ---
 excerpt_length: 50
-
-# Whether or not to show an excerpt for every blog post in the feed page
 feed_show_excerpt: true
-
-# Whether or not to show a list of tags below each post preview in the feed page
 feed_show_tags: true
 
-# Add a search button to the navbar
+# --- Navigation & UI Settings ---
 post_search: false
-
-# Add a button in the footer to edit the current page. Only works if your website is hosted on GitHub
 edit_page_button: true
 
-# Allow sub-menu items (second-level navigation menu items) to be longer than the top-level menu
-# If this setting is off, then long sub-menu words might get cut off
-# See https://github.com/daattali/beautiful-jekyll/issues/765 to understand the issue this setting can solve
+# Allow sub-menu items to be longer than top-level menu items
+# Prevents long words in submenus from being cut off
 navbar-var-length: false
 
-# Personalize the colours in your website. Colour values can be any valid CSS colour
-
+# --- Color Scheme ---
+# Page background and text
 page-col: "#FFFFFF"
 text-col: "#3E3830"
+
+# Links
 link-col: "#A67C52"
 hover-col: "#8FA186"
+
+# Navigation bar
 navbar-col: "#668571"
 navbar-hover-col: "#8FA186"
 navbar-text-col: "#D0DAC8"
 navbar-border-col: "#BBC4B4"
+
+# Footer
 footer-col: "#B2C2AD"
 footer-text-col: "#3E3830"
 footer-link-col: "#A67C52"
 footer-hover-col: "#668571"
 
-# Alternatively, the navbar, footer, and page background can be set to an image
-# instead of colour
+# --- Background Images (Alternative to Colors) ---
+# navbar-img: "/assets/img/bgimage.png"
+# footer-img: "/assets/img/bgimage.png"
+# page-img: "/assets/img/bgimage.png"
 
-#navbar-img: "/assets/img/bgimage.png"
-#footer-img: "/assets/img/bgimage.png"
-#page-img: "/assets/img/bgimage.png"
-
-# For any extra visual customization, you can include additional CSS files in every page on your site. List any custom CSS files here
+# --- Custom CSS ---
 site-css:
   - "/assets/css/custom-styles.css"
 
-
-# Ruby Date Format to show dates of posts
+# --- Date Format ---
 date_format: "%B %-d, %Y"
 
-
+# --- Markdown Settings ---
 kramdown:
   input: GFM
 
-# Default YAML values (more information on Jekyll's site)
+# --- Default Layouts and Settings ---
 defaults:
-  -
-    scope:
+  # Posts
+  - scope:
       path: ""
-      type: "posts" # Settings for the _posts folder
+      type: "posts"
     values:
       layout: "post"
       comments: true
       social-share: true
-  -
-    scope:
+
+  # Activities
+  - scope:
       path: ""
-      type: "activities" # Settings for the _activities folder
+      type: "activities"
     values:
       layout: "events"
       comments: true
       social-share: true
-  -
-    scope:
+
+  # Profiles
+  - scope:
       path: ""
-      type: "posts"
+      type: "profiles"
     values:
-       layout: "profile"
-       comments: true
-       social-share: true
-  -
-    scope:
-      path: "" # Default for regular pages (index.md, etc.)
+      layout: "profile"
+      comments: true
+      social-share: true
+
+  # Regular Pages
+  - scope:
+      path: ""
     values:
       layout: "page"
 
-# Exclude these files from production site
+# --- Files to Exclude from Production ---
 exclude:
   - CHANGELOG.md
   - CNAME
@@ -146,10 +136,12 @@ exclude:
   - node_modules/
   - .github/
 
+# --- Plugins ---
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
 
+# --- Collections ---
 collections:
   posts:
     output: true
@@ -162,4 +154,3 @@ collections:
   profiles:
     output: true
     permalink: /profiles/:title/
- 
