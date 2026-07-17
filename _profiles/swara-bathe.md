@@ -7,8 +7,6 @@ academic-year: "2026-27"
 profile-image: "1UhiFK8cko_VMTdeUmjHJOEczWcDmBqEc"
 ---
 
-I joined Sahyadri School in 11th.
-
 I am a Humanities student who joined Sahyadri School in Grade 11.
 
 I joined Sahyadri School seeking a change of pace and a different way of learning and living. My time here has given me opportunities that I would not have had otherwise – from meeting inspiring people and interviewing visiting artists and speakers to performing on different platforms, participating in sports, and helping to organize school events. These experiences have helped me become more confident, open-minded, and willing to take on new responsibilities.
