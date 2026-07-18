@@ -1,9 +1,10 @@
+---
 layout: profile
 title: "Riyan Kundalia"
 subtitle: "Student (Class 11)"
 date: 2026-07-11
 academic-year: "2026-27"
-profile-image: ""
+profile-image: "1ChzoCpenz2fHayNSIBWf-Fz5EWNqRN-F"
 ---
 
 I joined Sahyadri School in 5th Grade.
