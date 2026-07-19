@@ -4,7 +4,7 @@ title: "Kanishka Aditya Chaudhary"
 subtitle: "Student (Class 12)"
 date: 2026-07-08
 academic-year: "2026-27"
-profile-image: "12JH_JONcNPz1V3qangwNMNN0S7RDuouz"
+profile-image: "1zhnN-F0OIOdFvN0teBe3NrRSPjD-ONTq"
 ---
 
 I joined Sahyadri School in Grade 11.
