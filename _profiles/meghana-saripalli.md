@@ -4,7 +4,7 @@ title: "Meghana Sudha Saripalli"
 subtitle: "Student (Class 12)"
 date: 2026-07-08
 academic-year: "2026-27"
-profile-image: "1wNu-mx2qoj_an_P1jlgUfoobFIbOphaT"
+profile-image: "1yR_CPhO41983W9q_LUMDqLhJ50e97ZGq"
 ---
 
 I joined Sahyadri School in 9th.
