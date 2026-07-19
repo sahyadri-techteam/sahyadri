@@ -4,7 +4,7 @@ title: "Ekaarth Murada"
 subtitle: "Student (Class 11)"
 date: 2026-07-06
 academic-year: "2026-27"
-profile-image: "1A-gUKSDWITe_MQNSB07KINMrFq6OrTJO"
+profile-image: "1rFAstjjsERg-5sCl_ipxxce4YJLRoj54"
 ---
 
 I joined Sahyadri School in 5th grade.
