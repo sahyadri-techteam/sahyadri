@@ -4,7 +4,7 @@ title: "Swara Bathe"
 subtitle: "Student (Class 12)"
 date: 2026-07-13
 academic-year: "2026-27"
-profile-image: "1UhiFK8cko_VMTdeUmjHJOEczWcDmBqEc"
+profile-image: "1ATSGAIzOjr2y3j5aWUx3wgVvbjbNwprI"
 ---
 
 I am a Humanities student who joined Sahyadri School in Grade 11.
