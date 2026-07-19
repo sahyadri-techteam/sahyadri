@@ -4,7 +4,7 @@ title: "Reya Shah"
 subtitle: "Student (Class 12)"
 date: 2026-07-06
 academic-year: "2026-27"
-profile-image: "1Xlisp01Zwy4UYmgj_YbTFRmgrvSIbjDP"
+profile-image: "1foGNghEybCO6RWLQJuCUC7a-CrTYdvHI"
 ---
 
 I joined Sahyadri School in Grade 7.
