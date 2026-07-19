@@ -4,7 +4,7 @@ title: "Anoush Maian Rangad"
 subtitle: "Student (Class 12)"
 date: 2026-07-02
 academic-year: "2026-27"
-profile-image: "1xOg9-6H4cKzLpreh2Iqvh8EqjyYxFuIC"
+profile-image: "1bFeywezAXzL9x7VRynU2I03LUy0_QWNy"
 ---
 
 I joined Sahyadri School in 11th.
