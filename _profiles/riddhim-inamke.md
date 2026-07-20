@@ -4,7 +4,7 @@ title: "Riddhim Inamke"
 subtitle: "Student (Class 12)"
 date: 2026-07-04
 academic-year: "2026-27"
-profile-image: "1c6nyScPNswp3zZ6byZutoRC4iP2yBEsH"
+profile-image: "1sgnGGXFIvIgI8lj6Etv-do52H_rfQ0GD"
 ---
 
 
