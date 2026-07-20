@@ -57,8 +57,8 @@ permalink: /posts/
     margin-top: 1rem;
   }
   .post-image img {
-    width: 180px;
-    height: 120px;
+    width: clamp(120px, 18vw, 260px);
+    height: clamp(80px, 12vw, 175px);
     object-fit: cover;
     border-radius: 6px;
     flex-shrink: 0;
@@ -105,7 +105,7 @@ permalink: /posts/
     }
     .post-image img {
       width: 100%;
-      height: 200px;
+      height: clamp(160px, 45vw, 240px);
       object-fit: cover;
     }
   }
