@@ -52,16 +52,23 @@ permalink: /posts/
   }
   .post-entry-container {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
     align-items: flex-start;
     margin-top: 1rem;
   }
+  .post-image {
+    flex-shrink: 0;
+  }
   .post-image img {
-    width: clamp(120px, 18vw, 260px);
-    height: clamp(80px, 12vw, 175px);
+    width: clamp(160px, 22vw, 300px);
+    height: clamp(110px, 15vw, 200px);
     object-fit: cover;
     border-radius: 6px;
-    flex-shrink: 0;
+    display: block;
+  }
+  .post-entry {
+    flex: 1;
+    min-width: 0;
   }
   .post-read-more {
     display: inline-block;
@@ -101,7 +108,7 @@ permalink: /posts/
     }
     .post-entry-container {
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.75rem;
     }
     .post-image img {
       width: 100%;
