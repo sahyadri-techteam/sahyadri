@@ -57,8 +57,11 @@ permalink: /posts/
     margin-top: 1rem;
   }
   .post-image img {
+    width: 180px;
+    height: 120px;
+    object-fit: cover;
     border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex-shrink: 0;
   }
   .post-read-more {
     display: inline-block;
@@ -102,7 +105,8 @@ permalink: /posts/
     }
     .post-image img {
       width: 100%;
-      height: auto;
+      height: 200px;
+      object-fit: cover;
     }
   }
 </style>
