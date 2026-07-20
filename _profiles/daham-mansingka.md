@@ -4,7 +4,7 @@ title: "Daham Mansingka"
 subtitle: "Student (Class 12)"
 date: 2026-07-02
 academic-year: "2026-27"
-profile-image: "1Poj1Tqq20Q16tgutZmn577cTsc9ei0zN"
+profile-image: "1dhk2FPS96Ra9j2lXbdCa913TuKd6OvUR"
 ---
 
 I joined Sahyadri School in 6th.
