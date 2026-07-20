@@ -52,23 +52,13 @@ permalink: /posts/
   }
   .post-entry-container {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     align-items: flex-start;
     margin-top: 1rem;
   }
-  .post-image {
-    flex-shrink: 0;
-  }
   .post-image img {
-    width: clamp(160px, 22vw, 300px);
-    height: clamp(110px, 15vw, 200px);
-    object-fit: cover;
     border-radius: 6px;
-    display: block;
-  }
-  .post-entry {
-    flex: 1;
-    min-width: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
   .post-read-more {
     display: inline-block;
@@ -108,12 +98,11 @@ permalink: /posts/
     }
     .post-entry-container {
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 1rem;
     }
     .post-image img {
       width: 100%;
-      height: clamp(160px, 45vw, 240px);
-      object-fit: cover;
+      height: auto;
     }
   }
 </style>
