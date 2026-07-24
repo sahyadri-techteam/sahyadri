@@ -1,5 +1,4 @@
----
----
+
 {
   "name": "{{ site.title }}",
   "short_name": "{{ site.title }}",
