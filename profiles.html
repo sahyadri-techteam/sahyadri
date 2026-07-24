@@ -4,466 +4,812 @@ title: Profiles
 subtitle: Select a profile to view more details
 ---
 
+<!--
+  ============================================================
+  profiles.html — Profiles Directory Page
+  ============================================================
+  PURPOSE:
+    Displays staff and student profile cards grouped by
+    academic year and category (grade/role). Users can:
+      1. Switch academic years via the top navigation bar.
+      2. Switch category panels (e.g. Grade 12, Teachers)
+         via the left sidebar TOC.
+
+  ARCHITECTURE OVERVIEW:
+    ┌─────────────────────────────────────────────────────┐
+    │  Year Navigation Bar  (top, horizontal)             │
+    ├───────────────┬─────────────────────────────────────┤
+    │  TOC Sidebar  │  Profile Cards Grid (active panel)  │
+    │  (sticky)     │                                     │
+    └───────────────┴─────────────────────────────────────┘
+
+  DATA FLOW:
+    Jekyll renders all profile front-matter into hidden
+    <div class="raw-profile-node"> elements at build time.
+    JavaScript reads these nodes at runtime, groups them by
+    academic year and category, then builds the sidebar TOC
+    and card grid dynamically — no page reload needed.
+
+  KEY FUNCTIONS (see <script> section below):
+    • filterAcademicYear(year, element)
+        Called when user clicks a year tab. Rebuilds the
+        entire sidebar and card grid for the chosen year.
+
+    • switchGradePane(targetSlugId)
+        Called when user clicks a category in the sidebar.
+        Hides all grade sections, shows only the selected
+        one, and scrolls the page back to the top.
+
+  CATEGORY WEIGHTING:
+    Categories are sorted by a numeric weight so that higher
+    grades appear first (Teachers=12 … Pre-School=1).
+    See the Liquid weight-assignment block in <body>.
+
+  DEPENDENCIES:
+    • Jekyll / Liquid templating (server-side)
+    • Beautiful Jekyll theme (CSS reset overrides applied)
+    • Google Fonts — Amatic SC (loaded by theme)
+    • No external JS libraries required
+  ============================================================
+-->
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        /* 1. FORCE THE LAYOUT TO BE FULL WIDTH AND REMOVE THE THEME'S OFFSETS */
-        .container-md {
-            max-width: 100% !important;
-            padding: 0 !important;
-        }
-        
-        /* Remove Beautiful Jekyll's default column padding/offsets for this page */
-        .col-xl-8.offset-xl-2, .col-lg-10.offset-lg-1 {
-            max-width: 100% !important;
-            margin-left: 0 !important;
-            flex: 0 0 100% !important;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
 
-        /* 2. MAIN CONTAINER */
-        .profiles-page-container {
-            display: block !important; 
-            width: 100% !important;
-            max-width: 100%;
-            margin: 0.5vw auto 30px auto; 
-            padding: 0 !important;
-            box-sizing: border-box;
-        }
+    /* ============================================================
+       1. LAYOUT OVERRIDES — Beautiful Jekyll Theme Reset
+       ============================================================
+       The theme's .container-md and column offset classes restrict
+       content width. These overrides force full-width rendering
+       so our two-column layout can use the full viewport.
+    ============================================================ */
+    .container-md {
+      max-width: 100% !important;
+      padding: 0 !important;
+    }
 
-        /* 3. HORIZONTAL NAVIGATION */
-        .sub-nav-options {
-            display: block !important;
-            width: 100% !important;
-            margin: 0 auto 2rem auto !important;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e2e8f0;
-            text-align: center;
-        }
+    /* Remove the theme's default column padding/offsets for this page */
+    .col-xl-8.offset-xl-2,
+    .col-lg-10.offset-lg-1 {
+      max-width: 100% !important;
+      margin-left: 0 !important;
+      flex: 0 0 100% !important;
+    }
 
-        .sub-nav-list {
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-            width: 100% !important;
-            gap: 2.5rem;
-            list-style: none !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            flex-wrap: wrap;
-        }
 
-        .sub-nav-list li {
-            font-family: 'Amatic SC', cursive !important;
-            font-size: 2rem !important;
-            color: #718096;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            padding-bottom: 5px;
-            border-bottom: 3px solid transparent;
-        }
+    /* ============================================================
+       2. PAGE WRAPPER
+       ============================================================
+       Outermost container for all page content. Kept display:block
+       to avoid accidental flex/grid conflicts with parent themes.
+    ============================================================ */
+    .profiles-page-container {
+      display: block !important;
+      width: 100% !important;
+      max-width: 100%;
+      margin: 0.5vw auto 30px auto;
+      padding: 0 !important;
+      box-sizing: border-box;
+    }
 
-        .sub-nav-list li:hover, .sub-nav-list li.active {
-            color: #5f745f !important;
-            border-bottom: 3px solid #5f745f;
-            font-weight: bold;
-        }
 
-        /* 4. TWO-COLUMN LAYOUT WITH DYNAMIC SIDEBAR INTERFACE */
-        .profiles-layout-wrapper {
-            display: flex;
-            gap: 2rem;
-            width: 100%;
-            align-items: flex-start;
-            padding: 0 15px;
-            box-sizing: border-box;
-        }
+    /* ============================================================
+       3. YEAR NAVIGATION BAR
+       ============================================================
+       Horizontal pill-style tab list rendered at the top of the
+       page. Each <li> represents one academic year pulled from
+       Jekyll profile front-matter. Active state is tracked via
+       the .active class toggled by filterAcademicYear().
+    ============================================================ */
+    .sub-nav-options {
+      display: block !important;
+      width: 100% !important;
+      margin: 0 auto 2rem auto !important;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: center;
+    }
 
-        .toc-sidebar {
-            width: 240px;
-            flex-shrink: 0;
-            position: sticky;
-            top: 20px;
-        }
+    .sub-nav-list {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      width: 100% !important;
+      gap: 2.5rem;
+      list-style: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      flex-wrap: wrap; /* wraps gracefully on narrow viewports */
+    }
 
-        .toc-card {
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-        }
+    .sub-nav-list li {
+      font-family: 'Amatic SC', cursive !important;
+      font-size: 2rem !important;
+      color: #718096;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      padding-bottom: 5px;
+      border-bottom: 3px solid transparent; /* placeholder so layout doesn't shift on active */
+    }
 
-        .toc-title {
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin-top: 0;
-            margin-bottom: 1rem;
-            color: #2d3748;
-            border-bottom: 2px solid #5f745f;
-            padding-bottom: 0.5rem;
-        }
+    /* Hover and active states share the same green-grey accent colour */
+    .sub-nav-list li:hover,
+    .sub-nav-list li.active {
+      color: #5f745f !important;
+      border-bottom: 3px solid #5f745f;
+      font-weight: bold;
+    }
 
-        .toc-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
 
-        .toc-list li {
-            margin-bottom: 0.5rem;
-        }
+    /* ============================================================
+       4. TWO-COLUMN LAYOUT
+       ============================================================
+       .profiles-layout-wrapper   — flex row: sidebar + content
+       .toc-sidebar               — sticky left column (240px)
+       .toc-card                  — white card housing the TOC
+       .profiles-content          — grows to fill remaining width
+    ============================================================ */
+    .profiles-layout-wrapper {
+      display: flex;
+      gap: 2rem;
+      width: 100%;
+      align-items: flex-start;
+      padding: 0 15px;
+      box-sizing: border-box;
+    }
 
-        .toc-list button {
-            background: none;
-            border: none;
-            font-size: 1.75rem;
-            cursor: pointer;
-            text-align: left;
-            width: 100%;
-            transition: all 0.2s ease;
-            outline: none;
-        }
+    /* Sidebar stays visible while user scrolls through cards */
+    .toc-sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 20px;
+    }
 
-        .toc-list button:hover, .toc-list button.active {
-            color: #5f745f;
-            font-weight: bold;
-            text-decoration: underline;
-        }
+    .toc-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
 
-        .profiles-content {
-            flex-grow: 1;
-            width: 100%;
-        }
+    .toc-title {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: #2d3748;
+      border-bottom: 2px solid #5f745f;
+      padding-bottom: 0.5rem;
+    }
 
-        /* ISOLATION STYLES FOR THE PANE DISPLAY */
-        .grade-section {
-            display: none; /* Hide panels globally by default */
-            margin-bottom: 3rem;
-            animation: paneFadeIn 0.35s ease;
-        }
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-        .grade-section.active {
-            display: block; /* Force visible on match activation overlay */
-        }
+    .toc-list li {
+      margin-bottom: 0.5rem;
+    }
 
-        .category-heading {
-            font-size: 2rem;
-            color: #2d3748;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-            text-transform: capitalize;
-        }
+    /*
+      Each TOC entry is a <button> (not a link) because clicking
+      it swaps the visible panel in-place rather than navigating.
+    */
+    .toc-list button {
+      background: none;
+      border: none;
+      font-size: 1.75rem;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      transition: all 0.2s ease;
+      outline: none;
+    }
 
-        .profile-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0 !important;
-            justify-content: flex-start;
-            width: 100%;
-        }
+    /* Active/hovered TOC button highlights green-grey */
+    .toc-list button:hover,
+    .toc-list button.active {
+      color: #5f745f;
+      font-weight: bold;
+      text-decoration: underline;
+    }
 
-        /* FLEXIBLE SIZING PROPERTIES MAINTAINED */
-        .profile-card {
-            flex: 1 1 340px;
-            max-width: 480px !important;
-            margin: 0 !important;
-            padding: 30px 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none !important;
-            color: inherit !important;
-            transition: transform 0.2s ease;
-            box-sizing: border-box;
-        }
+    /* The right-hand content area grows to fill remaining space */
+    .profiles-content {
+      flex-grow: 1;
+      width: 100%;
+    }
 
-        .profile-card:hover {
-            transform: translateY(-5px);
-        }
 
-        .profile-img-wrapper {
-            width: 85%;
-            max-width: 380px;
-            aspect-ratio: 1 / 1;
-            overflow: hidden;
-            border-radius: 50%;
-            border: 4px solid #c5d1c0;
-            margin-bottom: 18px;
-        }
+    /* ============================================================
+       5. GRADE SECTION PANELS
+       ============================================================
+       Each category (e.g. "Grade 12", "Teachers") is rendered as
+       a .grade-section. Only the one with .active is visible at
+       any time. Switching is handled by switchGradePane().
+    ============================================================ */
 
-        .profile-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    /* All panels hidden by default; JS adds .active to show one */
+    .grade-section {
+      display: none;
+      margin-bottom: 3rem;
+      animation: paneFadeIn 0.35s ease; /* subtle fade-in on reveal */
+    }
 
-        .profile-card .profile-name {
-            font-size: 1.7rem !important;
-            font-weight: bold;
-            text-align: center;
-            margin: 4px 0 2px 0;
-            white-space: normal;
-        }
+    .grade-section.active {
+      display: block;
+    }
 
-        .profile-card .profile-role {
-            font-size: 1.15rem !important;
-            text-align: center;
-            color: #707070;
-            white-space: normal;
-        }
-        
-        .no-profiles-msg {
-            color: #718096;
-            font-style: italic;
-            padding: 2rem 0;
-            text-align: center;
-        }
+    /* Section heading (e.g. "Grade 12") displayed above the card grid */
+    .category-heading {
+      font-size: 2rem;
+      color: #2d3748;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      text-transform: capitalize;
+    }
 
-        @keyframes paneFadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    /* Fade-in keyframe used when a new panel becomes active */
+    @keyframes paneFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        /* 5. RESPONSIVE ADJUSTMENTS */
-        @media (max-width: 991px) {
-            .profiles-layout-wrapper {
-                flex-direction: column;
-            }
-            .toc-sidebar {
-                width: 100%;
-                position: relative;
-                top: 0;
-                margin-bottom: 2rem;
-            }
-            .toc-list {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
-            .toc-list li {
-                margin-bottom: 0;
-            }
-            .toc-list button {
-                width: auto;
-            }
-        }
 
-        @media (max-width: 480px) {
-            .profile-card {
-                flex: 0 0 100%;
-                max-width: 100% !important;
-                padding: 24px 12px;
-            }
-        }
-    </style>
+    /* ============================================================
+       6. PROFILE CARD GRID
+       ============================================================
+       Cards use flex-wrap so they reflow naturally across widths.
+       Each card links to the individual profile page.
+    ============================================================ */
+    .profile-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 !important;
+      justify-content: flex-start;
+      width: 100%;
+    }
+
+    /*
+      Cards flex between 340px min and 480px max. This means:
+        - 1 card per row on narrow containers
+        - 2–3 cards per row on wider containers
+    */
+    .profile-card {
+      flex: 1 1 340px;
+      max-width: 480px !important;
+      margin: 0 !important;
+      padding: 30px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none !important; /* remove default link underline */
+      color: inherit !important;        /* inherit page text colour */
+      transition: transform 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    /* Lift card slightly on hover to indicate clickability */
+    .profile-card:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Circular image container — maintains 1:1 aspect ratio */
+    .profile-img-wrapper {
+      width: 85%;
+      max-width: 380px;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 50%;
+      border: 4px solid #c5d1c0;
+      margin-bottom: 18px;
+    }
+
+    .profile-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* crops image to fill circle without distortion */
+    }
+
+    .profile-card .profile-name {
+      font-size: 1.7rem !important;
+      font-weight: bold;
+      text-align: center;
+      margin: 4px 0 2px 0;
+      white-space: normal;
+    }
+
+    .profile-card .profile-role {
+      font-size: 1.15rem !important;
+      text-align: center;
+      color: #707070;
+      white-space: normal;
+    }
+
+    /* Shown when a year has no profiles assigned to it */
+    .no-profiles-msg {
+      color: #718096;
+      font-style: italic;
+      padding: 2rem 0;
+      text-align: center;
+    }
+
+
+    /* ============================================================
+       7. RESPONSIVE BREAKPOINTS
+       ============================================================
+       ≤991px  — sidebar moves above the card grid (stacked layout)
+       ≤480px  — each card takes full width (single-column grid)
+    ============================================================ */
+    @media (max-width: 991px) {
+      .profiles-layout-wrapper {
+        flex-direction: column; /* stack sidebar above content */
+      }
+
+      .toc-sidebar {
+        width: 100%;
+        position: relative; /* un-stick: no room to stick beside stacked content */
+        top: 0;
+        margin-bottom: 2rem;
+      }
+
+      /* TOC buttons wrap horizontally on tablet/mobile */
+      .toc-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .toc-list li {
+        margin-bottom: 0;
+      }
+
+      /* Buttons shrink to auto width when wrapping horizontally */
+      .toc-list button {
+        width: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      /* Single-column card grid on small phones */
+      .profile-card {
+        flex: 0 0 100%;
+        max-width: 100% !important;
+        padding: 24px 12px;
+      }
+    }
+
+  </style>
 </head>
 
 <body>
-    {% assign raw_years = "" %}
-    {% for profile in site.profiles %}
-        {% if profile.academic-year %}
-            {% assign raw_years = raw_years | append: profile.academic-year | append: "," %}
-        {% endif %}
-    {% endfor %}
-    
-    {% assign unique_years = raw_years | split: "," | uniq | sort | reverse %}
-    {% assign latest_year = unique_years | first %}
 
-    <div class="profiles-page-container">
-        
-        <nav class="sub-nav-options">
-            <ul class="sub-nav-list" id="year-toc">
-                {% for yr in unique_years %}
-                    <li {% if yr == latest_year %}class="active"{% endif %} onclick="filterAcademicYear('{{ yr }}', this)">
-                        {{ yr }}
-                    </li>
-                {% endfor %}
-            </ul>
-        </nav>
+  <!--
+    ============================================================
+    LIQUID: ACADEMIC YEAR COLLECTION
+    ============================================================
+    Iterates over all profile documents to collect unique
+    academic years, then sorts them in descending order so the
+    most recent year appears first and is pre-selected.
 
-        <div class="profiles-layout-wrapper">
-            <aside class="toc-sidebar">
-                <nav class="toc-card">
-                    <h2 class="toc-title">Categories</h2>
-                    <ul class="toc-list" id="dynamic-toc-list">
-                        </ul>
-                </nav>
-            </aside>
+    Variables produced:
+      unique_years  — array of unique year strings, newest first
+      latest_year   — the first (most recent) year string
+    ============================================================
+  -->
+  {% assign raw_years = "" %}
+  {% for profile in site.profiles %}
+    {% if profile.academic-year %}
+      {% assign raw_years = raw_years | append: profile.academic-year | append: "," %}
+    {% endif %}
+  {% endfor %}
 
-            <div class="profiles-content" id="profiles-sections-container">
-                </div>
-        </div>
-    </div>
+  {% assign unique_years = raw_years | split: "," | uniq | sort | reverse %}
+  {% assign latest_year  = unique_years | first %}
 
-    <div id="raw-profiles-data-store" style="display: none !important;">
-        {% for profile in site.profiles %}
-            {% assign sub_clean = profile.subtitle | downcase %}
-            {% assign weight = 0 %}
-            {% assign display_category = "General Updates" %}
-            
-            {% if sub_clean contains "teacher" %}{% assign weight = 12 %}{% assign display_category = "Teachers" %}
-            {% elsif sub_clean contains "faculty" or sub_clean contains "staff" %}{% assign weight = 11 %}{% assign display_category = "Faculty" %}
-            {% elsif sub_clean contains "grade 12" or sub_clean contains "class 12" %}{% assign weight = 10 %}{% assign display_category = "Grade 12" %}
-            {% elsif sub_clean contains "grade 11" or sub_clean contains "class 11" %}{% assign weight = 9 %}{% assign display_category = "Grade 11" %}
-            {% elsif sub_clean contains "grade 10" or sub_clean contains "class 10" %}{% assign weight = 8 %}{% assign display_category = "Grade 10" %}
-            {% elsif sub_clean contains "grade 9" or sub_clean contains "class 9" %}{% assign weight = 7 %}{% assign display_category = "Grade 9" %}
-            {% elsif sub_clean contains "grade 8" or sub_clean contains "class 8" %}{% assign weight = 6 %}{% assign display_category = "Grade 8" %}
-            {% elsif sub_clean contains "grade 7" or sub_clean contains "class 7" %}{% assign weight = 5 %}{% assign display_category = "Grade 7" %}
-            {% elsif sub_clean contains "grade 6" or sub_clean contains "class 6" %}{% assign weight = 4 %}{% assign display_category = "Grade 6" %}
-            {% elsif sub_clean contains "grade 5" or sub_clean contains "class 5" %}{% assign weight = 3 %}{% assign display_category = "Grade 5" %}
-            {% elsif sub_clean contains "grade 4" or sub_clean contains "class 4" %}{% assign weight = 2 %}{% assign display_category = "Grade 4" %}
-            {% elsif sub_clean contains "pre school" or sub_clean contains "pre-school" %}{% assign weight = 1 %}{% assign display_category = "Pre-School" %}
-            {% endif %}
-            
-            <div class="raw-profile-node" 
-                 data-ay="{{ profile.academic-year }}" 
-                 data-weight="{{ weight }}" 
-                 data-category="{{ display_category }}"
-                 data-name="{{ profile.title | escape }}"
-                 data-url="{{ profile.url | relative_url }}"
-                 data-role="{{ profile.subtitle | escape }}"
-                 data-image="{% if profile.profile-image %}https://lh3.googleusercontent.com/d/{{ profile.profile-image }}{% else %}/assets/img/default-avatar.png{% endif %}">
-            </div>
+
+  <!-- ============================================================
+       PAGE WRAPPER
+  ============================================================ -->
+  <div class="profiles-page-container">
+
+    <!--
+      YEAR NAVIGATION BAR
+      Renders one <li> per unique academic year.
+      The most recent year gets class="active" on page load.
+      onclick calls filterAcademicYear() to rebuild the grid.
+    -->
+    <nav class="sub-nav-options">
+      <ul class="sub-nav-list" id="year-toc">
+        {% for yr in unique_years %}
+          <li
+            {% if yr == latest_year %}class="active"{% endif %}
+            onclick="filterAcademicYear('{{ yr }}', this)"
+          >
+            {{ yr }}
+          </li>
         {% endfor %}
-    </div>
+      </ul>
+    </nav>
 
-    <script>
-        const rawNodes = Array.from(document.querySelectorAll('.raw-profile-node')).map(el => ({
-            ay: el.getAttribute('data-ay'),
-            weight: parseInt(el.getAttribute('data-weight')),
-            category: el.getAttribute('data-category'),
-            name: el.getAttribute('data-name'),
-            url: el.getAttribute('data-url'),
-            role: el.getAttribute('data-role'),
-            image: el.getAttribute('data-image')
-        }));
+    <!-- TWO-COLUMN LAYOUT WRAPPER -->
+    <div class="profiles-layout-wrapper">
 
-        let currentYearFilter = "{{ latest_year }}";
+      <!--
+        LEFT SIDEBAR — CATEGORY TOC
+        The <ul> starts empty. filterAcademicYear() populates it
+        with one <button> per category found in the selected year.
+      -->
+      <aside class="toc-sidebar">
+        <nav class="toc-card">
+          <h2 class="toc-title">Categories</h2>
+          <ul class="toc-list" id="dynamic-toc-list">
+            <!-- Populated dynamically by filterAcademicYear() -->
+          </ul>
+        </nav>
+      </aside>
 
-        function filterAcademicYear(year, element) {
-            currentYearFilter = year;
+      <!--
+        RIGHT CONTENT AREA — PROFILE CARD PANELS
+        Also starts empty. filterAcademicYear() injects one
+        .grade-section per category; switchGradePane() controls
+        which section has class="active" (i.e. is visible).
+      -->
+      <div class="profiles-content" id="profiles-sections-container">
+        <!-- Populated dynamically by filterAcademicYear() -->
+      </div>
 
-            document.querySelectorAll('.sub-nav-list li').forEach(li => li.classList.remove('active'));
-            if(element) element.classList.add('active');
+    </div><!-- /.profiles-layout-wrapper -->
+  </div><!-- /.profiles-page-container -->
 
-            const filtered = rawNodes.filter(item => item.ay === year);
 
-            const groups = {};
-            filtered.forEach(item => {
-                if(!groups[item.category]) {
-                    groups[item.category] = {
-                        name: item.category,
-                        weight: item.weight,
-                        items: []
-                    };
-                }
-                groups[item.category].items.push(item);
-            });
+  <!--
+    ============================================================
+    LIQUID: RAW PROFILE DATA STORE
+    ============================================================
+    This hidden container is the bridge between Jekyll (server-
+    side) and JavaScript (client-side). For every profile
+    document, Liquid outputs a <div class="raw-profile-node">
+    with all needed data as HTML attributes. JavaScript reads
+    these at runtime to build the dynamic UI.
 
-            // Highest weight first 
-            const sortedGroups = Object.values(groups).sort((a, b) => b.weight - a.weight);
+    CATEGORY WEIGHTING LOGIC:
+    The profile's `subtitle` front-matter field is matched
+    (case-insensitive) against known category keywords.
+    A numeric weight is assigned so higher grades sort first:
 
-            const tocList = document.getElementById('dynamic-toc-list');
-            const contentContainer = document.getElementById('profiles-sections-container');
-            
-            tocList.innerHTML = '';
-            contentContainer.innerHTML = '';
+      Teachers   = 12   Faculty/Staff = 11
+      Grade 12   = 10   Grade 11      = 9
+      Grade 10   = 8    Grade 9       = 7
+      Grade 8    = 6    Grade 7       = 5
+      Grade 6    = 4    Grade 5       = 3
+      Grade 4    = 2    Pre-School    = 1
+      (unmatched) = 0  → "General Updates"
 
-            if(sortedGroups.length === 0) {
-                contentContainer.innerHTML = '<p class="no-profiles-msg">No profiles found for this academic period.</p>';
-                return;
-            }
+    DATA ATTRIBUTES on each node:
+      data-ay        — academic year string (e.g. "2024-25")
+      data-weight    — integer sort priority
+      data-category  — display label (e.g. "Grade 12")
+      data-name      — profile title (escaped)
+      data-url       — relative URL to the profile's detail page
+      data-role      — profile subtitle/role (escaped)
+      data-image     — Google Drive CDN URL or default avatar path
+    ============================================================
+  -->
+  <div id="raw-profiles-data-store" style="display: none !important;">
+    {% for profile in site.profiles %}
 
-            // Identify highest grade present in current list dynamically
-            const defaultTargetSlugId = 'cat-' + sortedGroups[0].name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+      {% assign sub_clean        = profile.subtitle | downcase %}
+      {% assign weight           = 0 %}
+      {% assign display_category = "General Updates" %}
 
-            sortedGroups.forEach((group, index) => {
-                const slugId = 'cat-' + group.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
-                
-                // Sidebar Buttons acting as switches instead of links
-                const li = document.createElement('li');
-                const btn = document.createElement('button');
-                btn.type = "button";
-                btn.id = 'btn-' + slugId;
-                btn.textContent = group.name;
-                
-                // If it has the highest index position in the current data payload list, apply active styling
-                if (slugId === defaultTargetSlugId) {
-                    btn.className = 'active';
-                }
+      {% if      sub_clean contains "teacher"                          %}{% assign weight = 12 %}{% assign display_category = "Teachers"       %}
+      {% elsif   sub_clean contains "faculty" or sub_clean contains "staff" %}{% assign weight = 11 %}{% assign display_category = "Faculty"        %}
+      {% elsif   sub_clean contains "grade 12" or sub_clean contains "class 12" %}{% assign weight = 10 %}{% assign display_category = "Grade 12"      %}
+      {% elsif   sub_clean contains "grade 11" or sub_clean contains "class 11" %}{% assign weight = 9  %}{% assign display_category = "Grade 11"      %}
+      {% elsif   sub_clean contains "grade 10" or sub_clean contains "class 10" %}{% assign weight = 8  %}{% assign display_category = "Grade 10"      %}
+      {% elsif   sub_clean contains "grade 9"  or sub_clean contains "class 9"  %}{% assign weight = 7  %}{% assign display_category = "Grade 9"       %}
+      {% elsif   sub_clean contains "grade 8"  or sub_clean contains "class 8"  %}{% assign weight = 6  %}{% assign display_category = "Grade 8"       %}
+      {% elsif   sub_clean contains "grade 7"  or sub_clean contains "class 7"  %}{% assign weight = 5  %}{% assign display_category = "Grade 7"       %}
+      {% elsif   sub_clean contains "grade 6"  or sub_clean contains "class 6"  %}{% assign weight = 4  %}{% assign display_category = "Grade 6"       %}
+      {% elsif   sub_clean contains "grade 5"  or sub_clean contains "class 5"  %}{% assign weight = 3  %}{% assign display_category = "Grade 5"       %}
+      {% elsif   sub_clean contains "grade 4"  or sub_clean contains "class 4"  %}{% assign weight = 2  %}{% assign display_category = "Grade 4"       %}
+      {% elsif   sub_clean contains "pre school" or sub_clean contains "pre-school" %}{% assign weight = 1 %}{% assign display_category = "Pre-School"   %}
+      {% endif %}
 
-                btn.onclick = function() {
-                    switchGradePane(slugId);
-                };
-                
-                li.appendChild(btn);
-                tocList.appendChild(li);
+      <div class="raw-profile-node"
+           data-ay="{{ profile.academic-year }}"
+           data-weight="{{ weight }}"
+           data-category="{{ display_category }}"
+           data-name="{{ profile.title | escape }}"
+           data-url="{{ profile.url | relative_url }}"
+           data-role="{{ profile.subtitle | escape }}"
+           data-image="{% if profile.profile-image %}https://lh3.googleusercontent.com/d/{{ profile.profile-image }}{% else %}/assets/img/default-avatar.png{% endif %}">
+      </div>
 
-                group.items.sort((a, b) => a.name.localeCompare(b.name));
+    {% endfor %}
+  </div><!-- /#raw-profiles-data-store -->
 
-                const section = document.createElement('section');
-                section.className = 'grade-section';
-                section.id = slugId;
-                
-                // Set the highest grade card group panel to visible active state instantly
-                if (slugId === defaultTargetSlugId) {
-                    section.classList.add('active');
-                }
 
-                const heading = document.createElement('h2');
-                heading.className = 'category-heading';
-                heading.textContent = group.name;
-                section.appendChild(heading);
+  <script>
+    /*
+      ============================================================
+      PROFILES PAGE — CLIENT-SIDE CONTROLLER
+      ============================================================
+      Reads the hidden data nodes rendered by Liquid, then builds
+      and manages the dynamic year-filter / category-switch UI.
+      ============================================================
+    */
 
-                const grid = document.createElement('div');
-                grid.className = 'profile-grid';
+    /*
+      Parse all hidden profile nodes into a plain JS array once
+      on page load. Each object mirrors the data-* attributes:
+        { ay, weight, category, name, url, role, image }
+    */
+    const rawNodes = Array.from(
+      document.querySelectorAll('.raw-profile-node')
+    ).map(el => ({
+      ay:       el.getAttribute('data-ay'),
+      weight:   parseInt(el.getAttribute('data-weight')),
+      category: el.getAttribute('data-category'),
+      name:     el.getAttribute('data-name'),
+      url:      el.getAttribute('data-url'),
+      role:     el.getAttribute('data-role'),
+      image:    el.getAttribute('data-image')
+    }));
 
-                group.items.forEach(p => {
-                    const card = document.createElement('a');
-                    card.href = p.url;
-                    card.className = 'profile-card';
+    /*
+      Track the currently visible year so that if something else
+      needs to trigger a refresh it can reuse the active value.
+      Initialised to the Liquid-rendered latest year string.
+    */
+    let currentYearFilter = "{{ latest_year }}";
 
-                    let roleMarkup = p.role ? `<div class="profile-role">${p.role}</div>` : '';
 
-                    card.innerHTML = `
-                        <div class="profile-img-wrapper">
-                            <img src="${p.image}" alt="${p.name}">
-                        </div>
-                        <div class="profile-name">${p.name}</div>
-                        ${roleMarkup}
-                    `;
-                    grid.appendChild(card);
-                });
+    /*
+      ============================================================
+      filterAcademicYear(year, element)
+      ============================================================
+      PURPOSE:
+        Called whenever the user clicks a year tab in the top nav.
+        Filters rawNodes to the chosen year, groups them into
+        categories, sorts those categories by weight (highest
+        first), then completely rebuilds both the sidebar TOC and
+        the card grid.
 
-                section.appendChild(grid);
-                contentContainer.appendChild(section);
-            });
+      PARAMETERS:
+        year    {string}  — The academic year string (e.g. "2024-25")
+        element {Element} — The clicked <li> element (for .active toggle)
+
+      SIDE EFFECTS:
+        • Updates currentYearFilter
+        • Toggles .active on year nav <li> elements
+        • Clears and repopulates #dynamic-toc-list
+        • Clears and repopulates #profiles-sections-container
+        • Automatically activates the first (highest-weight) category
+      ============================================================
+    */
+    function filterAcademicYear(year, element) {
+
+      /* Update tracked year */
+      currentYearFilter = year;
+
+      /* Highlight the clicked year tab; deactivate all others */
+      document.querySelectorAll('.sub-nav-list li').forEach(li =>
+        li.classList.remove('active')
+      );
+      if (element) element.classList.add('active');
+
+      /* Filter the master node list down to this year only */
+      const filtered = rawNodes.filter(item => item.ay === year);
+
+      /*
+        Build a lookup map: category name → { name, weight, items[] }
+        This groups all profiles in the year by their display category.
+      */
+      const groups = {};
+      filtered.forEach(item => {
+        if (!groups[item.category]) {
+          groups[item.category] = {
+            name:   item.category,
+            weight: item.weight,
+            items:  []
+          };
+        }
+        groups[item.category].items.push(item);
+      });
+
+      /* Sort categories descending by weight (highest grade first) */
+      const sortedGroups = Object.values(groups).sort(
+        (a, b) => b.weight - a.weight
+      );
+
+      /* Grab the DOM containers we'll be populating */
+      const tocList          = document.getElementById('dynamic-toc-list');
+      const contentContainer = document.getElementById('profiles-sections-container');
+
+      /* Wipe previous year's content before building the new set */
+      tocList.innerHTML          = '';
+      contentContainer.innerHTML = '';
+
+      /* Edge case: no profiles exist for this academic year */
+      if (sortedGroups.length === 0) {
+        contentContainer.innerHTML =
+          '<p class="no-profiles-msg">No profiles found for this academic period.</p>';
+        return;
+      }
+
+      /*
+        Determine the slug ID of the first group (highest weight).
+        This group's panel will be set to .active by default so
+        something is always visible when a year is selected.
+      */
+      const defaultTargetSlugId =
+        'cat-' + sortedGroups[0].name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+
+      /* Iterate over sorted groups to build TOC buttons + card sections */
+      sortedGroups.forEach((group, index) => {
+
+        /*
+          Slug ID format: "cat-grade-12", "cat-teachers", etc.
+          Used to link TOC buttons to their corresponding section panels.
+        */
+        const slugId = 'cat-' + group.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+
+        /* ── TOC SIDEBAR ENTRY ────────────────────────────── */
+        const li  = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.type      = 'button';
+        btn.id        = 'btn-' + slugId;
+        btn.textContent = group.name;
+
+        /* Pre-activate the button matching the default (first) group */
+        if (slugId === defaultTargetSlugId) {
+          btn.className = 'active';
         }
 
-        // Action function responsible for hiding unused segments and displaying selection
-        function switchGradePane(targetSlugId) {
-            // Hide all grade containers
-            document.querySelectorAll('.grade-section').forEach(sec => {
-                sec.classList.remove('active');
-            });
-            // Remove active formatting parameters from selection buttons
-            document.querySelectorAll('.toc-list button').forEach(b => {
-                b.classList.remove('active');
-            });
+        /* Clicking a TOC button switches the visible panel */
+        btn.onclick = function () {
+          switchGradePane(slugId);
+        };
 
-            // Display target panel element frame
-            const targetSection = document.getElementById(targetSlugId);
-            const targetBtn = document.getElementById('btn-' + targetSlugId);
-            
-            if(targetSection) targetSection.classList.add('active');
-            if(targetBtn) targetBtn.classList.add('active');
+        li.appendChild(btn);
+        tocList.appendChild(li);
+
+        /* ── CARD GRID SECTION ────────────────────────────── */
+
+        /* Sort profiles within the category alphabetically by name */
+        group.items.sort((a, b) => a.name.localeCompare(b.name));
+
+        const section     = document.createElement('section');
+        section.className = 'grade-section';
+        section.id        = slugId;
+
+        /* Pre-activate the section matching the default (first) group */
+        if (slugId === defaultTargetSlugId) {
+          section.classList.add('active');
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const initialActiveTab = document.querySelector('.sub-nav-list li.active');
-            filterAcademicYear(currentYearFilter, initialActiveTab);
+        /* Category heading rendered above the card grid */
+        const heading         = document.createElement('h2');
+        heading.className     = 'category-heading';
+        heading.textContent   = group.name;
+        section.appendChild(heading);
+
+        /* Card grid container */
+        const grid        = document.createElement('div');
+        grid.className    = 'profile-grid';
+
+        /* Build one card per profile in this category */
+        group.items.forEach(p => {
+          const card   = document.createElement('a');
+          card.href    = p.url;
+          card.className = 'profile-card';
+
+          /*
+            Only render the role line if a subtitle/role exists.
+            This prevents an empty <div> pushing layout on
+            profiles that have no role assigned.
+          */
+          const roleMarkup = p.role
+            ? `<div class="profile-role">${p.role}</div>`
+            : '';
+
+          card.innerHTML = `
+            <div class="profile-img-wrapper">
+              <img src="${p.image}" alt="${p.name}" loading="lazy">
+            </div>
+            <div class="profile-name">${p.name}</div>
+            ${roleMarkup}
+          `;
+
+          grid.appendChild(card);
         });
-    </script>
+
+        section.appendChild(grid);
+        contentContainer.appendChild(section);
+      });
+    }
+
+
+    /*
+      ============================================================
+      switchGradePane(targetSlugId)
+      ============================================================
+      PURPOSE:
+        Hides all .grade-section panels and deactivates all TOC
+        buttons, then activates only the panel and button that
+        match targetSlugId. Also smoothly scrolls the viewport
+        back to the top of the page so the user's eye lands on
+        the new content header rather than a mid-page card grid.
+
+      PARAMETERS:
+        targetSlugId {string} — CSS id of the section to show
+                                 (e.g. "cat-grade-12")
+
+      CALLED BY:
+        • Each TOC button's onclick (generated in filterAcademicYear)
+
+      SCROLL BEHAVIOUR:
+        Uses smooth scrolling so the transition feels deliberate.
+        Falls back gracefully in browsers that don't support the
+        options object (they simply scroll instantly to top).
+      ============================================================
+    */
+    function switchGradePane(targetSlugId) {
+
+      /* Scroll viewport to page top so new content is immediately visible */
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      /* Hide every category panel */
+      document.querySelectorAll('.grade-section').forEach(sec =>
+        sec.classList.remove('active')
+      );
+
+      /* Remove active styling from every TOC button */
+      document.querySelectorAll('.toc-list button').forEach(b =>
+        b.classList.remove('active')
+      );
+
+      /* Show the target panel and highlight its TOC button */
+      const targetSection = document.getElementById(targetSlugId);
+      const targetBtn     = document.getElementById('btn-' + targetSlugId);
+
+      if (targetSection) targetSection.classList.add('active');
+      if (targetBtn)     targetBtn.classList.add('active');
+    }
+
+
+    /*
+      ============================================================
+      INITIALISATION
+      ============================================================
+      Wait for the DOM to be fully parsed before running the
+      initial render, so the Jekyll-generated data nodes are
+      guaranteed to exist when we query them.
+
+      Reads the active year tab that Liquid pre-marked as active
+      and passes it to filterAcademicYear() to build the first
+      view without requiring a user click.
+      ============================================================
+    */
+    document.addEventListener('DOMContentLoaded', function () {
+      const initialActiveTab = document.querySelector('.sub-nav-list li.active');
+      filterAcademicYear(currentYearFilter, initialActiveTab);
+    });
+
+  </script>
+
 </body>
