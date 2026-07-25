@@ -1,7 +1,10 @@
 {% if include.css.sri %}
+  <!-- Include CSS with Subresource Integrity (SRI) hashing and CORS security attributes -->
   <link href="{{ include.css.href }}" rel="stylesheet" integrity="{{ include.css.sri }}" crossorigin="anonymous">
 {% elsif include.css.href %}
+  <!-- Include CSS using object parameter structure without SRI security checks -->
   <link rel="stylesheet" href="{{ include.css.href }}">
 {% else %}
+  <!-- Include CSS using a direct file path or simple string input -->
   <link rel="stylesheet" href="{{ include.css }}">
 {% endif %}
