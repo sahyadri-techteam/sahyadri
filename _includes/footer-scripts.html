@@ -1,11 +1,14 @@
+<!-- Load external JavaScript dependencies defined in layout configuration -->
 {% if layout.common-ext-js -%}
   {% for js in layout.common-ext-js -%}
     {% include ext-js.html js=js %}
   {% endfor %}
 {% endif %}
+
+<!-- Load core internal JavaScript assets defined at layout level -->
 {% if layout.common-js -%}
   {% for js in layout.common-js -%}
-    <!-- prevent duplicate jQuery includes -->
+    <!-- Conditional check to avoid duplicate jQuery initialization -->
     {% if js contains 'jquery' -%}
       <script>
         if (typeof jQuery == 'undefined') {
@@ -17,16 +20,22 @@
     {% endif %}
   {% endfor %}
 {% endif %}
+
+<!-- Load site-wide custom JavaScript files defined in _config.yml -->
 {% if site.site-js -%}
   {% for js in site.site-js -%}
     <script src="{{ js | relative_url }}"></script>
   {% endfor %}
 {% endif %}
+
+<!-- Load page-specific external JavaScript dependencies defined in front matter -->
 {% if page.ext-js -%}
   {% for js in page.ext-js -%}
     {% include ext-js.html js=js %}
   {% endfor %}
 {% endif %}
+
+<!-- Load page-specific internal JavaScript files defined in front matter -->
 {% if page.js -%}
   {% for js in page.js -%}
     <script src="{{ js | relative_url }}"></script>
