@@ -1,4 +1,6 @@
 <nav class="navbar navbar-expand-xl navbar-light fixed-top navbar-custom {% if page.nav-short %}top-nav-short-permanent{% else %}top-nav-regular{% endif %}">
+  
+  <!-- Site Brand Link: Prefers logo image if configured, otherwise falls back to text title -->
   {%- if site.title-img -%}
   <a class="navbar-brand navbar-brand-logo" href="{{ '/' | absolute_url }}">
     <img alt="{{ site.title }} Logo" src="{{ site.title-img | relative_url }}">
@@ -7,14 +9,19 @@
   <a class="navbar-brand" href="{{ '/' | absolute_url }}">{{ site.title }}</a>
   {%- endif -%}
 
+  <!-- Mobile Hamburger Menu Toggle Button -->
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
+  <!-- Navigation Content Container -->
   <div class="collapse navbar-collapse" id="main-navbar">
     <ul class="navbar-nav ml-auto">
+      
+      <!-- Dynamic Navigation Link Generation from site.navbar-links -->
       {%- for link in site.navbar-links -%}
         {%- if link[1].first %}
+          <!-- Dropdown Menu Item for nested links -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{ link[0] }}
@@ -28,11 +35,14 @@
             </div>
           </li>
         {%- else %}
+          <!-- Single Top-Level Navigation Link -->
           <li class="nav-item">
             <a class="nav-link" href="{{ link[1] | relative_url }}">{{ link[0] }}</a>
           </li>
         {%- endif -%}
       {%- endfor -%}
+
+      <!-- Optional Interactive Search Button -->
       {% if site.post_search -%}
       <li class="nav-item">
         <a class="nav-link" id="nav-search-link" href="#" title="Search">
@@ -44,12 +54,14 @@
     </ul>
   </div>
 
+  <!-- Custom Site Navbar Extension Includes -->
   {% if site.navbar-extra -%}
     {% for file in site.navbar-extra -%}
       {% include {{ file }} %}
     {% endfor %}
   {% endif %}
 
+  <!-- Profile / Site Avatar Display -->
   {% if site.avatar and page.show-avatar != false -%}
   <div class="avatar-container">
     <div class="avatar-img-border">
@@ -61,4 +73,5 @@
   {% endif %}
 </nav>
 
+<!-- Include Search Modal Overlay Partial -->
 {% include search.html %}
