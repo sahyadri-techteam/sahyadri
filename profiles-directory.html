@@ -1,32 +1,36 @@
 ---
+/* Jekyll Front Matter Configuration */
 layout: default
 title: Profile not made yet
 permalink: /not_done_yet
 ---
+
+<!-- Page-specific CSS overrides -->
 <style>
-  /* Force the back button to show on ALL devices */
-
+  /* Force the back button container to display on all viewports, overriding any default responsive hide classes */
   .back-navigation {
-
     margin-top: 1vw;
-
     display: block !important;
-
   }
 </style>
 
+<!-- Top Back Navigation Container -->
 <div class="back-navigation mb-4">
-
+  <!-- 
+    Dynamic Back Button:
+    Attempts to trigger browser history navigation (window.history.back()) if a referrer exists.
+    Falls back to the hardcoded href ("/profiles") if the user accessed the URL directly.
+  -->
   <a href="/profiles" id="back-button" onclick="if(document.referrer !== '') { window.history.back(); return false; }">
-
     <i class="fas fa-chevron-left"></i> 
-
     Back
-
   </a>
-
 </div>
-  <h1 class="text-centre">Profile has not been made yet.</h1>
-  <br/>
-  <br/>
-  <br/>
+
+<!-- Main Heading Message -->
+<h1 class="text-centre">Profile has not been made yet.</h1>
+
+<!-- Vertical Spacing -->
+<br/>
+<br/>
+<br/>
