@@ -1,10 +1,12 @@
 <div class="pdf-container">
-    <div class="pdf-thumbnail">
-        <a href="{{ include.pdf_path | relative_url }}" target="_blank" download>
-            <img 
-                src="{{ include.thumbnail_path | relative_url }}" 
-                alt="Download PDF"
-            >
-        </a>
-    </div>
+  <div class="pdf-thumbnail">
+    <!-- Downloadable link pointing to the PDF file path -->
+    <a href="{{ include.pdf_path | relative_url }}" target="_blank" download>
+      <!-- Preview thumbnail image for the PDF -->
+      <img 
+        src="{{ include.thumbnail_path | relative_url }}" 
+        alt="Download PDF"
+      >
+    </a>
+  </div>
 </div>
