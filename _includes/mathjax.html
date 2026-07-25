@@ -1,4 +1,5 @@
 {% if page.mathjax %}
+<!-- Configure MathJax options to skip code blocks and raw scripts -->
 <script type="text/javascript">
   MathJax = {
     options: {
@@ -8,5 +9,7 @@
     }
   };
 </script>
+
+<!-- Asynchronously load the MathJax library with TeX and MathML support -->
 <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 {% endif %}
