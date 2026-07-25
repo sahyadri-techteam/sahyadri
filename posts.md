@@ -108,10 +108,9 @@ permalink: /posts/
 </style>
 
 {% comment %}
-  Academic year: June 1 (year X) → March 31 (year X+1)
-  Jun–Dec of year X  → AY starts year X   (e.g. Jul 2026 → AY 2026-27)
-  Jan–Mar of year X  → AY starts year X-1 (e.g. Jan 2026 → AY 2025-26)
-  Apr–May            → treated as previous AY (gap months, no posts expected)
+  Academic year: June 1 (year X) to March 31 (year X+1)
+  Jun to Dec of year X  → AY starts year X   (e.g. Jul 2026 → AY 2026-27)
+  Jan to May of year X  → AY starts year X-1 (e.g. Jan 2026 → AY 2025-26)
 {% endcomment %}
 
 {% assign ay_start_years = "" %}
@@ -216,10 +215,10 @@ permalink: /posts/
                   <a href="{{ post.url | relative_url }}" style="text-decoration: none;">
                     <h3 class="post-title">{{ post.title }}</h3>
                   </a>
-                  
+
                   {% if post.subtitle %}
                     <h4 class="post-subtitle">
-                      By 
+                      By
                       {% if post.profile-link %}
                         <a href="{{ post.profile-link }}" target="_blank" rel="noopener noreferrer">{{ post.subtitle }}</a>
                       {% else %}
@@ -228,9 +227,9 @@ permalink: /posts/
                         {% assign profile1_url = '/profiles/' | append: author1_slug | append: '/' | relative_url %}
                         <a href="{{ profile1_url }}">{{ post.subtitle }}</a>
                       {% endif %}
-                      
+
                       {% if post.subtitle2 %}
-                        and 
+                        and
                         {% if post.profile-link2 %}
                           <a href="{{ post.profile-link2 }}" target="_blank" rel="noopener noreferrer">{{ post.subtitle2 }}</a>
                         {% else %}
@@ -242,8 +241,61 @@ permalink: /posts/
                       {% endif %}
                     </h4>
                   {% endif %}
-                  
+
                   <p class="post-meta">Posted on {{ post.date | date: site.date_format | default: "%B %d, %Y" }}</p>
                   <div class="post-entry-container">
-                    
-                    {%
+
+                    {% assign current_image = post.image_id | default: post.image %}
+                    {% if current_image %}
+                      <div class="post-image">
+                        <a href="{{ post.url | relative_url }}">
+                          <img src="https://lh3.googleusercontent.com/d/{{ current_image }}?sz=9999" alt="{{ post.title }}">
+                        </a>
+                      </div>
+                    {% endif %}
+
+                    <div class="post-entry">
+                      {{ post.excerpt | strip_html | truncatewords: 30 }}
+                      <a href="{{ post.url | relative_url }}" class="post-read-more">Read More</a>
+                    </div>
+                  </div>
+                </article>
+              {% endif %}
+            {% endfor %}
+          {% endcapture %}
+
+          {% if current_group_count > 0 %}
+            {% assign total_displayed_posts = total_displayed_posts | plus: current_group_count %}
+            {% assign category_id = panel_id | append: "-" | append: group.name | slugify | default: "general-updates" %}
+            <section class="term-section" id="{{ category_id }}">
+              <h2 class="category-heading">{{ group.name | default: "General Updates" }}</h2>
+              {{ group_output }}
+              <div class="back-to-top">
+                <a href="#top">↑ Back to top</a>
+              </div>
+            </section>
+          {% endif %}
+        {% endfor %}
+
+        {% if total_displayed_posts == 0 %}
+          <p class="no-posts-msg">No newsletters found for this academic period.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<script>
+  function switchAcademicYear(evt, panelId) {
+    const panels = document.getElementsByClassName("academic-panel");
+    for (let i = 0; i < panels.length; i++) {
+      panels[i].classList.remove("active");
+    }
+    const tabs = document.getElementsByClassName("tab-link");
+    for (let i = 0; i < tabs.length; i++) {
+      tabs[i].classList.remove("active");
+    }
+    document.getElementById(panelId).classList.add("active");
+    evt.currentTarget.classList.add("active");
+  }
+</script>
