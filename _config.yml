@@ -1,15 +1,22 @@
-# Sahyadri Connect - Jekyll Configuration
+# =============================================================================
+# Sahyadri Connect — Jekyll Configuration
+# Site: https://connect.sahyadrischool.org
+# =============================================================================
 
-# --- Site Settings ---
+
+# -----------------------------------------------------------------------------
+# Site Identity
+# -----------------------------------------------------------------------------
 url: "https://connect.sahyadrischool.org"
 baseurl: ""
 title: "Sahyadri Connect"
 author: "Sahyadri"
+title-on-all-pages: true   # Appends site title to every page's <title> tag
 
-# Add the website title to the title of every page
-title-on-all-pages: true
 
-# --- Navigation Bar ---
+# -----------------------------------------------------------------------------
+# Navigation Bar
+# -----------------------------------------------------------------------------
 navbar-links:
   Activities: "activities"
   Krishnamurti: "kfi"
@@ -23,35 +30,50 @@ navbar-links:
   Information:
     - Communication: "comms"
 
-# --- Logo & Branding ---
-# Image to show in the navigation bar (works best with square image)
+
+# -----------------------------------------------------------------------------
+# Logo & Branding
+# Uncomment whichever option you want to use (only one at a time).
+# -----------------------------------------------------------------------------
+
+# Square image shown in the navigation bar
 # avatar: "/assets/img/avatar-icon.png"
 
-# Cut image into circle (set to false to disable)
+# Crop avatar into a circle
 # round-avatar: true
 
-# Image logo in top-left corner instead of title
+# Replace the text title with an image logo in the top-left corner
 # title-img: /path/to/image
 
-# --- RSS Feed ---
-# Provide a description to generate RSS feed at https://<your_website>/feed.xml
+
+# -----------------------------------------------------------------------------
+# Feed & Post Settings
+# -----------------------------------------------------------------------------
+
+# Provide a value to enable the RSS feed at /feed.xml
 rss-description:
 
-# --- Post and Feed Settings ---
-excerpt_length: 50
-feed_show_excerpt: true
-feed_show_tags: true
+excerpt_length: 50       # Number of words shown in post excerpts
+feed_show_excerpt: true  # Show excerpts in the RSS feed
+feed_show_tags: true     # Include tags in the RSS feed
 
-# --- Navigation & UI Settings ---
-post_search: false
-edit_page_button: true
 
-# Allow sub-menu items to be longer than top-level menu items
-# Prevents long words in submenus from being cut off
+# -----------------------------------------------------------------------------
+# UI Behaviour
+# -----------------------------------------------------------------------------
+post_search: false          # Enable/disable post search
+edit_page_button: true      # Show "Edit this page" button on posts
+
+# Allow sub-menu items to be wider than top-level items.
+# Set to true if long submenu words are being clipped.
 navbar-var-length: false
 
-# --- Color Scheme ---
-# Page background and text
+
+# -----------------------------------------------------------------------------
+# Color Scheme
+# -----------------------------------------------------------------------------
+
+# Page
 page-col: "#FFFFFF"
 text-col: "#3E3830"
 
@@ -71,25 +93,40 @@ footer-text-col: "#3E3830"
 footer-link-col: "#A67C52"
 footer-hover-col: "#668571"
 
-# --- Background Images (Alternative to Colors) ---
+
+# -----------------------------------------------------------------------------
+# Background Images (alternative to solid colors above)
+# Uncomment any of these to use an image instead of the color setting.
+# -----------------------------------------------------------------------------
 # navbar-img: "/assets/img/bgimage.png"
 # footer-img: "/assets/img/bgimage.png"
 # page-img: "/assets/img/bgimage.png"
 
-# --- Custom CSS ---
+
+# -----------------------------------------------------------------------------
+# Custom CSS
+# -----------------------------------------------------------------------------
 site-css:
   - "/assets/css/custom-styles.css"
 
-# --- Date Format ---
-date_format: "%B %-d, %Y"
 
-# --- Markdown Settings ---
+# -----------------------------------------------------------------------------
+# Date Format
+# -----------------------------------------------------------------------------
+date_format: "%B %-d, %Y"   # Example: July 25, 2026
+
+
+# -----------------------------------------------------------------------------
+# Markdown Parser
+# -----------------------------------------------------------------------------
 kramdown:
-  input: GFM
+  input: GFM   # GitHub Flavored Markdown
 
-# --- Default Layouts and Settings ---
+
+# -----------------------------------------------------------------------------
+# Default Layouts & Front Matter
+# -----------------------------------------------------------------------------
 defaults:
-  # Posts
   - scope:
       path: ""
       type: "posts"
@@ -98,7 +135,6 @@ defaults:
       comments: true
       social-share: true
 
-  # Activities
   - scope:
       path: ""
       type: "activities"
@@ -107,7 +143,6 @@ defaults:
       comments: true
       social-share: true
 
-  # Profiles
   - scope:
       path: ""
       type: "profiles"
@@ -116,13 +151,15 @@ defaults:
       comments: true
       social-share: true
 
-  # Regular Pages
   - scope:
-      path: ""
+      path: ""          # Catch-all for pages not matched above
     values:
       layout: "page"
 
-# --- Files to Exclude from Production ---
+
+# -----------------------------------------------------------------------------
+# Files Excluded from Production Build
+# -----------------------------------------------------------------------------
 exclude:
   - CHANGELOG.md
   - CNAME
@@ -136,12 +173,18 @@ exclude:
   - node_modules/
   - .github/
 
-# --- Plugins ---
+
+# -----------------------------------------------------------------------------
+# Plugins
+# -----------------------------------------------------------------------------
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
 
-# --- Collections ---
+
+# -----------------------------------------------------------------------------
+# Collections
+# -----------------------------------------------------------------------------
 collections:
   posts:
     output: true
