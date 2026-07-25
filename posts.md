@@ -109,8 +109,8 @@ permalink: /posts/
 
 {% comment %}
   Academic year: June 1 (year X) to March 31 (year X+1)
-  Jun–Dec  → ay_start = that year     e.g. Jul 2026 → AY 2026-27
-  Jan–May  → ay_start = previous year  e.g. Jan 2026 → AY 2025-26
+  Jun-Dec → ay_start = that year      e.g. Jul 2026 → AY 2026-27
+  Jan-May → ay_start = previous year  e.g. Jan 2026 → AY 2025-26
 {% endcomment %}
 
 {% assign ay_start_years = "" %}
@@ -122,12 +122,11 @@ permalink: /posts/
   {% if post_month >= 6 %}
     {% assign ay_start = post_year %}
   {% else %}
-    {% assign ay_start = post_year | minus: 1 | append: "" %}
+    {% assign ay_start = post_year | minus: 1 | append: "" | remove: ".0" %}
   {% endif %}
 
-  {% comment %} Pipe-delimited deduplication — pad with pipes to avoid partial matches {% endcomment %}
   {% assign padded = "|" | append: ay_start_years | append: "|" %}
-  {% assign needle = "|" | append: ay_start | append: "|" %}
+  {% assign needle  = "|" | append: ay_start | append: "|" %}
   {% unless padded contains needle %}
     {% if ay_start_years == "" %}
       {% assign ay_start_years = ay_start %}
@@ -137,8 +136,7 @@ permalink: /posts/
   {% endunless %}
 {% endfor %}
 
-{% comment %} Sort descending so the newest AY tab appears first {% endcomment %}
-{% assign year_blocks        = ay_start_years | split: "|" | sort | reverse %}
+{% assign year_blocks         = ay_start_years | split: "|" | sort | reverse %}
 {% assign default_active_year = year_blocks[0] %}
 
 <div id="top" style="scroll-margin-top: 200px;"></div>
@@ -146,7 +144,7 @@ permalink: /posts/
 <div class="tabs-container">
   <div class="academic-tabs">
     {% for ay in year_blocks %}
-      {% assign ay_end_year  = ay | plus: 1 | append: "" %}
+      {% assign ay_end_year  = ay | plus: 1 | append: "" | remove: ".0" %}
       {% assign ay_short_end = ay_end_year | slice: 2, 2 %}
       {% assign tab_id       = "ay-" | append: ay | append: "-" | append: ay_short_end %}
 
@@ -162,7 +160,7 @@ permalink: /posts/
 {% assign grouped_posts = site.posts | group_by: "category" %}
 
 {% for ay in year_blocks %}
-  {% assign ay_end_year         = ay | plus: 1 | append: "" %}
+  {% assign ay_end_year         = ay | plus: 1 | append: "" | remove: ".0" %}
   {% assign ay_short_end        = ay_end_year | slice: 2, 2 %}
   {% assign academic_start_date = ay | append: "-06-01" %}
   {% assign academic_end_date   = ay_end_year | append: "-03-31" %}
@@ -199,10 +197,10 @@ permalink: /posts/
         {% assign total_posts = 0 %}
 
         {% for group in grouped_posts %}
-          {% assign pinned_posts  = group.items | where: "pinned", true %}
-          {% assign normal_posts  = group.items | where_exp: "item", "item.pinned != true" %}
-          {% assign sorted_posts  = pinned_posts | concat: normal_posts %}
-          {% assign group_count   = 0 %}
+          {% assign pinned_posts = group.items | where: "pinned", true %}
+          {% assign normal_posts = group.items | where_exp: "item", "item.pinned != true" %}
+          {% assign sorted_posts = pinned_posts | concat: normal_posts %}
+          {% assign group_count  = 0 %}
 
           {% capture group_html %}
             {% for post in sorted_posts %}
@@ -218,71 +216,3 @@ permalink: /posts/
                     <h4 class="post-subtitle">
                       By
                       {% if post.profile-link %}
-                        <a href="{{ post.profile-link }}" target="_blank" rel="noopener noreferrer">{{ post.subtitle }}</a>
-                      {% else %}
-                        {% assign a1 = post.subtitle | split: " " %}
-                        {% capture a1_slug %}{{ a1[0] | downcase }}-{{ a1[1] | downcase }}{% endcapture %}
-                        <a href="{{ '/profiles/' | append: a1_slug | append: '/' | relative_url }}">{{ post.subtitle }}</a>
-                      {% endif %}
-                      {% if post.subtitle2 %}
-                        and
-                        {% if post.profile-link2 %}
-                          <a href="{{ post.profile-link2 }}" target="_blank" rel="noopener noreferrer">{{ post.subtitle2 }}</a>
-                        {% else %}
-                          {% assign a2 = post.subtitle2 | split: " " %}
-                          {% capture a2_slug %}{{ a2[0] | downcase }}-{{ a2[1] | downcase }}{% endcapture %}
-                          <a href="{{ '/profiles/' | append: a2_slug | append: '/' | relative_url }}">{{ post.subtitle2 }}</a>
-                        {% endif %}
-                      {% endif %}
-                    </h4>
-                  {% endif %}
-
-                  <p class="post-meta">Posted on {{ post.date | date: "%B %d, %Y" }}</p>
-
-                  <div class="post-entry-container">
-                    {% assign current_image = post.image_id | default: post.image %}
-                    {% if current_image %}
-                      <div class="post-image">
-                        <a href="{{ post.url | relative_url }}">
-                          <img src="https://lh3.googleusercontent.com/d/{{ current_image }}?sz=9999" alt="{{ post.title }}">
-                        </a>
-                      </div>
-                    {% endif %}
-                    <div class="post-entry">
-                      {{ post.excerpt | strip_html | truncatewords: 30 }}
-                      <a href="{{ post.url | relative_url }}" class="post-read-more">Read More</a>
-                    </div>
-                  </div>
-                </article>
-              {% endif %}
-            {% endfor %}
-          {% endcapture %}
-
-          {% if group_count > 0 %}
-            {% assign total_posts = total_posts | plus: group_count %}
-            {% assign cat_id = panel_id | append: "-" | append: group.name | slugify %}
-            <section class="term-section" id="{{ cat_id }}">
-              <h2 class="category-heading">{{ group.name | default: "General Updates" }}</h2>
-              {{ group_html }}
-              <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
-            </section>
-          {% endif %}
-        {% endfor %}
-
-        {% if total_posts == 0 %}
-          <p class="no-posts-msg">No newsletters found for this academic period.</p>
-        {% endif %}
-      </div>
-
-    </div>
-  </div>
-{% endfor %}
-
-<script>
-  function switchAcademicYear(evt, panelId) {
-    document.querySelectorAll(".academic-panel").forEach(p => p.classList.remove("active"));
-    document.querySelectorAll(".tab-link").forEach(t => t.classList.remove("active"));
-    document.getElementById(panelId).classList.add("active");
-    evt.currentTarget.classList.add("active");
-  }
-</script>
