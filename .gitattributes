@@ -1,58 +1,109 @@
-# .gitattributes
-# Define standard EOL (end-of-line) format for file types
+# ==============================================================================
+# .gitattributes Configuration
+# Description: Defines global text/binary handling and enforces standard LF 
+#              end-of-line (EOL) characters across all operating systems 
+#              (Windows, macOS, Linux) to prevent line-ending churn.
+# ==============================================================================
 
-# Web Files
-*.html  text eol=lf
-*.md    text eol=lf
-*.css   text eol=lf
-*.js    text eol=lf
+# ------------------------------------------------------------------------------
+# Core Auto-Handling Rules
+# Automatically detect text files and normalize EOL to LF on checkout/commit.
+# ------------------------------------------------------------------------------
+* text=auto eol=lf
 
-# Jekyll Configuration
-*.yml   text eol=lf
+# ------------------------------------------------------------------------------
+# Web Source Files
+# Standard web development assets strictly enforced as UTF-8 text with LF EOL.
+# ------------------------------------------------------------------------------
+*.html       text eol=lf
+*.md         text eol=lf
+*.css        text eol=lf
+*.scss       text eol=lf
+*.js         text eol=lf
 
-# Git Configuration
-.gitattributes  text eol=lf
-.gitignore      text eol=lf
-.gitkeep        text eol=lf
+# ------------------------------------------------------------------------------
+# Jekyll & YAML Configuration
+# Jekyll data, settings, and front matter files.
+# ------------------------------------------------------------------------------
+*.yml        text eol=lf
+*.yaml       text eol=lf
 
-# Ruby
-*.rb        text eol=lf
-Gemfile     text eol=lf
+# ------------------------------------------------------------------------------
+# Git Meta Files
+# Repository configuration and ignore lists.
+# ------------------------------------------------------------------------------
+.gitattributes text eol=lf
+.gitignore     text eol=lf
+.gitkeep       text eol=lf
+
+# ------------------------------------------------------------------------------
+# Ruby & Bundler Files
+# Core Ruby source files, Gemfiles, and dependency lockfiles.
+# ------------------------------------------------------------------------------
+*.rb         text eol=lf
+Gemfile      text eol=lf
 Gemfile.lock text eol=lf
 
-# Documentation
-LICENCE     text eol=lf
-README*     text eol=lf
+# ------------------------------------------------------------------------------
+# Documentation & License Files
+# General repository documentation and licensing text files.
+# ------------------------------------------------------------------------------
+LICENSE      text eol=lf
+LICENCE      text eol=lf
+README*      text eol=lf
 
-# Docker
-Dockerfile  text eol=lf
+# ------------------------------------------------------------------------------
+# Container & Config Files
+# Docker deployment files and structured data configurations.
+# ------------------------------------------------------------------------------
+Dockerfile   text eol=lf
+*.json       text eol=lf
 
-# Configuration
-*.json      text eol=lf
+# ------------------------------------------------------------------------------
+# Binary Media Files (Images)
+# Explicitly flagged as binary to prevent Git from altering bytes or diffing line endings.
+# ------------------------------------------------------------------------------
+*.jpg        binary
+*.jpeg       binary
+*.gif        binary
+*.png        binary
+*.ico        binary
+*.webp       binary
+*.svg        text eol=lf  # Note: SVGs are XML text files, best treated as text
 
-# Binary Media Files
-*.jpg   binary
-*.jpeg  binary
-*.gif   binary
-*.png   binary
-
+# ------------------------------------------------------------------------------
 # Binary Fonts
-*.ttf   binary
-*.eot   binary
-*.eof   binary
+# Embedded web fonts and desktop font files.
+# ------------------------------------------------------------------------------
+*.ttf        binary
+*.eot        binary
+*.eof        binary
+*.woff       binary
+*.woff2      binary
 
-# Binary Video
-*.mov   binary
-*.mp4   binary
-*.flv   binary
+# ------------------------------------------------------------------------------
+# Binary Video Formats
+# Compressed media container formats.
+# ------------------------------------------------------------------------------
+*.mov        binary
+*.mp4        binary
+*.flv        binary
+*.webm       binary
 
-# Binary Audio
-*.mp3   binary
-*.ogg   binary
+# ------------------------------------------------------------------------------
+# Binary Audio Formats
+# Audio assets and streams.
+# ------------------------------------------------------------------------------
+*.mp3        binary
+*.ogg        binary
+*.wav        binary
 
-# Binary Data
-*.t3x   binary
-*.t3d   binary
-*.exe   binary
-*.data  binary
-*.swf   binary
+# ------------------------------------------------------------------------------
+# Binary Data & Executables
+# Application executables, compiled binaries, and proprietary data stores.
+# ------------------------------------------------------------------------------
+*.t3x        binary
+*.t3d        binary
+*.exe        binary
+*.data       binary
+*.swf        binary
