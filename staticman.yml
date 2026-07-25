@@ -1,3 +1,6 @@
+# ==============================================================================
+# STATICMAN CONFIGURATION FILE (staticman.yml)
+#
 # Name of the property. You can have multiple properties with completely
 # different config blocks for different sections of your site.
 # For example, you can have one property to handle comment submission and
@@ -7,15 +10,20 @@
 # https://{STATICMAN API INSTANCE}/v3/encrypt/{TEXT TO BE ENCRYPTED}
 # {STATICMAN API INSTANCE} should match the `endpoint` in the theme config
 # file.
+# ==============================================================================
+
+# Comment Submission Section Configuration
 comments:
   # (*) REQUIRED
   #
+  # Whitelist of allowed HTML form fields for security filtering.
   # Names of the fields the form is allowed to submit. If a field that is
   # not here is part of the request, an error will be thrown.
   allowedFields: ["name", "email", "url", "message"]
 
   # (*) REQUIRED WHEN USING NOTIFICATIONS
   #
+  # CORS domain whitelist for security.
   # When allowedOrigins is defined, only requests sent from one of the domains
   # listed will be accepted. The origin is sent as part as the `options` object
   # (e.g. <input name="options[origin]" value="https://yourdomain.com/post1")
@@ -23,10 +31,12 @@ comments:
 
   # (*) REQUIRED
   #
+  # Git branch target where files or Pull Requests will be created.
   # Name of the branch being used. Must match the `branch` in the theme config
   # file. Use "master" for a user page or "gh-pages" for project pages.
   branch: "master"
 
+  # Git commit message template when Staticman saves a new entry
   commitMessage: "New comment by {fields.name}"
 
   # (*) REQUIRED
@@ -34,6 +44,7 @@ comments:
   # Destination path (filename) for the data files. Accepts placeholders.
   filename: "comment-{@timestamp}"
 
+  # File output format generated in your repository ("json", "yaml", or "frontmatter")
   # The format of the generated data files. Accepted values are "json", "yaml"
   # or "frontmatter"
   format: "yaml"
@@ -46,15 +57,16 @@ comments:
     date:
       type: "date"
       options:
-        # "iso8601" (default), "timestamp-seconds", "timestamp-milliseconds"
+        # Timestamp style: "iso8601" (default), "timestamp-seconds", "timestamp-milliseconds"
         format: "iso8601"
 
+  # Moderation strategy setting.
   # Whether entries need to be approved before they are published to the main
   # branch. If set to `true`, a pull request will be created for your approval.
   # Otherwise, entries will be published to the main branch automatically.
   moderation: false
 
-  # Akismet spam detection.
+  # Akismet spam detection configuration (Disabled by default)
   # akismet:
   #   enabled: true
   #   author: "name"
@@ -66,6 +78,7 @@ comments:
   # Name of the site. Used in notification emails.
   # name: "Your Site"
 
+  # Notification settings via Mailgun (Disabled by default)
   # Notification settings. When enabled, users can choose to receive
   # notifications via email when someone adds a reply or a new comment.
   # This requires an account with Mailgun, which you can get for free at
@@ -86,18 +99,22 @@ comments:
 
   # (*) REQUIRED
   #
+  # Target directory where Jekyll/Static site builder stores comments (e.g., _data/comments/<post-slug>/)
   # Destination path (directory) for the data files. Accepts placeholders.
   path: "_data/comments/{options.slug}" # (default)
 
+  # Validation rule: Mandatory form fields required for form submission to succeed
   # Names of required files. If any of these isn't in the request or is
   # empty, an error will be thrown.
   requiredFields: ["name", "email", "message"]
 
+  # Field Transformations (e.g., hashing emails to MD5 for Gravatar support)
   # List of transformations to apply to any of the fields supplied. Keys are
   # the name of the field and values are possible transformation types.
   transforms:
     email: md5
 
+  # Google reCAPTCHA Integration Configuration
   # reCAPTCHA (OPTIONAL)
   # To enable reCAPTCHA:
   # 1. Set `enabled` to `true`
