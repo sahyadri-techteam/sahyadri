@@ -108,10 +108,10 @@ permalink: /posts/
 </style>
 
 {% comment %}
-  Derive the academic year start for each post.
-  Academic year runs June 1 → May 31.
-  A post in Jan–May belongs to the PREVIOUS year's AY (e.g. Jan 2026 → AY 2025-26).
-  A post in Jun–Dec belongs to the CURRENT year's AY  (e.g. Sep 2025 → AY 2025-26).
+  Academic year: June 1 (year X) → March 31 (year X+1)
+  Jun–Dec of year X  → AY starts year X   (e.g. Jul 2026 → AY 2026-27)
+  Jan–Mar of year X  → AY starts year X-1 (e.g. Jan 2026 → AY 2025-26)
+  Apr–May            → treated as previous AY (gap months, no posts expected)
 {% endcomment %}
 
 {% assign ay_start_years = "" %}
@@ -120,20 +120,12 @@ permalink: /posts/
   {% assign post_month = post.date | date: "%-m" | plus: 0 %}
   {% assign post_year  = post.date | date: "%Y"  | plus: 0 %}
 
-  {% comment %}
-  Academic year: June 1 (year X) → March 31 (year X+1)
-  Jan–March  → belongs to previous year's AY  (e.g. Jan 2026 → AY 2025-26)
-  Apr–May    → gap months (no posts expected, but assign to previous AY)
-  June–Dec   → starts a new AY                (e.g. July 2026 → AY 2026-27)
-{% endcomment %}
+  {% if post_month >= 6 %}
+    {% assign ay_start = post_year %}
+  {% else %}
+    {% assign ay_start = post_year | minus: 1 %}
+  {% endif %}
 
-{% if post_month >= 6 %}
-  {% assign ay_start = post_year %}
-{% else %}
-  {% assign ay_start = post_year | minus: 1 %}
-{% endif %}
-
-  {% comment %} Accumulate unique AY start years as a pipe-delimited string {% endcomment %}
   {% assign ay_start_str = ay_start | append: "" %}
   {% unless ay_start_years contains ay_start_str %}
     {% if ay_start_years == "" %}
@@ -144,10 +136,7 @@ permalink: /posts/
   {% endunless %}
 {% endfor %}
 
-{% comment %} Split into array and sort descending (newest AY first) {% endcomment %}
 {% assign year_blocks = ay_start_years | split: "|" | sort | reverse %}
-
-{% comment %} Default active tab = most recent AY {% endcomment %}
 {% assign default_active_year = year_blocks[0] %}
 
 <div id="top" style="scroll-margin-top: 200px;"></div>
@@ -155,12 +144,12 @@ permalink: /posts/
 <div class="tabs-container">
   <div class="academic-tabs">
     {% for current_year in year_blocks %}
-      {% assign start_yr    = current_year | plus: 0 %}
-      {% assign end_yr      = start_yr | plus: 1 %}
-      {% assign end_yr_str  = end_yr | append: "" %}
+      {% assign start_yr     = current_year | plus: 0 %}
+      {% assign end_yr       = start_yr | plus: 1 %}
+      {% assign end_yr_str   = end_yr | append: "" %}
       {% assign short_end_yr = end_yr_str | slice: 2, 2 %}
-      {% assign tab_id      = "ay-" | append: start_yr | append: "-" | append: short_end_yr %}
-      {% assign tab_label   = start_yr | append: "–" | append: short_end_yr %}
+      {% assign tab_id       = "ay-" | append: start_yr | append: "-" | append: short_end_yr %}
+      {% assign tab_label    = start_yr | append: "–" | append: short_end_yr %}
 
       <button
         class="tab-link {% if current_year == default_active_year %}active{% endif %}"
@@ -174,13 +163,13 @@ permalink: /posts/
 {% assign grouped_posts = site.posts | group_by: "category" %}
 
 {% for current_year in year_blocks %}
-  {% assign start_yr         = current_year | plus: 0 %}
-  {% assign end_yr           = start_yr | plus: 1 %}
-  {% assign end_yr_str       = end_yr | append: "" %}
-  {% assign short_end_yr     = end_yr_str | slice: 2, 2 %}
+  {% assign start_yr            = current_year | plus: 0 %}
+  {% assign end_yr              = start_yr | plus: 1 %}
+  {% assign end_yr_str          = end_yr | append: "" %}
+  {% assign short_end_yr        = end_yr_str | slice: 2, 2 %}
   {% assign academic_start_date = start_yr | append: "-06-01" %}
-  {% assign academic_end_date   = end_yr   | append: "-05-31" %}
-  {% assign panel_id         = "ay-" | append: start_yr | append: "-" | append: short_end_yr %}
+  {% assign academic_end_date   = end_yr   | append: "-03-31" %}
+  {% assign panel_id            = "ay-" | append: start_yr | append: "-" | append: short_end_yr %}
 
   {% assign is_active = false %}
   {% if current_year == default_active_year %}
@@ -257,57 +246,4 @@ permalink: /posts/
                   <p class="post-meta">Posted on {{ post.date | date: site.date_format | default: "%B %d, %Y" }}</p>
                   <div class="post-entry-container">
                     
-                    {% assign current_image = post.image_id | default: post.image %}
-                    {% if current_image %}
-                      <div class="post-image">
-                        <a href="{{ post.url | relative_url }}">
-                          <img src="https://lh3.googleusercontent.com/d/{{ current_image }}?sz=9999" alt="{{ post.title }}">
-                        </a>
-                      </div>
-                    {% endif %}
-                    
-                    <div class="post-entry">
-                      {{ post.excerpt | strip_html | truncatewords: 30 }}
-                      <a href="{{ post.url | relative_url }}" class="post-read-more">Read More</a>
-                    </div>
-                  </div>
-                </article>
-              {% endif %}
-            {% endfor %}
-          {% endcapture %}
-
-          {% if current_group_count > 0 %}
-            {% assign total_displayed_posts = total_displayed_posts | plus: current_group_count %}
-            {% assign category_id = panel_id | append: "-" | append: group.name | slugify | default: "general-updates" %}
-            <section class="term-section" id="{{ category_id }}">
-              <h2 class="category-heading">{{ group.name | default: "General Updates" }}</h2>
-              {{ group_output }}
-              <div class="back-to-top">
-                <a href="#top">↑ Back to top</a>
-              </div>
-            </section>
-          {% endif %}
-        {% endfor %}
-
-        {% if total_displayed_posts == 0 %}
-          <p class="no-posts-msg">No newsletters found for this academic period.</p>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-{% endfor %}
-
-<script>
-  function switchAcademicYear(evt, panelId) {
-    const panels = document.getElementsByClassName("academic-panel");
-    for (let i = 0; i < panels.length; i++) {
-      panels[i].classList.remove("active");
-    }
-    const tabs = document.getElementsByClassName("tab-link");
-    for (let i = 0; i < tabs.length; i++) {
-      tabs[i].classList.remove("active");
-    }
-    document.getElementById(panelId).classList.add("active");
-    evt.currentTarget.classList.add("active");
-  }
-</script>
+                    {%
