@@ -1,14 +1,14 @@
 <head>
-  <!-- Google Fonts -->
+  <!-- Google Fonts Preconnecting & Stylesheet Loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Poiret+One&family=Vibes&display=swap" rel="stylesheet">
 
-  <!-- Character Encoding & Viewport -->
+  <!-- Character Encoding & Responsive Viewport Settings -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Page Title -->
+  <!-- Dynamic Page Title Logic -->
   {% capture pagetitle -%}
     {%- if page.share-title -%}
       {{ page.share-title | strip_html | xml_escape }}
@@ -27,7 +27,7 @@
     {%- endif -%}
   {%- endcapture %}
 
-  <!-- Page Description -->
+  <!-- Dynamic Page Description Logic (Fallback to Truncated Content Excerpt) -->
   {% capture description -%}
     {%- if page.share-description -%}
       {{ page.share-description | strip_html | xml_escape }}
@@ -41,7 +41,7 @@
 
   <title>{{ title }}</title>
 
-  <!-- Author -->
+  <!-- Author Meta Tag -->
   {% capture author -%}
     {%- if page.author -%}
       {{ page.author | strip_html }}
@@ -56,77 +56,72 @@
 
   <meta name="description" content="{{ description }}">
 
-  <!-- Theme Color -->
+  <!-- Mobile Browser Theme Color -->
   {% if site.mobile-theme-col -%}
   <meta name="theme-color" content="{{ site.mobile-theme-col }}">
   {% endif %}
 
-  <!-- Keywords -->
+  <!-- SEO Keywords -->
   {% if site.keywords -%}
   <meta name="keywords" content="{{ site.keywords }}">
   {% endif %}
 
-  <!-- RSS Feed -->
+  <!-- RSS Feed Link -->
   {% if site.rss-description -%}
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | absolute_url }}">
   {% endif %}
 
-  <!-- Analytics & Tracking -->
+  <!-- Analytics, Tracking, and Script Includes -->
   {% include gtag.html %}
   {% include gtm_head.html %}
   {% include google_analytics.html %}
   {% include cloudflare_analytics.html %}
   {% include matomo.html %}
 
-  <!-- Math Support -->
+  <!-- MathJax Equations Support -->
   {% include mathjax.html %}
 
-  <!-- External CSS -->
+  <!-- Tiered CSS Includes: External Layout, Internal Layout, Site-wide, External Page, Internal Page -->
   {% if layout.common-ext-css -%}
     {% for css in layout.common-ext-css -%}
       {% include ext-css.html css=css %}
     {% endfor %}
   {% endif %}
 
-  <!-- Layout CSS -->
   {% if layout.common-css -%}
     {% for css in layout.common-css -%}
       <link rel="stylesheet" href="{{ css | relative_url }}">
     {% endfor %}
   {% endif %}
 
-  <!-- Site CSS -->
   {% if site.site-css -%}
     {% for css in site.site-css -%}
       <link rel="stylesheet" href="{{ css | relative_url }}">
     {% endfor %}
   {% endif %}
 
-  <!-- Page External CSS -->
   {% if page.ext-css -%}
     {% for css in page.ext-css -%}
       {% include ext-css.html css=css %}
     {% endfor %}
   {% endif %}
 
-  <!-- Page CSS -->
   {% if page.css -%}
     {% for css in page.css -%}
       <link rel="stylesheet" href="{{ css | relative_url }}">
     {% endfor %}
   {% endif %}
 
-  <!-- Facebook App ID -->
+  <!-- Facebook Open Graph App ID & Site Name -->
   {% if site.fb_app_id -%}
   <meta property="fb:app_id" content="{{ site.fb_app_id }}">
   {% endif %}
 
-  <!-- Open Graph: Site Name -->
   {% if site.title -%}
   <meta property="og:site_name" content="{{ site.title }}">
   {% endif %}
 
-  <!-- Open Graph: Image Selection -->
+  <!-- Open Graph Image Resolution Hierarchy -->
   {%- capture img -%}
     {%- if page.share-img -%}
       {{ page.share-img }}
@@ -144,7 +139,7 @@
   {%- endcapture -%}
   {%- assign img = img | strip -%}
 
-  <!-- Open Graph: Meta Tags -->
+  <!-- Open Graph Shared Properties -->
   <meta property="og:title" content="{{ title }}">
   <meta property="og:description" content="{{ description }}">
 
@@ -152,7 +147,7 @@
   <meta property="og:image" content="{{ img | absolute_url }}">
   {% endif %}
 
-  <!-- Open Graph: Article or Website -->
+  <!-- Canonical Links & Contextual Open Graph Types (Article vs. Website) -->
   {% if page.id -%}
   <meta property="og:type" content="article">
   {% if author != "" -%}
@@ -167,7 +162,7 @@
   <link rel="canonical" href="{{ page.url | absolute_url | strip_index }}">
   {% endif %}
 
-  <!-- Twitter Card -->
+  <!-- Twitter Card Customization -->
   {% if img != "" and img != site.avatar -%}
   <meta name="twitter:card" content="summary_large_image">
   {% else -%}
@@ -183,16 +178,16 @@
   <meta name="twitter:image" content="{{ img | absolute_url }}">
   {% endif %}
 
-  <!-- Staticman CSS -->
+  <!-- Staticman Comments CSS Injection -->
   {% if page.comments and site.staticman.repository and site.staticman.branch -%}
   <link rel="stylesheet" href="{{ '/assets/css/staticman.css' | relative_url }}">
   {% endif %}
 
-  <!-- Favicon -->
+  <!-- Favicon Icons -->
   <link rel="icon" type="image/png" href="{{ '/assets/img/favicon.png' | relative_url }}">
   <link rel="shortcut icon" type="image/x-icon" href="{{ '/assets/img/favicon.ico' | relative_url }}">
 
-  <!-- Page Head Extra -->
+  <!-- Custom Page-Specific Head Extensions -->
   {% if page.head-extra -%}
     {% for file in page.head-extra -%}
       {% include {{ file }} %}
