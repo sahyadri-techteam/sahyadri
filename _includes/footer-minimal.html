@@ -1,15 +1,19 @@
 <footer class="footer-min">
   <div class="text-muted">
+    <!-- Display author name if defined in site configuration -->
     {% if site.author %}
       {{ site.author }}
       &nbsp;&nbsp;&bull;&nbsp;&nbsp;
     {% endif %}
+
+    <!-- Display the page creation date if available; otherwise, fall back to current year -->
     {% if page.date %}
       {{ page.date }}
     {% else %}
       {{ site.time | date: '%Y' }}
     {% endif %}
 
+    <!-- Display formatted home URL link if defined in site configuration -->
     {% if site.url-pretty %}
       &nbsp;&nbsp;&bull;&nbsp;&nbsp;
       <a href="{{ '/' | absolute_url }}">{{ site.url-pretty }}</a>
