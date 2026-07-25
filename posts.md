@@ -1,5 +1,5 @@
 ---
-/* Jekyll Front Matter Configuration */
+# Jekyll Front Matter Configuration
 layout: page
 title: "Newsletter"
 permalink: /posts/
