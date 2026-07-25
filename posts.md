@@ -107,25 +107,57 @@ permalink: /posts/
   }
 </style>
 
-{% assign year_blocks = "2025-26" | split: "|" %}
-{% assign default_active_year = "2025-26" %}
+{% comment %}
+  Derive the academic year start for each post.
+  Academic year runs June 1 → May 31.
+  A post in Jan–May belongs to the PREVIOUS year's AY (e.g. Jan 2026 → AY 2025-26).
+  A post in Jun–Dec belongs to the CURRENT year's AY  (e.g. Sep 2025 → AY 2025-26).
+{% endcomment %}
+
+{% assign ay_start_years = "" %}
+
+{% for post in site.posts %}
+  {% assign post_month = post.date | date: "%-m" | plus: 0 %}
+  {% assign post_year  = post.date | date: "%Y"  | plus: 0 %}
+
+  {% if post_month >= 6 %}
+    {% assign ay_start = post_year %}
+  {% else %}
+    {% assign ay_start = post_year | minus: 1 %}
+  {% endif %}
+
+  {% comment %} Accumulate unique AY start years as a pipe-delimited string {% endcomment %}
+  {% assign ay_start_str = ay_start | append: "" %}
+  {% unless ay_start_years contains ay_start_str %}
+    {% if ay_start_years == "" %}
+      {% assign ay_start_years = ay_start_str %}
+    {% else %}
+      {% assign ay_start_years = ay_start_years | append: "|" | append: ay_start_str %}
+    {% endif %}
+  {% endunless %}
+{% endfor %}
+
+{% comment %} Split into array and sort descending (newest AY first) {% endcomment %}
+{% assign year_blocks = ay_start_years | split: "|" | sort | reverse %}
+
+{% comment %} Default active tab = most recent AY {% endcomment %}
+{% assign default_active_year = year_blocks[0] %}
 
 <div id="top" style="scroll-margin-top: 200px;"></div>
 
 <div class="tabs-container">
   <div class="academic-tabs">
     {% for current_year in year_blocks %}
-      {% if current_year == "archive" %}
-        {% assign tab_id = "ay-archive" %}
-        {% assign tab_label = "Archive" %}
-      {% else %}
-        {% assign start_yr = current_year | plus: 0 %}
-        {% assign end_yr = start_yr | plus: 1 | append: "" %}
-        {% assign short_end_yr = end_yr | slice: 2, 2 %}
-        {% assign tab_id = "ay-" | append: start_yr | append: "-" | append: short_end_yr %}
-        {% assign tab_label = start_yr | append: "–" | append: short_end_yr %}
-      {% endif %}
-      <button class="tab-link {% if current_year == default_active_year %}active{% endif %}" onclick="switchAcademicYear(event, '{{ tab_id }}')">
+      {% assign start_yr    = current_year | plus: 0 %}
+      {% assign end_yr      = start_yr | plus: 1 %}
+      {% assign end_yr_str  = end_yr | append: "" %}
+      {% assign short_end_yr = end_yr_str | slice: 2, 2 %}
+      {% assign tab_id      = "ay-" | append: start_yr | append: "-" | append: short_end_yr %}
+      {% assign tab_label   = start_yr | append: "–" | append: short_end_yr %}
+
+      <button
+        class="tab-link {% if current_year == default_active_year %}active{% endif %}"
+        onclick="switchAcademicYear(event, '{{ tab_id }}')">
         {{ tab_label }}
       </button>
     {% endfor %}
@@ -135,19 +167,13 @@ permalink: /posts/
 {% assign grouped_posts = site.posts | group_by: "category" %}
 
 {% for current_year in year_blocks %}
-  {% if current_year == "archive" %}
-    {% assign academic_start_date = "1970-01-01" %}
-    {% assign academic_end_date = "2024-05-31" %}
-    {% assign panel_id = "ay-archive" %}
-  {% else %}
-    {% assign start_yr = current_year | plus: 0 %}
-    {% assign end_yr = start_yr | plus: 1 %}
-    {% assign end_yr_str = end_yr | append: "" %}
-    {% assign short_end_yr = end_yr_str | slice: 2, 2 %}
-    {% assign academic_start_date = start_yr | append: "-06-01" %}
-    {% assign academic_end_date = end_yr | append: "-05-31" %}
-    {% assign panel_id = "ay-" | append: start_yr | append: "-" | append: short_end_yr %}
-  {% endif %}
+  {% assign start_yr         = current_year | plus: 0 %}
+  {% assign end_yr           = start_yr | plus: 1 %}
+  {% assign end_yr_str       = end_yr | append: "" %}
+  {% assign short_end_yr     = end_yr_str | slice: 2, 2 %}
+  {% assign academic_start_date = start_yr | append: "-06-01" %}
+  {% assign academic_end_date   = end_yr   | append: "-05-31" %}
+  {% assign panel_id         = "ay-" | append: start_yr | append: "-" | append: short_end_yr %}
 
   {% assign is_active = false %}
   {% if current_year == default_active_year %}
