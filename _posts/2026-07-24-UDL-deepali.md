@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "DESIGNING CLASSROOMS WHERE EVERY CHILD CAN LEARN"
-date: 2025-08-03
+date: 2026-07-24
 subtitle: "Deepali Soundattikar (Teacher)"
 profile-link: https://www.sahyadrischool.org/deepali-soundattikar/
 category: July 2026
