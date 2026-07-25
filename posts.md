@@ -107,7 +107,7 @@ permalink: /posts/
   }
 </style>
 
-{% assign year_blocks = "2026-27" | "2025-26" | split: "|" %}
+{% assign year_blocks = "2025-26" | split: "|" %}
 {% assign default_active_year = "2025-26" %}
 
 <div id="top" style="scroll-margin-top: 200px;"></div>
