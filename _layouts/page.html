@@ -1,14 +1,31 @@
 ---
+# ==============================================================================
+# STANDARD PAGE LAYOUT TEMPLATE
+# ==============================================================================
+# Extends the 'base' layout to render standard site pages (e.g., About, Contact).
+# Includes a page-type header partial, responsive Bootstrap grid container,
+# pre/post content inclusion blocks, and an optional comments section.
+
 layout: base
 ---
 
+<!-- Render standard page header (title, subtitle, cover background) -->
 {% include header.html type="page" %}
 
+<!-- 
+  Main Page Container:
+  Dynamically applies full-width or centered grid layout based on 'page.full-width' front matter.
+-->
 <main class="{% if page.full-width %}container-fluid{% else %}container-md{% endif %}">
   <div class="row">
     <div class="{% if page.full-width %}col{% else %}col-xl-8 offset-xl-2 col-lg-10 offset-lg-1{% endif %}">
 
-      <!-- Before Content -->
+      <!-- 
+        Before Content Inclusion Block:
+        Checks if 'before-content' is defined in the page's YAML front matter.
+        Iterates through the list of partial file paths provided and includes them 
+        dynamically prior to rendering the main page body.
+      -->
       {% if page.before-content %}
         <div class="before-content">
           {% for file in page.before-content %}
@@ -17,10 +34,18 @@ layout: base
         </div>
       {% endif %}
 
-      <!-- Main Content -->
+      <!-- 
+        Core Content Slot:
+        Jekyll injects the rendered Markdown or HTML body content of the current page here.
+      -->
       {{ content }}
 
-      <!-- After Content -->
+      <!-- 
+        After Content Inclusion Block:
+        Checks if 'after-content' is defined in the page's YAML front matter.
+        Iterates through the list of partial file paths provided and includes them 
+        dynamically following the main page body.
+      -->
       {% if page.after-content %}
         <div class="after-content">
           {% for file in page.after-content %}
@@ -29,7 +54,7 @@ layout: base
         </div>
       {% endif %}
 
-      <!-- Comments -->
+      <!-- Comments Section: Injects comment platform partial (e.g., Disqus, Utterances) if enabled -->
       {% include comments.html %}
 
     </div>
