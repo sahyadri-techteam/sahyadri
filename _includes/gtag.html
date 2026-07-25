@@ -1,20 +1,10 @@
 {% if site.gtag %}
-<!-- Global site tag (gtag.js) - Google Analytics 4 -->
-
-<!-- Load the Google Tag Manager script asynchronously using configured tracking ID -->
+<!-- Google Analytics 4 (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.gtag }}"></script>
-
 <script>
-  // Initialize dataLayer array for queued tracking calls
   window.dataLayer = window.dataLayer || [];
-
-  // Helper function to push event arguments into dataLayer
-  function gtag(){dataLayer.push(arguments);}
-
-  // Register current timestamp for initialization
+  function gtag(){ dataLayer.push(arguments); }
   gtag('js', new Date());
-
-  // Configure and send default pageview event to Google Analytics
   gtag('config', '{{ site.gtag }}');
 </script>
 {% endif %}
