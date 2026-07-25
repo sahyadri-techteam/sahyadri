@@ -4,7 +4,9 @@ title: Videos
 subtitle: Click on the thumbnail to watch
 ---
 
+<!-- Styles for Page Layout, Navigation, Responsive Grid, and Controls -->
 <style>
+    /* Main page container setting max-width and centering layout */
     .videos-page-container {
         display: block;
         width: 100%;
@@ -14,7 +16,7 @@ subtitle: Click on the thumbnail to watch
         box-sizing: border-box;
     }
 
-    /* Year Navigation */
+    /* Year Navigation Header Wrapper */
     .sub-nav-options {
         width: 100%;
         margin: 0 auto 3rem auto;
@@ -23,6 +25,7 @@ subtitle: Click on the thumbnail to watch
         text-align: center;
     }
 
+    /* Flexbox list for dynamic Academic Year filters */
     .sub-nav-list {
         display: flex;
         justify-content: center;
@@ -34,6 +37,7 @@ subtitle: Click on the thumbnail to watch
         flex-wrap: wrap;
     }
 
+    /* Styling for individual year navigation items */
     .sub-nav-list li {
         font-family: 'Amatic SC', cursive;
         font-size: 2rem;
@@ -44,6 +48,7 @@ subtitle: Click on the thumbnail to watch
         border-bottom: 3px solid transparent;
     }
 
+    /* Active and Hover state indicators for selected academic year */
     .sub-nav-list li:hover,
     .sub-nav-list li.active {
         color: #5f745f;
@@ -51,7 +56,7 @@ subtitle: Click on the thumbnail to watch
         font-weight: bold;
     }
 
-    /* Video Grid */
+    /* CSS Grid layout for video thumbnails */
     .video-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -59,12 +64,14 @@ subtitle: Click on the thumbnail to watch
         width: 100%;
     }
 
+    /* Individual video card item */
     .video-item {
         display: flex;
         flex-direction: column;
         margin: 0;
     }
 
+    /* Thumbnail aspect ratio wrapper and click target */
     .video-wrapper {
         display: block;
         width: 100%;
@@ -75,25 +82,28 @@ subtitle: Click on the thumbnail to watch
         cursor: pointer;
     }
 
+    /* Covers full size of the wrapper */
     .video-wrapper img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 
+    /* Video title and date caption */
     .video-item figcaption {
         font-size: 1.1rem;
         text-align: center;
         margin-top: 8px;
     }
 
-    /* Load More */
+    /* Load More Button Wrapper */
     .load-more-container {
         text-align: center;
         margin-top: 3rem;
         width: 100%;
     }
 
+    /* Load More Action Button */
     .btn-load-more {
         background-color: #5f745f;
         color: white;
@@ -109,9 +119,10 @@ subtitle: Click on the thumbnail to watch
         background-color: #4a5b4a;
     }
 
+    /* Utility class used by JS to hide videos not matching pagination/filters */
     .hidden-item { display: none; }
 
-    /* Mobile */
+    /* Media query adjust grid and spacing on mobile viewports */
     @media (max-width: 992px) {
         .sub-nav-list { gap: 1.5rem; }
 
@@ -124,10 +135,12 @@ subtitle: Click on the thumbnail to watch
 
 <div class="videos-page-container">
 
+    <!-- Academic Year Table of Contents (Populated via JS) -->
     <nav class="sub-nav-options">
         <ul class="sub-nav-list" id="year-toc"></ul>
     </nav>
 
+    <!-- Grid Container holding all YouTube Video Items -->
     <div class="video-grid" id="videoGrid">
 
         <figure class="video-item">
@@ -279,20 +292,29 @@ subtitle: Click on the thumbnail to watch
 
     </div>
 
+    <!-- Load More Pagination Control -->
     <div class="load-more-container">
         <button id="load-more-btn" class="btn-load-more">Load More</button>
     </div>
 
 </div>
 
+<!-- Interactive Client-side Script for Filtering, Pagination, and Video Embedding -->
 <script>
+    // Maximum items to display initially and per batch
     const ITEMS_PER_PAGE = 12;
 
+    // Month lookup map used for academic year calculation
     const MONTHS = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
 
+    /**
+     * Parses the caption text to extract month/year and compute academic session (June–May cycle)
+     * @param {string} dateText - Raw figcaption inner text (e.g., "5th March 2026")
+     * @returns {string} Academic year formatted string (e.g., "2025-26")
+     */
     function getAcademicYear(dateText) {
         const monthMatch = dateText.match(/(January|February|March|April|May|June|July|August|September|October|November|December)/i);
         const yearMatch = dateText.match(/\d{4}/);
@@ -302,39 +324,56 @@ subtitle: Click on the thumbnail to watch
         const year = parseInt(yearMatch[0]);
         const monthIndex = MONTHS.findIndex(m => m.toLowerCase() === monthMatch[0].toLowerCase());
 
-        // Academic year runs June–May
+        // Academic year runs June (index 5) through May (index 4)
         return monthIndex >= 5
             ? `${year}-${(year + 1).toString().slice(-2)}`
             : `${year - 1}-${year.toString().slice(-2)}`;
     }
 
+    /**
+     * Controls visibility of the "Load More" button and handles pagination batches
+     * @param {Array<HTMLElement>} matchedItems - Array of video element nodes matching active year
+     */
     function updateLoadMore(matchedItems) {
         const btn = document.getElementById('load-more-btn');
         const hidden = matchedItems.filter(el => el.classList.contains('hidden-item'));
 
+        // Hide button container if no hidden items remain
         btn.parentElement.style.display = hidden.length > 0 ? 'block' : 'none';
 
+        // Reveal the next batch of items on button click
         btn.onclick = () => {
             hidden.splice(0, ITEMS_PER_PAGE).forEach(el => el.classList.remove('hidden-item'));
             updateLoadMore(matchedItems);
         };
     }
 
+    /**
+     * Filters grid items based on selected Academic Year
+     * @param {string} year - Selected academic year string
+     * @param {HTMLElement} activeEl - LI element clicked in navigation bar
+     */
     function filterVideos(year, activeEl) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
+        // Update active navigation state styling
         document.querySelectorAll('.sub-nav-list li').forEach(li => li.classList.remove('active'));
         activeEl?.classList.add('active');
 
         const all = Array.from(document.querySelectorAll('.video-item'));
         const matched = all.filter(el => el.dataset.academicYear === year);
 
+        // Hide all items, then unhide the first page chunk of matched items
         all.forEach(el => el.classList.add('hidden-item'));
         matched.slice(0, ITEMS_PER_PAGE).forEach(el => el.classList.remove('hidden-item'));
 
         updateLoadMore(matched);
     }
 
+    /**
+     * Replaces thumbnail container with autoplay YouTube iframe embed
+     * @param {HTMLElement} container - The clicked .video-wrapper element
+     */
     function loadVideo(container) {
         const videoId = container.dataset.video;
         container.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0"
@@ -342,19 +381,25 @@ subtitle: Click on the thumbnail to watch
                                 allowfullscreen style="width:100%; height:100%;"></iframe>`;
     }
 
+    /**
+     * Scans videos, assigns metadata attributes, builds navigation, and initializes initial view
+     */
     function initPage() {
         const items = Array.from(document.querySelectorAll('.video-item'));
         const nav = document.getElementById('year-toc');
         const years = new Set();
 
+        // Assign data-academic-year attribute to each figure element
         items.forEach(item => {
             const year = getAcademicYear(item.querySelector('figcaption').innerText);
             item.dataset.academicYear = year;
             years.add(year);
         });
 
+        // Sort academic years in reverse chronological order
         const sortedYears = Array.from(years).sort().reverse();
 
+        // Build navigation menu dynamically
         sortedYears.forEach(year => {
             const li = document.createElement('li');
             li.innerText = year;
@@ -362,10 +407,12 @@ subtitle: Click on the thumbnail to watch
             nav.appendChild(li);
         });
 
+        // Set default view to latest academic year
         if (sortedYears.length > 0) {
             filterVideos(sortedYears[0], nav.firstChild);
         }
     }
 
+    // Run initialization once DOM is fully rendered
     document.addEventListener('DOMContentLoaded', initPage);
 </script>
