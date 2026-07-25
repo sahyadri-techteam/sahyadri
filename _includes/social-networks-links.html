@@ -1,7 +1,9 @@
 {% if site.social-network-links -%}
+<!-- Footer Social Links List Container -->
 <ul class="list-inline text-center footer-links">
   {%- for network in site.social-network-links -%}
 
+    <!-- RSS Feed -->
     {%- if network[0] == "rss" and network[1] and site.rss-description -%}
     <li class="list-inline-item">
       <a href="{{ '/feed.xml' | relative_url }}" title="RSS">
@@ -14,6 +16,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Email -->
     {%- if network[0] == "email" -%}
     <li class="list-inline-item">
       <a href="mailto:{{ network[1] }}" title="Email me">
@@ -26,6 +29,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Calendly -->
     {%- if network[0] == "calendly" -%}
     <li class="list-inline-item">
       <a href="https://calendly.com/{{ network[1] }}" title="Schedule a meeting with me">
@@ -38,6 +42,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Facebook -->
     {%- if network[0] == "facebook" -%}
     <li class="list-inline-item">
       <a href="https://www.facebook.com/{{ network[1] }}" title="Facebook">
@@ -50,6 +55,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Telegram -->
     {%- if network[0] == "telegram" -%}
     <li class="list-inline-item">
       <a href="https://t.me/{{ network[1] }}" title="Telegram">
@@ -62,6 +68,7 @@
     </li>
     {%- endif -%}
 
+    <!-- WhatsApp -->
     {%- if network[0] == "whatsapp" -%}
     <li class="list-inline-item">
       <a href="https://wa.me/{{ network[1] }}" title="WhatsApp">
@@ -74,6 +81,7 @@
     </li>
     {%- endif -%}
 
+    <!-- GitHub -->
     {%- if network[0] == "github" -%}
     <li class="list-inline-item">
       <a href="https://github.com/{{ network[1] }}" title="GitHub">
@@ -86,6 +94,7 @@
     </li>
     {%- endif -%}
 
+    <!-- GitLab -->
     {%- if network[0] == "gitlab" -%}
     <li class="list-inline-item">
       <a href="https://gitlab.com/{{ network[1] }}" title="GitLab">
@@ -98,6 +107,7 @@
     </li>
     {%- endif -%}
 
+    <!-- X (formerly Twitter) -->
     {%- if network[0] == "twitter" -%}
     <li class="list-inline-item">
       <a href="https://twitter.com/{{ network[1] }}" title="X (Twitter)">
@@ -110,6 +120,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Reddit (formats prefix for subreddits 'r/' vs users 'u/') -->
     {%- if network[0] == "reddit" -%}
     {% assign reddit_start = network[1] | split: "/" | first -%}
     {% unless reddit_start == 'r' or reddit_start == 'u' -%}
@@ -126,6 +137,7 @@
     </li>
     {%- endif -%}
 
+    <!-- LinkedIn -->
     {%- if network[0] == "linkedin" -%}
     <li class="list-inline-item">
       <a href="https://linkedin.com/in/{{ network[1] }}" title="LinkedIn">
@@ -138,6 +150,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Xing -->
     {%- if network[0] == "xing" -%}
     <li class="list-inline-item">
       <a href="https://www.xing.com/profile/{{ network[1] }}" title="Xing">
@@ -150,6 +163,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Stack Overflow -->
     {%- if network[0] == "stackoverflow" -%}
     <li class="list-inline-item">
       <a href="https://stackoverflow.com/users/{{ network[1] }}" title="Stack Overflow">
@@ -162,6 +176,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Snapchat -->
     {%- if network[0] == "snapchat" -%}
     <li class="list-inline-item">
       <a href="https://www.snapchat.com/add/{{ network[1] }}" title="Snapchat">
@@ -174,6 +189,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Instagram -->
     {%- if network[0] == "instagram" -%}
     <li class="list-inline-item">
       <a href="https://www.instagram.com/{{ network[1] }}" title="Instagram">
@@ -186,6 +202,7 @@
     </li>
     {%- endif -%}
 
+    <!-- YouTube -->
     {%- if network[0] == "youtube" -%}
     <li class="list-inline-item">
       <a href="https://www.youtube.com/{{ network[1] }}" title="YouTube">
@@ -198,6 +215,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Spotify -->
     {%- if network[0] == "spotify" -%}
     <li class="list-inline-item">
       <a href="https://open.spotify.com/user/{{ network[1] }}" title="Spotify">
@@ -210,6 +228,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Phone -->
     {%- if network[0] == "telephone" -%}
     <li class="list-inline-item">
       <a href="tel:{{ network[1] }}" title="Phone">
@@ -222,6 +241,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Steam -->
     {%- if network[0] == "steam" -%}
     <li class="list-inline-item">
       <a href="https://steamcommunity.com/id/{{ network[1] }}" title="Steam">
@@ -234,6 +254,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Twitch -->
     {%- if network[0] == "twitch" -%}
     <li class="list-inline-item">
       <a href="https://www.twitch.tv/{{ network[1] }}" title="Twitch">
@@ -246,6 +267,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Yelp -->
     {%- if network[0] == "yelp" -%}
     <li class="list-inline-item">
       <a href="https://yelp.com/{{ network[1] }}" title="Yelp">
@@ -258,6 +280,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Mastodon -->
     {%- if network[0] == "mastodon" -%}
     <li class="list-inline-item">
       <a rel="me" href="https://{{ network[1] }}" title="Mastodon">
@@ -270,6 +293,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Bluesky -->
     {%- if network[0] == "bluesky" -%}
     <li class="list-inline-item">
       <a rel="me" href="https://bsky.app/profile/{{ network[1] }}" title="Bluesky">
@@ -282,6 +306,7 @@
     </li>
     {%- endif -%}
 
+    <!-- ORCID -->
     {%- if network[0] == "orcid" -%}
     <li class="list-inline-item">
       <a href="https://orcid.org/{{ network[1] }}" title="ORCID">
@@ -294,6 +319,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Google Scholar -->
     {%- if network[0] == "google-scholar" -%}
     <li class="list-inline-item">
       <a href="https://scholar.google.com/citations?user={{ network[1] }}" title="Google Scholar">
@@ -306,6 +332,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Patreon -->
     {%- if network[0] == "patreon" -%}
     <li class="list-inline-item">
       <a href="https://patreon.com/{{ network[1] }}" title="Patreon">
@@ -318,6 +345,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Medium -->
     {%- if network[0] == "medium" -%}
     <li class="list-inline-item">
       <a href="https://medium.com/@{{ network[1] }}" title="Medium">
@@ -330,6 +358,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Itch.io -->
     {%- if network[0] == "itchio" -%}
     <li class="list-inline-item">
       <a href="https://{{ network[1] }}.itch.io/" title="Itch.io">
@@ -342,6 +371,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Discord (formats prefix for user IDs vs server invite codes) -->
     {%- if network[0] == "discord" -%}
     {% assign discord_start = network[1] | split: "/" | first -%}
     {% unless discord_start == 'users' or discord_start == 'invite' -%}
@@ -358,6 +388,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Kaggle -->
     {%- if network[0] == "kaggle" -%}
     <li class="list-inline-item">
       <a href="https://www.kaggle.com/{{ network[1] }}" title="Kaggle">
@@ -370,6 +401,7 @@
     </li>
     {%- endif -%}
 
+    <!-- HackerRank -->
     {%- if network[0] == "hackerrank" -%}
     <li class="list-inline-item">
       <a href="https://www.hackerrank.com/{{ network[1] }}" title="HackerRank">
@@ -382,6 +414,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Untappd -->
     {%- if network[0] == "untappd" -%}
     <li class="list-inline-item">
       <a href="https://untappd.com/user/{{ network[1] }}" title="Untappd">
@@ -394,6 +427,7 @@
     </li>
     {%- endif -%}
 
+    <!-- Strava -->
     {%- if network[0] == "strava" -%}
     <li class="list-inline-item">
       <a href="https://www.strava.com/athletes/{{ network[1] }}" title="Strava">
