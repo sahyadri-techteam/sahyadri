@@ -1,12 +1,21 @@
 {% if site.post_search %}
 
+<!-- Full-screen search modal overlay container -->
 <div id="beautifuljekyll-search-overlay">
 
+  <!-- Close button to exit search overlay -->
   <div id="nav-search-exit" title="Exit search">✕</div>
+  
+  <!-- Search input field -->
   <input type="text" id="nav-search-input" placeholder="Search">
+  
+  <!-- Container list where search results will be rendered -->
   <ul id="search-results-container"></ul>
   
+  <!-- Load SimpleJekyllSearch library via CDN -->
   <script src="https://unpkg.com/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"></script>
+
+  <!-- Initialize search engine pointing to input, output container, and corpus JSON index -->
   <script>
     SimpleJekyllSearch({
       searchInput: document.getElementById('nav-search-input'),
