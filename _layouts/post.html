@@ -3,6 +3,19 @@ layout: base
 ---
 
 <style>
+ .post-img {
+  max-width: 65%;
+  height: auto;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+@media (max-width: 767px) {
+  .post-img {
+    max-width: 80%;
+  }
+}
+  
 /* Fix the content tracking behavior so it respects the top navbar height */
   .post-container {
     padding-top: 40px;
@@ -111,16 +124,18 @@ layout: base
         <hr class="small">
       </div>
 
-      {% assign current_image = page.image_id | default: page.image %}
-      {% if current_image %}
-        <div class="post-image-wrapper">
-          <img
-            src="https://lh3.googleusercontent.com/d/{{ current_image }}?sz=9999"
-            alt="{{ page.title }}"
-            style="max-width: 75%; height: auto; border-radius: 4px; display: inline-block;"
-          >
-        </div>
-      {% endif %}
+      {% assign image_ids = page.image, page.image2, page.image3, page.image4, page.image5 %}
+{% for img in image_ids %}
+  {% if img %}
+    <div class="post-image-wrapper">
+      <img
+        src="https://lh3.googleusercontent.com/d/{{ img }}?sz=9999"
+        alt="{{ page.title }}"
+        class="post-img"
+      >
+    </div>
+  {% endif %}
+{% endfor %}
 
       {% if page.gh-repo %}
         {% assign gh_split = page.gh-repo | split: '/' %}
