@@ -1,8 +1,10 @@
 ---
+/* Jekyll Front Matter Configuration */
 layout: page
 title: "Weekly Excerpts"
 ---
 
+<!-- Jekyll Liquid Logic: Defines available years and initial active tab -->
 {% assign year_blocks = "2025" | split: "|" %}
 {% assign default_active_year = "2025" %}
 
@@ -14,21 +16,26 @@ title: "Weekly Excerpts"
 </head>
 <body>
 
+<!-- Anchor element target for automatic smooth scrolling on tab change -->
 <div id="top" style="scroll-margin-top: 200px;"></div>
 
+<!-- Academic Year Tab Navigation Bar -->
 <div class="tabs-container">
   <div class="academic-tabs">
+    <!-- Loop through each year defined in year_blocks array -->
     {% for current_year in year_blocks %}
       {% if current_year == "archive" %}
         {% assign tab_label = "Archive" %}
         {% assign target_val = "archive" %}
       {% else %}
+        /* Compute formatted academic year range (e.g., "2025" becomes "2025–26") */
         {% assign start_yr = current_year | plus: 0 %}
         {% assign short_end_yr = start_yr | plus: 1 | slice: 2, 2 %}
         {% assign tab_label = start_yr | append: "–" | append: short_end_yr %}
         {% assign target_val = current_year %}
       {% endif %}
       
+      <!-- Render interactive tab button -->
       <button 
         class="tab-link {% if current_year == default_active_year %}active{% endif %}" 
         onclick="switchAcademicYear(event, '{{ target_val }}')">
@@ -38,8 +45,10 @@ title: "Weekly Excerpts"
   </div>
 </div>
 
+<!-- Main Media Grid Layout Container -->
 <div class="video-grid">
 
+    <!-- Document Link Item (2025) - Light Unto Oneself -->
     <figure class="video-item" data-year="2025">
         <figcaption class="video-caption">
             Excerpt - <a href="https://drive.google.com/file/d/1CRp8Jbd8_oGXVa951jxcnQKQAcePBPxd/view?usp=sharing" target="_blank">Light Unto Oneself</a>, 
@@ -47,6 +56,7 @@ title: "Weekly Excerpts"
         </figcaption>
     </figure>
     
+    <!-- Document Link Item (2025) - On Education -->
     <figure class="video-item" data-year="2025">
         <figcaption class="video-caption">
             Excerpt - <a href="https://drive.google.com/file/d/1k9yyx9aGJ-aGxygMPTJ1tfpP2D4wWVds/view?usp=sharing" target="_blank">On Education</a>, 
@@ -54,6 +64,7 @@ title: "Weekly Excerpts"
         </figcaption>
     </figure>
 
+    <!-- Embedded Video Card (2025) - Freedom and Authority -->
     <figure class="video-item" data-year="2025">
         <div class="video-wrapper" onclick="loadVideo(this)" data-video="wm0lN9K8GNc">
             <img src="https://img.youtube.com/vi/wm0lN9K8GNc/hqdefault.jpg" class="thumbnail" alt="Freedom and Authority">
@@ -65,6 +76,7 @@ title: "Weekly Excerpts"
         </figcaption>
     </figure>
 
+    <!-- Embedded Video Card (2025) - On Authority / Ambition -->
     <figure class="video-item" data-year="2025">
         <div class="video-wrapper" onclick="loadVideo(this)" data-video="fHEZXF6uR1U">
             <img src="https://img.youtube.com/vi/fHEZXF6uR1U/hqdefault.jpg" class="thumbnail" alt="On Authority">
@@ -75,6 +87,7 @@ title: "Weekly Excerpts"
         </figcaption>
     </figure>
 
+    <!-- Embedded Video Card (2025) - On Love -->
     <figure class="video-item" data-year="2025">
         <div class="video-wrapper" onclick="loadVideo(this)" data-video="ztLEMnrEE2s">
             <img src="https://img.youtube.com/vi/ztLEMnrEE2s/hqdefault.jpg" class="thumbnail" alt="On Love">
@@ -85,6 +98,7 @@ title: "Weekly Excerpts"
         </figcaption>
     </figure>
 
+    <!-- Embedded Video Card (2025) - Fear and Compassion -->
     <figure class="video-item" data-year="2025">
         <div class="video-wrapper" onclick="loadVideo(this)" data-video="ztlt1GeA_nQ">
             <img src="https://img.youtube.com/vi/ztlt1GeA_nQ/hqdefault.jpg" class="thumbnail" alt="On Love">
@@ -95,6 +109,7 @@ title: "Weekly Excerpts"
         </figcaption>
     </figure>
 
+    <!-- Embedded Video Card (2025) - Art of Listening, Looking and Learning -->
     <figure class="video-item" data-year="2025">
         <div class="video-wrapper" onclick="loadVideo(this)" data-video="Ke32Z2KkS6w">
             <img src="https://img.youtube.com/vi/Ke32Z2KkS6w/hqdefault.jpg" class="thumbnail" alt="Art of Listening, Looking and Learning">
@@ -106,6 +121,7 @@ title: "Weekly Excerpts"
         </figcaption>
     </figure>
 
+    <!-- Embedded Video Card (2025) - Freedom and Discipline -->
     <figure class="video-item" data-year="2025">
         <div class="video-wrapper" onclick="loadVideo(this)" data-video="f-3wSP0Au8o">
             <img src="https://img.youtube.com/vi/f-3wSP0Au8o/hqdefault.jpg" class="thumbnail" alt="Freedom and Discipline">
@@ -117,6 +133,7 @@ title: "Weekly Excerpts"
         </figcaption>
     </figure>
 
+    <!-- Embedded Video Card (2025) - The Function of a Parent -->
     <figure class="video-item" data-year="2025">
         <div class="video-wrapper" onclick="loadVideo(this)" data-video="ZQGdEvhZl1U">
             <img src="https://img.youtube.com/vi/ZQGdEvhZl1U/hqdefault.jpg" class="thumbnail" alt="The Function of a Parent">
@@ -128,6 +145,7 @@ title: "Weekly Excerpts"
         </figcaption>
     </figure>
 
+    <!-- Embedded Video Card (2025) - Total Development of a Child and Parent -->
     <figure class="video-item" data-year="2025">
         <div class="video-wrapper" onclick="loadVideo(this)" data-video="5lJRtT4P4ps">
             <img src="https://img.youtube.com/vi/5lJRtT4P4ps/hqdefault.jpg" class="thumbnail" alt="Total Development of a Child and Parent">
@@ -139,6 +157,7 @@ title: "Weekly Excerpts"
         </figcaption>
     </figure>
     
+    <!-- Placeholder Item (2026) for Future Additions -->
     <figure class="video-item" data-year="2026">
         <figcaption class="video-caption">
             Excerpt - Future 2026 Placeholder Video Link
@@ -147,13 +166,16 @@ title: "Weekly Excerpts"
 
 </div> 
 
+<!-- Component Stylesheet: Tab Layout, Grid Display, and Media Animations -->
 <style>
+  /* Outer bar holding the academic year tabs */
   .tabs-container {
     width: 100%;
     margin: 2rem 0 3rem 0;
     border-bottom: 1px solid #e2e8f0;
   }
 
+  /* Flexbox list aligning tab buttons centered horizontally */
   .academic-tabs {
     display: flex;
     justify-content: center;
@@ -163,6 +185,7 @@ title: "Weekly Excerpts"
     padding: 0 1rem;
   }
 
+  /* Default styling for tab buttons */
   .tab-link {
     background: none;
     border: none;
@@ -177,26 +200,30 @@ title: "Weekly Excerpts"
     border-bottom: 3px solid transparent;
   }
 
+  /* Active and hover highlight state for selected tab */
   .tab-link:hover, .tab-link.active {
     color: #5f745f; 
     border-bottom: 3px solid #5f745f;
   }
   
-  /* Grid filter styles */
+  /* Hides items by default when filtering */
   .video-item {
     display: none;
   }
   
+  /* Class assigned by JS to reveal items matching active filter with fade animation */
   .video-item.active-view {
     display: block;
     animation: fadeIn 0.4s ease;
   }
 
+  /* Keyframe animation smooth opacity transition */
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(4px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* Responsive styles for mobile screens */
   @media (max-width: 767px) {
     .academic-tabs {
       gap: 1rem;
@@ -218,19 +245,24 @@ title: "Weekly Excerpts"
   }
 </style>
 
+<!-- Client-side JavaScript for Tab Filtering and Dynamic YouTube Lazy-loading -->
 <script>
+  /**
+   * Toggles the active year filter tab and shows matching video items.
+   * @param {Event|null} evt - User click event or null during initial page initialization.
+   * @param {string} selectedYear - Target year string to filter by (e.g. "2025").
+   */
   function switchAcademicYear(evt, selectedYear) {
-    // 1. Update Active Class On Buttons
+    // 1. Remove active highlight state from all tab buttons
     const tabs = document.getElementsByClassName("tab-link");
     for (let i = 0; i < tabs.length; i++) {
       tabs[i].classList.remove("active");
     }
     
-    // Set active style either from click event or programmatic call on page load
+    // Set active highlight state on clicked button or matching element on load
     if (evt && evt.currentTarget) {
       evt.currentTarget.classList.add("active");
     } else {
-      // Find tab button that matches data value on load initialization
       for (let i = 0; i < tabs.length; i++) {
         if (tabs[i].getAttribute("onclick").includes(`'${selectedYear}'`)) {
           tabs[i].classList.add("active");
@@ -239,7 +271,7 @@ title: "Weekly Excerpts"
       }
     }
 
-    // 2. Filter Elements via Data-Attribute Matching
+    // 2. Show/hide video items based on their data-year attribute
     const videoItems = document.getElementsByClassName("video-item");
     for (let i = 0; i < videoItems.length; i++) {
       if (videoItems[i].getAttribute("data-year") === selectedYear) {
@@ -249,14 +281,20 @@ title: "Weekly Excerpts"
       }
     }
     
+    // Smooth scroll page back to the top anchor tag
     document.getElementById("top").scrollIntoView({ behavior: 'smooth' });
   }
 
-  // Trigger default selection instantly on initial DOM construction layout initialization
+  // Initialize the gallery with default active year once DOM content loads
   document.addEventListener("DOMContentLoaded", function() {
     switchAcademicYear(null, "{{ default_active_year }}");
   });
 
+  /**
+   * Dynamic YouTube iframe injector: Replaces thumbnail image with playable iframe on click.
+   * Helps minimize initial page load time and bandwidth usage.
+   * @param {HTMLElement} container - The wrapper element holding data-video ID.
+   */
   function loadVideo(container) {
     const videoId = container.getAttribute('data-video');
     const iframe = document.createElement('iframe');
@@ -265,6 +303,7 @@ title: "Weekly Excerpts"
     iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
     iframe.setAttribute('allowfullscreen', 'true');
     
+    // Empty thumbnail and insert interactive iframe player
     container.innerHTML = '';
     container.appendChild(iframe);
   }
