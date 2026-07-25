@@ -1,22 +1,39 @@
-# User interface text and labels for comment system
-# YAML i18n configuration with multiple language support
+# ==============================================================================
+# COMMENT SYSTEM INTERNATIONALIZATION (i18n) CONFIGURATION
+# ==============================================================================
+# Multi-language dictionary file containing localized labels, form field strings,
+# and system status messages for static comment plugins (e.g., Staticman).
+#
+# Structure & Inheritance Pattern:
+# 1. Primary language codes (e.g., 'en', 'es') define the base dictionary using 
+#    a YAML anchor (&DEFAULT_LANG).
+# 2. Regional locale keys (e.g., 'en-US', 'es-ES') reference the base anchor 
+#    via YAML merge keys (<<: *DEFAULT_LANG) to avoid code duplication while 
+#    supporting locale fallback resolution.
 
-# Default English labels (used as anchor for inheritance)
+# ------------------------------------------------------------------------------
+# ENGLISH (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 en: &DEFAULT_EN
+  # Main section headers
   comments_label: "Leave a comment"
   comments_title: "Comments"
+  
+  # Comment entry form instruction & field labels
   comment_form_info: "Your email address will not be published. Required fields are marked"
   comment_form_comment_label: "Comment"
   comment_form_md_info: "Markdown is supported."
   comment_form_name_label: "Name"
   comment_form_email_label: "Email address"
   comment_form_website_label: "Website (optional)"
+  
+  # Form actions and status responses
   comment_btn_submit: "Submit comment"
   comment_btn_submitted: "Submitted"
   comment_success_msg: "Thanks for your comment! It will show on the site once it has been approved."
   comment_error_msg: "Sorry, there was an error with your submission. Please make sure all required fields have been completed and try again."
 
-# English variants (all inherit from DEFAULT_EN)
+# Inherited English Locales
 en-US:
   <<: *DEFAULT_EN
 en-CA:
@@ -26,7 +43,9 @@ en-GB:
 en-AU:
   <<: *DEFAULT_EN
 
-# Spanish
+# ------------------------------------------------------------------------------
+# SPANISH (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 es: &DEFAULT_ES
   comments_label: "Dejar un comentario"
   comments_title: "Comentarios"
@@ -41,12 +60,15 @@ es: &DEFAULT_ES
   comment_success_msg: "¡Gracias por su comentario! Se visualizará en el sitio una vez haya sido aprobado"
   comment_error_msg: "Lo sentimos, ha ocurrido un error al enviar su comentario. Por favor asegurese que todos los campos han sido diligenciados e intente de nuevo"
 
+# Inherited Spanish Locales
 es-ES:
   <<: *DEFAULT_ES
 es-CO:
   <<: *DEFAULT_ES
 
-# French
+# ------------------------------------------------------------------------------
+# FRENCH (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 fr: &DEFAULT_FR
   comments_label: "Laisser un commentaire"
   comments_title: "Commentaires"
@@ -61,6 +83,7 @@ fr: &DEFAULT_FR
   comment_success_msg: "Merci pour votre commentaire, il sera visible sur le site une fois approuvé."
   comment_error_msg: "Désolé, une erreur est survenue lors de la soumission. Vérifiez que les champs obligatoires ont été remplis et réessayez."
 
+# Inherited French Locales
 fr-FR:
   <<: *DEFAULT_FR
 fr-BE:
@@ -68,7 +91,9 @@ fr-BE:
 fr-CH:
   <<: *DEFAULT_FR
 
-# Turkish
+# ------------------------------------------------------------------------------
+# TURKISH (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 tr: &DEFAULT_TR
   comments_label: "Yorum yapın"
   comments_title: "Yorumlar"
@@ -83,10 +108,13 @@ tr: &DEFAULT_TR
   comment_success_msg: "Yorumunuz için teşekkürler! Yorumunuz onaylandıktan sonra sitede gösterilecektir."
   comment_error_msg: "Maalesef bir hata oluştu. Lütfen zorunlu olan tüm alanları doldurduğunuzdan emin olun ve sonrasında tekrar deneyin."
 
+# Inherited Turkish Locales
 tr-TR:
   <<: *DEFAULT_TR
 
-# Portuguese
+# ------------------------------------------------------------------------------
+# PORTUGUESE (European & Regional Variants)
+# ------------------------------------------------------------------------------
 pt: &DEFAULT_PT
   comments_label: "Deixe um comentário"
   comments_title: "Comentários"
@@ -101,10 +129,11 @@ pt: &DEFAULT_PT
   comment_success_msg: "Obrigado pelo seu comentário! Será visível no site logo que aprovado."
   comment_error_msg: "Lamento, ocorreu um erro na sua submissão. Por favor verifique se todos os campos obrigatórios estão corretamente preenchidos e tente novamente."
 
+# Inherited European Portuguese Locales
 pt-PT:
   <<: *DEFAULT_PT
 
-# Brazilian Portuguese
+# Brazilian Portuguese Variant (Custom Overrides)
 pt-BR:
   comments_label: "Deixe um comentário"
   comments_title: "Comentários"
@@ -119,7 +148,9 @@ pt-BR:
   comment_success_msg: "Obrigado pelo seu comentário! Ele aparecerá no site assim que for aprovado."
   comment_error_msg: "Desculpe, ocorreu um erro no envio. Por favor verifique se todos os campos obrigatórios foram preenchidos e tente novamente."
 
-# Italian
+# ------------------------------------------------------------------------------
+# ITALIAN (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 it: &DEFAULT_IT
   comments_label: "Scrivi un commento"
   comments_title: "Commenti"
@@ -134,10 +165,13 @@ it: &DEFAULT_IT
   comment_success_msg: "Grazie per il tuo commento! Verrà visualizzato nel sito una volta che sarà approvato."
   comment_error_msg: "C'è stato un errore con il tuo invio. Assicurati che tutti i campi richiesti siano stati completati e riprova."
 
+# Inherited Italian Locales
 it-IT:
   <<: *DEFAULT_IT
 
-# Chinese Simplified (Mainland & Singapore)
+# ------------------------------------------------------------------------------
+# CHINESE SIMPLIFIED (Mainland & Singapore)
+# ------------------------------------------------------------------------------
 zh: &DEFAULT_ZH_HANS
   comments_label: "留下评论"
   comments_title: "评论"
@@ -152,12 +186,15 @@ zh: &DEFAULT_ZH_HANS
   comment_success_msg: "感谢您的评论！被批准后它会立即在此站点展示。"
   comment_error_msg: "很抱歉，您的提交存在错误。请确保所有必填字段都已填写正确，然后再试一次。"
 
+# Inherited Chinese Simplified Locales
 zh-CN:
   <<: *DEFAULT_ZH_HANS
 zh-SG:
   <<: *DEFAULT_ZH_HANS
 
-# Chinese Traditional (Taiwan & Hong Kong)
+# ------------------------------------------------------------------------------
+# CHINESE TRADITIONAL (Taiwan & Hong Kong)
+# ------------------------------------------------------------------------------
 zh-TW: &DEFAULT_ZH_HANT
   comments_label: "留言"
   comments_title: "留言內容"
@@ -172,10 +209,13 @@ zh-TW: &DEFAULT_ZH_HANT
   comment_success_msg: "感謝您的留言！審核後將會顯示在站上。"
   comment_error_msg: "抱歉，部份資料輸入有問題。請確認資料填寫正確後再試一次。"
 
+# Inherited Chinese Traditional Locales
 zh-HK:
   <<: *DEFAULT_ZH_HANT
 
-# German
+# ------------------------------------------------------------------------------
+# GERMAN (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 de: &DEFAULT_DE
   comments_label: "Hinterlasse einen Kommentar"
   comments_title: "Kommentare"
@@ -190,6 +230,7 @@ de: &DEFAULT_DE
   comment_success_msg: "Danke für den Kommentar! Er wird nach Prüfung auf der Seite angezeigt."
   comment_error_msg: "Entschuldigung, es gab einen Fehler. Bitte fülle alle benötigten Felder aus und versuche es erneut."
 
+# Inherited German Locales
 de-DE:
   <<: *DEFAULT_DE
 de-AT:
@@ -203,7 +244,9 @@ de-LI:
 de-LU:
   <<: *DEFAULT_DE
 
-# Nepali
+# ------------------------------------------------------------------------------
+# NEPALI (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 ne: &DEFAULT_NE
   comments_label: "टिप्पणी दिनुहोस्"
   comments_title: "टिप्पणीहरू"
@@ -218,10 +261,13 @@ ne: &DEFAULT_NE
   comment_success_msg: "तपाईंको टिप्पणीको लागि धन्यवाद! एक पटक यो अनुमोदन गरेपछी यो साइटमा देखाउनेछ।"
   comment_error_msg: "माफ गर्नुहोस्, तपाईंको टिप्पणी त्रुटि थियो। सबै आवश्यक जानकारीहरु पूरा गरिएको छ भने निश्चित गर्नुहोस् र फेरि प्रयास गर्नुहोस्।"
 
+# Inherited Nepali Locales
 ne-NP:
   <<: *DEFAULT_NE
 
-# Korean
+# ------------------------------------------------------------------------------
+# KOREAN (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 ko: &DEFAULT_KO
   comments_label: "댓글남기기"
   comments_title: "댓글"
@@ -236,10 +282,13 @@ ko: &DEFAULT_KO
   comment_success_msg: "감사합니다! 댓글이 머지된 후 확인하실 수 있습니다."
   comment_error_msg: "댓글 등록에 문제가 있습니다. 필요 필드를 작성했는지 확인하고 다시 시도하세요."
 
+# Inherited Korean Locales
 ko-KR:
   <<: *DEFAULT_KO
 
-# Russian
+# ------------------------------------------------------------------------------
+# RUSSIAN (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 ru: &DEFAULT_RU
   comments_label: "Оставить комментарий"
   comments_title: "Комментарии"
@@ -254,10 +303,13 @@ ru: &DEFAULT_RU
   comment_success_msg: "Спасибо за Ваш комментарий! Он будет опубликован на сайте после проверки."
   comment_error_msg: "К сожалению, произошла ошибка с отправкой комментария. Пожалуйста, убедитесь, что все обязательные поля заполнены и попытайтесь снова."
 
+# Inherited Russian Locales
 ru-RU:
   <<: *DEFAULT_RU
 
-# Lithuanian
+# ------------------------------------------------------------------------------
+# LITHUANIAN (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 lt: &DEFAULT_LT
   comments_label: "Palikti komentarą"
   comments_title: "Komentaras"
@@ -272,10 +324,13 @@ lt: &DEFAULT_LT
   comment_success_msg: "Ačiū už komentarą! Jis bus parodytas kai bus patvirtintas."
   comment_error_msg: "Atleiskite, įvyko netikėta klaida įrašant komentarą. Pasitikrinkite ar užpildėte visus būtinus laukus ir pamėginkite dar kartą."
 
+# Inherited Lithuanian Locales
 lt-LT:
   <<: *DEFAULT_LT
 
-# Greek
+# ------------------------------------------------------------------------------
+# GREEK (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 gr: &DEFAULT_GR
   comments_label: "Αφήστε ένα σχόλιο"
   comments_title: "Σχόλια"
@@ -290,10 +345,13 @@ gr: &DEFAULT_GR
   comment_success_msg: "Ευχαριστούμε για το σχόλιό σας! Θα εμφανιστεί στην ιστοσελίδα αφού εγκριθεί."
   comment_error_msg: "Λυπούμαστε, παρουσιάστηκε σφάλμα με την υποβολή σας. Παρακαλούμε βεβαιωθείτε ότι έχετε όλα τα απαιτούμενα πεδία συμπληρωμένα και δοκιμάστε ξανά."
 
+# Inherited Greek Locales
 gr-GR:
   <<: *DEFAULT_GR
 
-# Swedish
+# ------------------------------------------------------------------------------
+# SWEDISH (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 sv: &DEFAULT_SV
   comments_label: "Lämna en kommentar"
   comments_title: "Kommentarer"
@@ -308,12 +366,15 @@ sv: &DEFAULT_SV
   comment_success_msg: "Tack för din kommentar! Den kommer att visas på sidan så fort den har godkännts."
   comment_error_msg: "Tyvärr det har blivit något fel i en av fälten, se till att du fyller i alla rutor och försök igen."
 
+# Inherited Swedish Locales
 sv-SE:
   <<: *DEFAULT_SV
 sv-FI:
   <<: *DEFAULT_SV
 
-# Dutch
+# ------------------------------------------------------------------------------
+# DUTCH (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 nl: &DEFAULT_NL
   comments_label: "Laat een reactie achter"
   comments_title: "Commentaren"
@@ -328,12 +389,15 @@ nl: &DEFAULT_NL
   comment_success_msg: "Bedankt voor uw reactie! Het zal op de site worden weergegeven zodra het is goedgekeurd."
   comment_error_msg: "Sorry, er is een fout opgetreden bij uw inzending. Zorg ervoor dat alle vereiste velden zijn voltooid en probeer het opnieuw."
 
+# Inherited Dutch Locales
 nl-BE:
   <<: *DEFAULT_NL
 nl-NL:
   <<: *DEFAULT_NL
 
-# Indonesian
+# ------------------------------------------------------------------------------
+# INDONESIAN (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 id: &DEFAULT_ID
   comments_label: "Tinggalkan komentar"
   comments_title: "Komentar"
@@ -348,10 +412,13 @@ id: &DEFAULT_ID
   comment_success_msg: "Terima kasih atas komentar Anda! Komentar akan muncul setelah disetujui."
   comment_error_msg: "Maaf, ada kesalahan pada pengiriman Anda. Pastikan seluruh kolom yang diperlukan sudah dilengkapi dan coba kembali."
 
+# Inherited Indonesian Locales
 id-ID:
   <<: *DEFAULT_ID
 
-# Vietnamese
+# ------------------------------------------------------------------------------
+# VIETNAMESE (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 vi: &DEFAULT_VI
   comments_label: "Để lại bình luận"
   comments_title: "Bình luận"
@@ -366,10 +433,13 @@ vi: &DEFAULT_VI
   comment_success_msg: "Cảm ơn bạn đã bình luận! Bình luận sẽ xuất hiện sau khi được duyệt."
   comment_error_msg: "Rất tiếc, có lỗi trong việc gửi bình luận. Hãy đảm bảo toàn bộ các phần bắt buộc đã được điền đầy đủ và thử lại."
 
+# Inherited Vietnamese Locales
 vi-VN:
   <<: *DEFAULT_VI
 
-# Danish
+# ------------------------------------------------------------------------------
+# DANISH (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 da: &DEFAULT_DA
   comments_label: "Skriv en kommentar"
   comments_title: "Kommentarer"
@@ -384,10 +454,13 @@ da: &DEFAULT_DA
   comment_success_msg: "Tak for din kommentar! Den bliver vist på siden, så snart den er godkendt."
   comment_error_msg: "Desværre skete der en fejl. Prøv igen, mens du sørger for at alle obligatoriske felter er udfyldt."
 
+# Inherited Danish Locales
 da-DK:
   <<: *DEFAULT_DA
 
-# Polish
+# ------------------------------------------------------------------------------
+# POLISH (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 pl: &DEFAULT_PL
   comments_label: "Zostaw komentarz"
   comments_title: "Komentarze"
@@ -402,10 +475,13 @@ pl: &DEFAULT_PL
   comment_success_msg: "Dziękuję za Twój komentarz! Zostanie dodany po akceptacji."
   comment_error_msg: "Niestety wystąpił błąd. Proszę upewnij się, że wszystkie wymagane pola zostały wypełnione i spróbuj ponownie."
 
+# Inherited Polish Locales
 pl-PL:
   <<: *DEFAULT_PL
 
-# Japanese
+# ------------------------------------------------------------------------------
+# JAPANESE (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 ja: &DEFAULT_JA
   comments_label: "コメントする"
   comments_title: "コメント"
@@ -420,10 +496,13 @@ ja: &DEFAULT_JA
   comment_success_msg: "コメントありがとうございます！ コメントは承認されるとページに表示されます。"
   comment_error_msg: "送信エラーです。必須項目がすべて入力されていることを確認して再送信してください。"
 
+# Inherited Japanese Locales
 ja-JP:
   <<: *DEFAULT_JA
 
-# Slovak
+# ------------------------------------------------------------------------------
+# SLOVAK (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 sk: &DEFAULT_SK
   comments_label: "Zanechaj poznámku"
   comments_title: "Komentáre"
@@ -438,10 +517,13 @@ sk: &DEFAULT_SK
   comment_success_msg: "Ďakujem za tvoj komentár! Po schválení bude zobrazený na stránke."
   comment_error_msg: "Prepáč, pri ukladaní nastala chyba. Ubezpeč sa prosím, že si vyplnil všetky požadované polia a skús znova."
 
+# Inherited Slovak Locales
 sk-SK:
   <<: *DEFAULT_SK
 
-# Hungarian
+# ------------------------------------------------------------------------------
+# HUNGARIAN (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 hu: &DEFAULT_HU
   comments_label: "Szólj hozzá!"
   comments_title: "Hozzászólások"
@@ -456,10 +538,13 @@ hu: &DEFAULT_HU
   comment_success_msg: "Köszönjük a Hozzászólást! A Hozzászólások csak előzetes moderáció után lesznek publikusak."
   comment_error_msg: "Hoppá, hiba történt a beküldés közben. Kérlek ellenőrizd hogy minden kötelező mező ki van-e töltve."
 
+# Inherited Hungarian Locales
 hu-HU:
   <<: *DEFAULT_HU
 
-# Romanian
+# ------------------------------------------------------------------------------
+# ROMANIAN (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 ro: &DEFAULT_RO
   comments_label: "Lasă un comentariu"
   comments_title: "Comentarii"
@@ -474,10 +559,13 @@ ro: &DEFAULT_RO
   comment_success_msg: "Mulțumesc pentru comentariu! Va apărea pe site în momentul în care va fi aprobat."
   comment_error_msg: "Scuze, este o problemă cu comentariul tău. Asigură-te că toate câmpurile obligatorii au fost completate și încearcă din nou."
 
+# Inherited Romanian Locales
 ro-RO:
   <<: *DEFAULT_RO
 
-# Punjabi
+# ------------------------------------------------------------------------------
+# PUNJABI (Base & Regional Variants)
+# ------------------------------------------------------------------------------
 pa: &DEFAULT_PA
   comments_label: "ਇੱਕ ਟਿੱਪਣੀ ਛੱਡੋ"
   comments_title: "ਟਿੱਪਣੀਆਂ"
@@ -492,5 +580,6 @@ pa: &DEFAULT_PA
   comment_success_msg: "ਤੁਹਾਡੀਆਂ ਟਿੱਪਣੀਆਂ ਲਈ ਧੰਨਵਾਦ! ਇਹ ਮਨਜ਼ੂਰੀ ਮਿਲਣ ਦੇ ਬਾਅਦ ਸਾਈਟ 'ਤੇ ਦਿਖਾਇਆ ਜਾਵੇਗਾ।"
   comment_error_msg: "ਮੁਆਫ ਕਰਨਾ, ਤੁਹਾਡੀ ਅਧੀਨਗੀ ਵਿੱਚ ਕੋਈ ਗਲਤੀ ਹੋਈ ਸੀ। ਕਿਰਪਾ ਕਰਕੇ ਯਕੀਨੀ ਬਣਾਓ ਕਿ ਸਾਰੇ ਲੋੜੀਂਦੇ ਖੇਤਰ ਪੂਰੇ ਹੋ ਗਏ ਹਨ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
 
+# Inherited Punjabi Locales
 pa-IN:
   <<: *DEFAULT_PA
