@@ -1,6 +1,10 @@
 <footer class="beautiful-jekyll-footer-wrapper">
   <div class="container-md beautiful-jekyll-footer">
+    
+    <!-- Contact Information Section: 3-column layout for desktop, responsive stacking for mobile -->
     <div class="row contact-info-section text-center text-md-left mb-4">
+      
+      <!-- Column 1: Physical Postal Address -->
       <div class="col-md-4 mb-4">
         <h3 class="footer-heading">Mail Us</h3>
         <p class="footer-body">
@@ -11,6 +15,8 @@
           Dist: Pune, Pin – 410513, Maharashtra, India
         </p>
       </div>
+
+      <!-- Column 2: Phone Contact Numbers -->
       <div class="col-md-4 mb-4">
         <h3 class="footer-heading">Call Us</h3>
         <p class="footer-body">
@@ -19,15 +25,20 @@
           +91 9422304276 / +91 9422308583
         </p>
       </div>
+
+      <!-- Column 3: Direct Email Links & Student IT Committee Acknowledgements -->
       <div class="col-md-4 mb-4">
         <h3 class="footer-heading">Email Us</h3>
         <p class="footer-body">
           <strong>Email:</strong><br>
+          <!-- Opens direct Gmail composer pre-filled with office email address -->
           <a href="https://mail.google.com/mail/?view=cm&fs=1&to=office@sahyadrischool.org" target="_blank" class="footer-link">
             office@sahyadrischool.org<br>
             archives@sahyadrischool.org
           </a>
         </p>
+
+        <!-- Credit Box for Student Developers -->
         <div class="student-credit-box mt-3">
           <p class="footer-note">
             <strong>Note:</strong><br>
@@ -36,12 +47,19 @@
         </div>
       </div>
     </div>
+
     <hr class="footer-divider">
+
+    <!-- Bottom Footer Row: Social Media Links, Custom Includes, and Copyright -->
     <div class="row">
       <div class="col-12 text-center">
+        
+        <!-- Social Media Icons Include -->
         <div class="social-links-container mb-3">
           {% include social-networks-links.html %}
         </div>
+
+        <!-- Optional Page-Specific Footer Extras defined in Front Matter -->
         {% if page.footer-extra -%}
           <div class="footer-custom-content">
             {% for file in page.footer-extra -%}
@@ -49,6 +67,8 @@
             {% endfor %}
           </div>
         {% endif %}
+
+        <!-- Copyright Line with Dynamic Current Year and Site URL -->
         <p class="copyright text-muted">
           SAHYADRI&nbsp;&bull;&nbsp;{{ site.time | date: '%Y' }}
           {%- if site.url-pretty %}
@@ -56,8 +76,10 @@
           <span class="author-site">
             <a href="{% if site.url-canonical %}{{ site.url-canonical }}{% else %}{{ '/' | absolute_url }}{% endif %}">{{ site.url-pretty }}</a>
           </span>
-          {%- endif %}
+          {%- if site.url-pretty %}
         </p>
+
+        <!-- Developer / Designer Attribution -->
         <p class="design-credits text-muted">
           Made by Sailesh Mucheli
         </p>
