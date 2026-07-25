@@ -1,5 +1,4 @@
 ---
-/* Jekyll Front Matter Metadata */
 layout: page
 title: Geet Gunjan
 subtitle: Click thumbnail to download Geeth Gunjan
