@@ -1,31 +1,61 @@
 ---
-common-css:
-  - "/assets/css/beautifuljekyll-minimal.css"
+# ==============================================================================
+# MINIMAL BASE LAYOUT ASSET CONFIGURATION
+# ==============================================================================
+# Configures a lightweight layout variant that loads a minimal CSS theme alongside
+# standard Bootstrap dependencies and script inclusions.
 
+# Local theme stylesheets
+common-css:
+  - "/assets/css/beautifuljekyll-minimal.css" # Lightweight custom theme styles
+
+# External CSS libraries loaded via CDNs
 common-ext-css:
+  # Bootstrap 4.4.1 core CSS grid and components (includes Subresource Integrity check)
   - href: "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     sri: "sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 
+# External JavaScript libraries loaded via CDNs
 common-ext-js:
+  # jQuery 3.5.1 Slim (required for Bootstrap 4 interactive components)
   - href: "https://code.jquery.com/jquery-3.5.1.slim.min.js"
     sri: "sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
+  
+  # Popper.js 1.16.0 (handles dynamic positioning for tooltips and dropdowns)
   - href: "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
     sri: "sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+  
+  # Bootstrap 4.4.1 JS bundle (enables interactive layout components)
   - href: "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
     sri: "sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 ---
 
 <!DOCTYPE html>
+<!-- 
+  Language Fallback Cascade:
+  1. page.language (defined in page front matter)
+  2. site.language (defined in _config.yml)
+  3. 'en' (default fallback)
+-->
 <html lang="{{ page.language | default: site.language | default: 'en' }}">
 
+  <!-- Injects HTML head elements (<title>, <meta>, favicons) and loads stylesheet arrays -->
   {% include head.html %}
 
   <body>
 
-    <!-- Main Content -->
+    <!-- 
+      Main Content Area:
+      Dynamically sets width via Bootstrap container classes:
+      - 'container-fluid' if 'page.full-width' is true
+      - 'container-md' by default
+    -->
     <main class="{% if page.full-width %}container-fluid{% else %}container-md{% endif %} main-content">
 
-      <!-- Before Content -->
+      <!-- 
+        Before Content Inclusions:
+        Iterates through and renders any partial files listed in 'page.before-content'
+      -->
       {% if page.before-content %}
         <div class="before-content">
           {% for file in page.before-content %}
@@ -34,10 +64,13 @@ common-ext-js:
         </div>
       {% endif %}
 
-      <!-- Page Content -->
+      <!-- Core Page Body Slot -->
       {{ content }}
 
-      <!-- After Content -->
+      <!-- 
+        After Content Inclusions:
+        Iterates through and renders any partial files listed in 'page.after-content'
+      -->
       {% if page.after-content %}
         <div class="after-content">
           {% for file in page.after-content %}
@@ -48,7 +81,7 @@ common-ext-js:
 
     </main>
 
-    <!-- Footer & Scripts -->
+    <!-- Injects minimal footer template and deferred JavaScript files -->
     {% include footer-minimal.html %}
     {% include footer-scripts.html %}
 
