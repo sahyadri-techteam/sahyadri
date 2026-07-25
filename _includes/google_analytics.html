@@ -1,27 +1,35 @@
-{% if site.google_analytics -%}
-<!-- Google Analytics (Universal Analytics - Deprecated) -->
+{% if site.google_analytics %}
 
-<!-- Warning banner displayed if site still relies on Universal Analytics without modern GA4 (gtag) -->
-{% unless site.gtag -%}
+<!-- Warning banner: shown when site uses deprecated Universal Analytics without a GA4 (gtag) replacement -->
+{% unless site.gtag %}
 <div id="bj-ganalytics-deprecated-msg" style="position: fixed; background: #b90404; bottom: 0; width: 100%; z-index: 10000; color: #f0f0f0; text-align: center; padding: 0.5rem;">
-  
-  <!-- Close button to dismiss the fixed alert banner -->
-  <div title="Close" onclick="this.parentElement.remove();" style="position: absolute; right: 5px; top: 0; font-size: 1.5em; line-height: 1; cursor: pointer;">
+
+  <!-- Close button to dismiss the banner (keyboard-accessible) -->
+  <div
+    title="Close"
+    role="button"
+    tabindex="0"
+    onclick="this.parentElement.remove();"
+    onkeydown="if(event.key==='Enter'||event.key===' ')this.parentElement.remove();"
+    style="position: absolute; right: 5px; top: 0; font-size: 1.5em; line-height: 1; cursor: pointer;">
     &times;
   </div>
-  
-  <!-- Explanation detailing Universal Analytics deprecation and instructions to upgrade -->
+
   <div style="max-width: 800px; margin: auto; font-size: 1.1em;">
     This website is using outdated Google Analytics
     <details style="font-size: 0.8em;">
       <summary>More info</summary>
-      As of July 2023, Google's Universal Analytics has been discontinued and replaced by Google Analytics 4. This website is still using the deprecated Universal Analytics. To remove this message, the website owner must remove the <code>google_analytics</code> property from the website's config file and optionally replace it with the new <code>gtag</code> property.
+      As of July 2023, Google's Universal Analytics has been discontinued and replaced by Google Analytics 4.
+      This website is still using the deprecated Universal Analytics. To remove this message, the website owner
+      must remove the <code>google_analytics</code> property from the website's config file and optionally
+      replace it with the new <code>gtag</code> property.
     </details>
   </div>
+
 </div>
 {% endunless %}
 
-<!-- Legacy Universal Analytics (analytics.js) initialization script -->
+<!-- Legacy Universal Analytics (analytics.js) — deprecated since July 2023 -->
 <script>
   (function(i, s, o, g, r, a, m) {
     i['GoogleAnalyticsObject'] = r;
@@ -35,9 +43,8 @@
     a.src = g;
     m.parentNode.insertBefore(a, m);
   })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
   ga('create', '{{ site.google_analytics }}', 'auto');
   ga('send', 'pageview');
 </script>
-<!-- End Google Analytics -->
+
 {% endif %}
