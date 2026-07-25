@@ -4,7 +4,9 @@ title: Photos
 subtitle: Click on thumbnail to open the album
 ---
 
+<!-- Page-specific Styles for Photos Gallery & Academic Year Navigation -->
 <style>
+    /* Main wrapper constraining max-width and centering layout */
     .photos-page-container {
         display: block;
         width: 100%;
@@ -14,7 +16,7 @@ subtitle: Click on thumbnail to open the album
         box-sizing: border-box;
     }
 
-    /* Year Navigation */
+    /* Sub-navigation container for academic year selectors */
     .sub-nav-options {
         width: 100%;
         margin: 0 auto 3rem auto;
@@ -23,6 +25,7 @@ subtitle: Click on thumbnail to open the album
         text-align: center;
     }
 
+    /* Flexbox list for horizontal tab navigation */
     .sub-nav-list {
         display: flex;
         justify-content: center;
@@ -34,6 +37,7 @@ subtitle: Click on thumbnail to open the album
         flex-wrap: wrap;
     }
 
+    /* Interactive style for each academic year navigation tab */
     .sub-nav-list li {
         font-family: 'Amatic SC', cursive;
         font-size: 2rem;
@@ -44,6 +48,7 @@ subtitle: Click on thumbnail to open the album
         border-bottom: 3px solid transparent;
     }
 
+    /* Hover and active states for academic year tabs */
     .sub-nav-list li:hover,
     .sub-nav-list li.active {
         color: #5f745f;
@@ -51,7 +56,7 @@ subtitle: Click on thumbnail to open the album
         font-weight: bold;
     }
 
-    /* Album Grid */
+    /* CSS Grid layout for album cards (responsive columns) */
     .album-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -59,12 +64,14 @@ subtitle: Click on thumbnail to open the album
         width: 100%;
     }
 
+    /* Individual album card container */
     .album-item {
         display: flex;
         flex-direction: column;
         margin: 0;
     }
 
+    /* Enforces 3:2 aspect ratio on thumbnail images */
     .album-item img {
         width: 100%;
         height: auto;
@@ -73,19 +80,21 @@ subtitle: Click on thumbnail to open the album
         border-radius: 12px;
     }
 
+    /* Caption styling under each thumbnail */
     .album-item figcaption {
         font-size: 1.1rem;
         text-align: center;
         margin-top: 8px;
     }
 
-    /* Load More */
+    /* Load More button layout container */
     .load-more-container {
         text-align: center;
         margin-top: 3rem;
         width: 100%;
     }
 
+    /* Styling for the pagination 'Load More' button */
     .btn-load-more {
         background-color: #5f745f;
         color: white;
@@ -101,9 +110,10 @@ subtitle: Click on thumbnail to open the album
         background-color: #4a5b4a;
     }
 
+    /* Utility class used by JS to hide albums not in view or active filter */
     .hidden-item { display: none; }
 
-    /* Mobile */
+    /* Mobile adjustments for narrower screens */
     @media (max-width: 992px) {
         .sub-nav-list { gap: 1.5rem; }
 
@@ -114,12 +124,15 @@ subtitle: Click on thumbnail to open the album
     }
 </style>
 
+<!-- Main Page HTML Markup Structure -->
 <div class="photos-page-container">
 
+    <!-- Top Navigation Bar (Dynamically populated with Academic Years via JavaScript) -->
     <nav class="sub-nav-options">
         <ul class="sub-nav-list" id="year-toc"></ul>
     </nav>
 
+    <!-- Main Album Grid Container -->
     <div class="album-grid" id="main-grid">
 
         <!-- 
@@ -443,26 +456,38 @@ subtitle: Click on thumbnail to open the album
 
     </div>
 
+    <!-- Pagination Trigger Container -->
     <div class="load-more-container">
         <button id="load-more-btn" class="btn-load-more">Load More</button>
     </div>
 
 </div>
 
+<!-- JavaScript Engine: Handles Google Drive Image Resolution, Dynamic AY Tabs, Filtering, and Pagination -->
 <script>
+    // Max number of album items displayed per page view
     const ITEMS_PER_PAGE = 12;
 
+    // Month name map used for parsing dates out of album figcaptions
     const MONTHS = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
 
-    // Converts a Google Drive file ID into a direct thumbnail URL.
-    // The file must be shared as "Anyone with the link can view".
+    /**
+     * Helper function to build direct thumbnail URL from a Google Drive File ID.
+     * @param {string} fileId - The Google Drive file ID.
+     * @returns {string} Direct image thumbnail link.
+     */
     function driveImg(fileId) {
         return `https://drive.google.com/thumbnail?id=${fileId}&sz=w600`;
     }
 
+    /**
+     * Calculates the Academic Year (June–May calendar cycle) from a text string.
+     * @param {string} dateText - Raw text from the figcaption element (e.g. "28th June 2026").
+     * @returns {string} Academic year formatted string (e.g. "2026-27").
+     */
     function getAcademicYear(dateText) {
         const yearMatch = dateText.match(/\d{4}/);
         const monthMatch = dateText.match(/(January|February|March|April|May|June|July|August|September|October|November|December)/i);
@@ -472,58 +497,79 @@ subtitle: Click on thumbnail to open the album
         const year = parseInt(yearMatch[0]);
         const monthIndex = MONTHS.findIndex(m => m.toLowerCase() === monthMatch[0].toLowerCase());
 
-        // Academic year runs June–May
+        // Academic year cycle runs from June (index 5) to May (index 4)
         return monthIndex >= 5
             ? `${year}-${(year + 1).toString().slice(-2)}`
             : `${year - 1}-${year.toString().slice(-2)}`;
     }
 
+    /**
+     * Manages 'Load More' button state and pagination chunking.
+     * @param {Array<HTMLElement>} matchedItems - List of album items belonging to active academic year.
+     */
     function updateLoadMore(matchedItems) {
         const btn = document.getElementById('load-more-btn');
         const hidden = matchedItems.filter(el => el.classList.contains('hidden-item'));
 
+        // Toggle visibility of the Load More button based on remaining hidden items
         btn.parentElement.style.display = hidden.length > 0 ? 'block' : 'none';
 
+        // Reveal the next batch of items upon clicking 'Load More'
         btn.onclick = () => {
             hidden.splice(0, ITEMS_PER_PAGE).forEach(el => el.classList.remove('hidden-item'));
             updateLoadMore(matchedItems);
         };
     }
 
+    /**
+     * Filters visible album items based on selected academic year tab.
+     * @param {string} year - Selected academic year string (e.g., "2025-26").
+     * @param {HTMLElement} activeEl - Tab list element clicked by user.
+     */
     function filterByYear(year, activeEl) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
+        // Update active tab highlighting
         document.querySelectorAll('.sub-nav-list li').forEach(li => li.classList.remove('active'));
         activeEl?.classList.add('active');
 
+        // Filter album items matching target academic year
         const all = Array.from(document.querySelectorAll('.album-item'));
         const matched = all.filter(el => el.dataset.academicYear === year);
 
+        // Hide all items, then reveal only the first chunk of matched items
         all.forEach(el => el.classList.add('hidden-item'));
         matched.slice(0, ITEMS_PER_PAGE).forEach(el => el.classList.remove('hidden-item'));
 
+        // Re-evaluate pagination button state
         updateLoadMore(matched);
     }
 
+    /**
+     * Initializes thumbnails, parses academic years, creates navigation tabs, and loads default view.
+     */
     function initPage() {
         const items = Array.from(document.querySelectorAll('.album-item'));
         const nav = document.getElementById('year-toc');
         const years = new Set();
 
         items.forEach(item => {
-            // Set the thumbnail src from the Drive file ID
+            // Set thumbnail img src from data-img Google Drive ID attribute
             const fileId = item.dataset.img;
             if (fileId && fileId !== 'FILE_ID_HERE') {
                 item.querySelector('img').src = driveImg(fileId);
             }
 
+            // Extract academic year and attach as a data attribute on the DOM element
             const year = getAcademicYear(item.querySelector('figcaption').innerText);
             item.dataset.academicYear = year;
             years.add(year);
         });
 
+        // Sort academic years in descending order (most recent first)
         const sortedYears = Array.from(years).sort().reverse();
 
+        // Dynamically build navigation tab buttons
         sortedYears.forEach(year => {
             const li = document.createElement('li');
             li.innerText = year;
@@ -531,10 +577,12 @@ subtitle: Click on thumbnail to open the album
             nav.appendChild(li);
         });
 
+        // Default to displaying the most recent academic year
         if (sortedYears.length > 0) {
             filterByYear(sortedYears[0], nav.firstChild);
         }
     }
 
+    // Run initialization once DOM content is fully loaded
     document.addEventListener('DOMContentLoaded', initPage);
 </script>
