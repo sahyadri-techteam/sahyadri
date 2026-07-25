@@ -4,7 +4,7 @@ title: "Sailesh Mucheli"
 subtitle: "Student (Class 12)"
 date: 2026-07-03
 academic-year: "2026-27"
-profile-image: "1JaPbWCDhLBVDV5t4UJWM2R4TRcUjEqjS"
+profile-image: "1mAZsR_SWrJkXNDxj2Z3Zioo7zuajC23P"
 ---
 
 I joined Sahyadri in Grade 5 to discover more about myself and how I would fare in life without my parents to help guide and protect me.
