@@ -1,14 +1,27 @@
-
 {
+  "//": "==========================================================================",
+  "//": "WEB APP MANIFEST TEMPLATE (manifest.json)",
+  "//": "Provides metadata to allow the web app to be installed on modern mobile/desktop",
+  "//": "==========================================================================",
+
+  "//": "Full name of the web application used on application splash screens & launcher prompts",
   "name": "{{ site.title }}",
+
+  "//": "Short application name displayed on home screens or limited space UI elements",
   "short_name": "{{ site.title }}",
+
+  "//": "List of app icons across various resolutions for device home screens and OS tasks",
   "icons": [
     {
+      "//": "Fallback default favicon icon target",
       "src": "/favicon.ico"
     },
     {
+      "//": "High-resolution 512x512 icon for splash screens and app launcher graphics",
       "src": "/assets/img/favicon-512.png"
     }
   ],
+
+  "//": "Defines the preferred UI display mode ('standalone' hides standard browser UI/URL bar)",
   "display": "standalone"
 }
