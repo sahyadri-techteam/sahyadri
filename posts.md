@@ -120,11 +120,18 @@ permalink: /posts/
   {% assign post_month = post.date | date: "%-m" | plus: 0 %}
   {% assign post_year  = post.date | date: "%Y"  | plus: 0 %}
 
-  {% if post_month >= 6 %}
-    {% assign ay_start = post_year %}
-  {% else %}
-    {% assign ay_start = post_year | minus: 1 %}
-  {% endif %}
+  {% comment %}
+  Academic year: June 1 (year X) → March 31 (year X+1)
+  Jan–March  → belongs to previous year's AY  (e.g. Jan 2026 → AY 2025-26)
+  Apr–May    → gap months (no posts expected, but assign to previous AY)
+  June–Dec   → starts a new AY                (e.g. July 2026 → AY 2026-27)
+{% endcomment %}
+
+{% if post_month >= 6 %}
+  {% assign ay_start = post_year %}
+{% else %}
+  {% assign ay_start = post_year | minus: 1 %}
+{% endif %}
 
   {% comment %} Accumulate unique AY start years as a pipe-delimited string {% endcomment %}
   {% assign ay_start_str = ay_start | append: "" %}
