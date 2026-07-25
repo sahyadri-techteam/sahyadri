@@ -29,7 +29,7 @@ permalink: /posts/
     border-bottom: 3px solid transparent;
   }
   .tab-link:hover, .tab-link.active {
-    color: #5f745f; 
+    color: #5f745f;
     border-bottom: 3px solid #5f745f;
   }
   .academic-panel {
@@ -109,51 +109,51 @@ permalink: /posts/
 
 {% comment %}
   Academic year: June 1 (year X) to March 31 (year X+1)
-  Jun to Dec of year X  → AY starts year X   (e.g. Jul 2026 → AY 2026-27)
-  Jan to May of year X  → AY starts year X-1 (e.g. Jan 2026 → AY 2025-26)
+  Jun–Dec  → ay_start = that year     e.g. Jul 2026 → AY 2026-27
+  Jan–May  → ay_start = previous year  e.g. Jan 2026 → AY 2025-26
 {% endcomment %}
 
 {% assign ay_start_years = "" %}
 
 {% for post in site.posts %}
-  {% assign post_month = post.date | date: "%-m" | plus: 0 %}
-  {% assign post_year  = post.date | date: "%Y"  | plus: 0 %}
+  {% assign post_month = post.date | date: "%m" | plus: 0 %}
+  {% assign post_year  = post.date | date: "%Y" %}
 
   {% if post_month >= 6 %}
     {% assign ay_start = post_year %}
   {% else %}
-    {% assign ay_start = post_year | minus: 1 %}
+    {% assign ay_start = post_year | minus: 1 | append: "" %}
   {% endif %}
 
-  {% assign ay_start_str = ay_start | append: "" %}
-  {% unless ay_start_years contains ay_start_str %}
+  {% comment %} Pipe-delimited deduplication — pad with pipes to avoid partial matches {% endcomment %}
+  {% assign padded = "|" | append: ay_start_years | append: "|" %}
+  {% assign needle = "|" | append: ay_start | append: "|" %}
+  {% unless padded contains needle %}
     {% if ay_start_years == "" %}
-      {% assign ay_start_years = ay_start_str %}
+      {% assign ay_start_years = ay_start %}
     {% else %}
-      {% assign ay_start_years = ay_start_years | append: "|" | append: ay_start_str %}
+      {% assign ay_start_years = ay_start_years | append: "|" | append: ay_start %}
     {% endif %}
   {% endunless %}
 {% endfor %}
 
-{% assign year_blocks = ay_start_years | split: "|" | sort | reverse %}
+{% comment %} Sort descending so the newest AY tab appears first {% endcomment %}
+{% assign year_blocks        = ay_start_years | split: "|" | sort | reverse %}
 {% assign default_active_year = year_blocks[0] %}
 
 <div id="top" style="scroll-margin-top: 200px;"></div>
 
 <div class="tabs-container">
   <div class="academic-tabs">
-    {% for current_year in year_blocks %}
-      {% assign start_yr     = current_year | plus: 0 %}
-      {% assign end_yr       = start_yr | plus: 1 %}
-      {% assign end_yr_str   = end_yr | append: "" %}
-      {% assign short_end_yr = end_yr_str | slice: 2, 2 %}
-      {% assign tab_id       = "ay-" | append: start_yr | append: "-" | append: short_end_yr %}
-      {% assign tab_label    = start_yr | append: "–" | append: short_end_yr %}
+    {% for ay in year_blocks %}
+      {% assign ay_end_year  = ay | plus: 1 | append: "" %}
+      {% assign ay_short_end = ay_end_year | slice: 2, 2 %}
+      {% assign tab_id       = "ay-" | append: ay | append: "-" | append: ay_short_end %}
 
       <button
-        class="tab-link {% if current_year == default_active_year %}active{% endif %}"
+        class="tab-link {% if ay == default_active_year %}active{% endif %}"
         onclick="switchAcademicYear(event, '{{ tab_id }}')">
-        {{ tab_label }}
+        {{ ay }}&#8211;{{ ay_short_end }}
       </button>
     {% endfor %}
   </div>
@@ -161,56 +161,54 @@ permalink: /posts/
 
 {% assign grouped_posts = site.posts | group_by: "category" %}
 
-{% for current_year in year_blocks %}
-  {% assign start_yr            = current_year | plus: 0 %}
-  {% assign end_yr              = start_yr | plus: 1 %}
-  {% assign end_yr_str          = end_yr | append: "" %}
-  {% assign short_end_yr        = end_yr_str | slice: 2, 2 %}
-  {% assign academic_start_date = start_yr | append: "-06-01" %}
-  {% assign academic_end_date   = end_yr   | append: "-03-31" %}
-  {% assign panel_id            = "ay-" | append: start_yr | append: "-" | append: short_end_yr %}
-
-  {% assign is_active = false %}
-  {% if current_year == default_active_year %}
-    {% assign is_active = true %}
-  {% endif %}
+{% for ay in year_blocks %}
+  {% assign ay_end_year         = ay | plus: 1 | append: "" %}
+  {% assign ay_short_end        = ay_end_year | slice: 2, 2 %}
+  {% assign academic_start_date = ay | append: "-06-01" %}
+  {% assign academic_end_date   = ay_end_year | append: "-03-31" %}
+  {% assign panel_id            = "ay-" | append: ay | append: "-" | append: ay_short_end %}
+  {% assign is_active           = false %}
+  {% if ay == default_active_year %}{% assign is_active = true %}{% endif %}
 
   <div id="{{ panel_id }}" class="academic-panel {% if is_active %}active{% endif %}">
     <div class="newsletter-container">
+
       <aside class="toc-sidebar">
         <nav class="toc-card">
           <h2 class="toc-title">Editions</h2>
-          <h3 class="toc-list">
+          <ul class="toc-list">
             {% for group in grouped_posts %}
-              {% assign has_current_posts = false %}
+              {% assign has_posts = false %}
               {% for item in group.items %}
                 {% assign item_date = item.date | date: "%Y-%m-%d" %}
                 {% if item_date >= academic_start_date and item_date <= academic_end_date %}
-                  {% assign has_current_posts = true %}
+                  {% assign has_posts = true %}
                   {% break %}
                 {% endif %}
               {% endfor %}
-              {% if has_current_posts %}
-                {% assign category_id = panel_id | append: "-" | append: group.name | slugify | default: "general-updates" %}
-                <li><a href="#{{ category_id }}">{{ group.name | default: "General Updates" }}</a></li>
+              {% if has_posts %}
+                {% assign cat_id = panel_id | append: "-" | append: group.name | slugify %}
+                <li><a href="#{{ cat_id }}">{{ group.name | default: "General Updates" }}</a></li>
               {% endif %}
             {% endfor %}
-          </h3>
+          </ul>
         </nav>
       </aside>
 
       <div class="posts-list">
-        {% assign total_displayed_posts = 0 %}
+        {% assign total_posts = 0 %}
+
         {% for group in grouped_posts %}
-          {% assign pinned_posts = group.items | where: "pinned", true %}
-          {% assign normal_posts = group.items | where_exp: "item", "item.pinned != true" %}
-          {% assign sorted_posts = pinned_posts | concat: normal_posts %}
-          {% assign current_group_count = 0 %}
-          {% capture group_output %}
+          {% assign pinned_posts  = group.items | where: "pinned", true %}
+          {% assign normal_posts  = group.items | where_exp: "item", "item.pinned != true" %}
+          {% assign sorted_posts  = pinned_posts | concat: normal_posts %}
+          {% assign group_count   = 0 %}
+
+          {% capture group_html %}
             {% for post in sorted_posts %}
               {% assign post_date = post.date | date: "%Y-%m-%d" %}
               {% if post_date >= academic_start_date and post_date <= academic_end_date %}
-                {% assign current_group_count = current_group_count | plus: 1 %}
+                {% assign group_count = group_count | plus: 1 %}
                 <article class="post-preview">
                   <a href="{{ post.url | relative_url }}" style="text-decoration: none;">
                     <h3 class="post-title">{{ post.title }}</h3>
@@ -222,29 +220,26 @@ permalink: /posts/
                       {% if post.profile-link %}
                         <a href="{{ post.profile-link }}" target="_blank" rel="noopener noreferrer">{{ post.subtitle }}</a>
                       {% else %}
-                        {% assign author1_parts = post.subtitle | split: ' ' %}
-                        {% capture author1_slug %}{{ author1_parts[0] | downcase }}-{{ author1_parts[1] | downcase }}{% endcapture %}
-                        {% assign profile1_url = '/profiles/' | append: author1_slug | append: '/' | relative_url %}
-                        <a href="{{ profile1_url }}">{{ post.subtitle }}</a>
+                        {% assign a1 = post.subtitle | split: " " %}
+                        {% capture a1_slug %}{{ a1[0] | downcase }}-{{ a1[1] | downcase }}{% endcapture %}
+                        <a href="{{ '/profiles/' | append: a1_slug | append: '/' | relative_url }}">{{ post.subtitle }}</a>
                       {% endif %}
-
                       {% if post.subtitle2 %}
                         and
                         {% if post.profile-link2 %}
                           <a href="{{ post.profile-link2 }}" target="_blank" rel="noopener noreferrer">{{ post.subtitle2 }}</a>
                         {% else %}
-                          {% assign author2_parts = post.subtitle2 | split: ' ' %}
-                          {% capture author2_slug %}{{ author2_parts[0] | downcase }}-{{ author2_parts[1] | downcase }}{% endcapture %}
-                          {% assign profile2_url = '/profiles/' | append: author2_slug | append: '/' | relative_url %}
-                          <a href="{{ profile2_url }}">{{ post.subtitle2 }}</a>
+                          {% assign a2 = post.subtitle2 | split: " " %}
+                          {% capture a2_slug %}{{ a2[0] | downcase }}-{{ a2[1] | downcase }}{% endcapture %}
+                          <a href="{{ '/profiles/' | append: a2_slug | append: '/' | relative_url }}">{{ post.subtitle2 }}</a>
                         {% endif %}
                       {% endif %}
                     </h4>
                   {% endif %}
 
-                  <p class="post-meta">Posted on {{ post.date | date: site.date_format | default: "%B %d, %Y" }}</p>
-                  <div class="post-entry-container">
+                  <p class="post-meta">Posted on {{ post.date | date: "%B %d, %Y" }}</p>
 
+                  <div class="post-entry-container">
                     {% assign current_image = post.image_id | default: post.image %}
                     {% if current_image %}
                       <div class="post-image">
@@ -253,7 +248,6 @@ permalink: /posts/
                         </a>
                       </div>
                     {% endif %}
-
                     <div class="post-entry">
                       {{ post.excerpt | strip_html | truncatewords: 30 }}
                       <a href="{{ post.url | relative_url }}" class="post-read-more">Read More</a>
@@ -264,37 +258,30 @@ permalink: /posts/
             {% endfor %}
           {% endcapture %}
 
-          {% if current_group_count > 0 %}
-            {% assign total_displayed_posts = total_displayed_posts | plus: current_group_count %}
-            {% assign category_id = panel_id | append: "-" | append: group.name | slugify | default: "general-updates" %}
-            <section class="term-section" id="{{ category_id }}">
+          {% if group_count > 0 %}
+            {% assign total_posts = total_posts | plus: group_count %}
+            {% assign cat_id = panel_id | append: "-" | append: group.name | slugify %}
+            <section class="term-section" id="{{ cat_id }}">
               <h2 class="category-heading">{{ group.name | default: "General Updates" }}</h2>
-              {{ group_output }}
-              <div class="back-to-top">
-                <a href="#top">↑ Back to top</a>
-              </div>
+              {{ group_html }}
+              <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
             </section>
           {% endif %}
         {% endfor %}
 
-        {% if total_displayed_posts == 0 %}
+        {% if total_posts == 0 %}
           <p class="no-posts-msg">No newsletters found for this academic period.</p>
         {% endif %}
       </div>
+
     </div>
   </div>
 {% endfor %}
 
 <script>
   function switchAcademicYear(evt, panelId) {
-    const panels = document.getElementsByClassName("academic-panel");
-    for (let i = 0; i < panels.length; i++) {
-      panels[i].classList.remove("active");
-    }
-    const tabs = document.getElementsByClassName("tab-link");
-    for (let i = 0; i < tabs.length; i++) {
-      tabs[i].classList.remove("active");
-    }
+    document.querySelectorAll(".academic-panel").forEach(p => p.classList.remove("active"));
+    document.querySelectorAll(".tab-link").forEach(t => t.classList.remove("active"));
     document.getElementById(panelId).classList.add("active");
     evt.currentTarget.classList.add("active");
   }
