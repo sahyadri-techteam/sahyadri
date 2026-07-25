@@ -1,6 +1,12 @@
 {% if site.commentbox %}
+  <!-- CommentBox.io Integration -->
+  <!-- Container where comment threads will render -->
   <div class="commentbox"></div>
+
+  <!-- Load CommentBox.io script from CDN -->
   <script src="https://unpkg.com/commentbox.io/dist/commentBox.min.js"></script>
+
+  <!-- Initialize CommentBox with the Project ID defined in site config -->
   <script>
     commentBox('{{ site.commentbox }}');
   </script>
