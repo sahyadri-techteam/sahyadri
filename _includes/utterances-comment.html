@@ -1,13 +1,24 @@
-{% if site.utterances.repository and site.utterances.issue-term  %}
+{%- comment -%}
+  Utterances Comments Integration Component
+  -----------------------------------------
+  Loads the Utterances lightweight commenting widget backed by GitHub Issues.
 
-<script src="https://utteranc.es/client.js"
-        repo="{{ site.utterances.repository }}"
-        issue-term="{{ site.utterances.issue-term }}"
-        theme="{{ site.utterances.theme}}"
-        label="{{ site.utterances.label}}"
-        crossorigin="anonymous"
-        async>
-</script>
+  Configuration Requirements (_config.yml):
+  - site.utterances.repository : (Required) GitHub repository path (e.g., "owner/repo")
+  - site.utterances.issue-term : (Required) Mapping strategy (e.g., "pathname", "url", "title", "og:title")
+  - site.utterances.theme      : (Optional) Theme name (e.g., "github-light", "github-dark", "preferred-color-scheme")
+  - site.utterances.label      : (Optional) Label to assign to issues created by Utterances
+{%- endcomment -%}
 
-{% endif %}
-
+{% if site.utterances.repository and site.utterances.issue-term -%}
+<div class="utterances-comments" id="utterances-comments">
+  <script src="https://utteranc.es/client.js"
+          repo="{{ site.utterances.repository }}"
+          issue-term="{{ site.utterances.issue-term }}"
+          theme="{{ site.utterances.theme | default: 'github-light' }}"
+          {% if site.utterances.label %}label="{{ site.utterances.label }}"{% endif %}
+          crossorigin="anonymous"
+          async>
+  </script>
+</div>
+{% endif -%}
