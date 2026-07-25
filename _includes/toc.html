@@ -1,20 +1,53 @@
+{%- comment -%}
+  Table of Contents (TOC) Generator Component
+  -------------------------------------------
+  Parses generated HTML string content (`include.html`) to dynamically extract 
+  heading levels (`<h1` through `<h6`) and builds a clean list of anchor links.
+
+  Expected Include Parameters:
+  - include.html  : (Required) HTML string content to inspect (e.g. content)
+  - include.h_min : (Optional) Minimum heading depth to extract (Default: 1)
+  - include.h_max : (Optional) Maximum heading depth to extract (Default: 6)
+  - include.class : (Optional) CSS class string for the parent <ul> container
+  - include.id    : (Optional) HTML ID attribute for the parent <ul> container
+{%- endcomment -%}
+
 {% capture tocWorkspace -%}
+  {%- comment -%} Split HTML string by heading opening tags (<h) {%- endcomment -%}
   {% assign nodes = include.html | split: '<h' -%}
   {% assign minHeader = include.h_min | default: 1 -%}
   {% assign maxHeader = include.h_max | default: 6 -%}
 
-  <ul class="{{ include.class }}" id="{{ include.id }}">
+  <ul class="{{ include.class | default: 'toc-list' }}"{% if include.id %} id="{{ include.id }}"{% endif %}>
     {%- for node in nodes -%}
+      {%- comment -%} Skip blank entries before the first header tag {%- endcomment -%}
       {%- if node == "" -%}
         {%- continue -%}
       {%- endif -%}
-      {%- assign headerLevel = node | truncate: 1, '' | plus: 0 -%}
+
+      {%- comment -%} Extract heading level digit (1 to 6) from the start of node string {%- endcomment -%}
+      {%- assign headerLevel = node | slice: 0, 1 | plus: 0 -%}
+
+      {%- comment -%} Process only headers that match configured min/max range {%- endcomment -%}
       {%- if headerLevel >= minHeader and headerLevel <= maxHeader -%}
-        {%- assign _headerid = node | split: 'id="' | last | split: '"' | first -%}
-        {%- assign _headerText = node | split: '>' | second | split: '</h' | first | strip_html -%}
-        <li class="toc-entry toc-h{{ headerLevel }}">
-          <a href="#{{ _headerid }}">{{ _headerText }}</a>
-        </li>
+        
+        {%- comment -%} Extract header ID attribute {%- endcomment -%}
+        {%- if node contains 'id="' -%}
+          {%- assign _headerid = node | split: 'id="' | last | split: '"' | first -%}
+        {%- else -%}
+          {%- assign _headerid = "" -%}
+        {%- endif -%}
+
+        {%- comment -%} Extract inner text of the header and strip nested HTML tags {%- endcomment -%}
+        {%- assign _headerText = node | split: '>' | slice: 1 | join: '>' | split: '</h' | first | strip_html | strip -%}
+
+        {%- comment -%} Output list item only if valid text and ID exist {%- endcomment -%}
+        {%- if _headerText != "" and _headerid != "" -%}
+          <li class="toc-entry toc-h{{ headerLevel }}">
+            <a href="#{{ _headerid }}">{{ _headerText }}</a>
+          </li>
+        {%- endif -%}
+
       {%- endif -%}
     {%- endfor -%}
   </ul>
