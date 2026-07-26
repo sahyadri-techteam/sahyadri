@@ -1,13 +1,9 @@
-{% if site.commentbox %}
-  <!-- CommentBox.io Integration -->
-  <!-- Container where comment threads will render -->
+{% if site.commentbox-id %}
+  <!-- CommentBox.io widget
+       Project ID is set via commentbox-id in _config.yml.
+       page.comments is already checked by the parent comments.html include.
+  -->
   <div class="commentbox"></div>
-
-  <!-- Load CommentBox.io script from CDN -->
   <script src="https://unpkg.com/commentbox.io/dist/commentBox.min.js"></script>
-
-  <!-- Initialize CommentBox with the Project ID defined in site config -->
-  <script>
-    commentBox('{{ site.commentbox }}');
-  </script>
+  <script>commentBox('{{ site.commentbox-id }}');</script>
 {% endif %}
