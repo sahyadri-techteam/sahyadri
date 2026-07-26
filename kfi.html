@@ -27,7 +27,6 @@ title: "Weekly Excerpts"
         {% assign tab_label = "Archive" %}
         {% assign target_val = "archive" %}
       {% else %}
-        /* Compute formatted academic year range (e.g., "2025" becomes "2025–26") */
         {% assign start_yr = current_year | plus: 0 %}
         {% assign short_end_yr = start_yr | plus: 1 | slice: 2, 2 %}
         {% assign tab_label = start_yr | append: "–" | append: short_end_yr %}
