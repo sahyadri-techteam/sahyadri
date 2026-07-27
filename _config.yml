@@ -13,7 +13,6 @@ title: "Sahyadri Connect"
 author: "Sahyadri"
 title-on-all-pages: true   # Appends site title to every page's <title> tag
 
-
 # -----------------------------------------------------------------------------
 # Navigation Bar
 # -----------------------------------------------------------------------------
@@ -121,6 +120,15 @@ date_format: "%B %-d, %Y"   # Example: July 25, 2026
 # -----------------------------------------------------------------------------
 kramdown:
   input: GFM   # GitHub Flavored Markdown
+
+
+# -----------------------------------------------------------------------------
+# Comments (CommentBox.io)
+# Find your Project ID in the CommentBox dashboard → your project → Settings.
+# This value is referenced in layouts via {{ site.commentbox-id }}
+# Leave blank or remove to disable CommentBox sitewide.
+# -----------------------------------------------------------------------------
+commentbox-id: "5661932178636800-proj"   # e.g. "5678912345-proj-abc123"
 
 
 # -----------------------------------------------------------------------------
