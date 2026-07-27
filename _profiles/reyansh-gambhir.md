@@ -4,7 +4,7 @@ title: "Reyansh Gambhir"
 subtitle: "Student (Class 11)"
 date: 2026-06-29
 academic-year: "2026-27"
-profile-image: "1ORgDReqw9gy2bkdxcGKd4FH9xVe-yNbp"
+profile-image: "1IZ_37zodCHcSCnFocfJIRoL-YMOl-AVK"
 ---
 
 I joined Sahyadri School in 6th.
