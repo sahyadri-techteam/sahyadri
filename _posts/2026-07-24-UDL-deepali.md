@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Designing Classroms Where Every Child Can Learn"
+title: "Designing Classrooms Where Every Child Can Learn"
 date: 2026-07-24
 subtitle: "Deepali Soundattikar (Teacher)"
 profile-link: https://www.sahyadrischool.org/deepali-soundattikar/
