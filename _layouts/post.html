@@ -163,13 +163,8 @@ layout: base
       <!-- ====================================================================
            3. MULTI-IMAGE GALLERY (GOOGLE DRIVE EMBEDS)
            Renders each populated image field (image, image2, image3, image4, image5)
-           as a Google Drive direct stream link.
-
-           NOTE: Jekyll's Liquid engine does NOT support comma-separated value
-           lists in {% assign %} (e.g. `assign x = a, b, c`) - that syntax is a
-           Shopify Liquid extension only. Using it here silently produced an
-           array containing just the first value, so image2-image5 were never
-           rendered. Each field is checked explicitly below instead.
+           as a Google Drive direct stream link. Each field is checked explicitly
+           to ensure all images render correctly.
            ==================================================================== -->
       {% if page.image %}
         <div class="post-image-wrapper">
