@@ -44,3 +44,4 @@ beautiful-jekyll-theme-*.gem # Built RubyGem archive packages generated locally
 .idea/          # JetBrains IDE (RubyMine, IntelliJ, WebStorm) project files
 *.swp           # Vim temporary swap files
 *.swo           # Vim temporary swap files
+
