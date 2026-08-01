@@ -4,76 +4,49 @@
 #              GitHub Pages upon pushing to the 'master' branch or manual trigger.
 # ==============================================================================
 name: Sahyadri Connect
-# ------------------------------------------------------------------------------
-# Triggers: Define when this workflow will execute
-# ------------------------------------------------------------------------------
 on:
-  # Triggers the workflow on push events to the 'master' branch
   push:
     branches: ["master"]
-  
-  # Allows manual execution of this workflow from the GitHub Actions tab
   workflow_dispatch:
-# ------------------------------------------------------------------------------
-# Permissions: Least privilege model for GitHub Pages deployment
-# ------------------------------------------------------------------------------
 permissions:
-  contents: read    # Required to check out repository code
-  pages: write       # Required to deploy build artifacts to GitHub Pages
-  id-token: write    # Required for OpenID Connect (OIDC) authentication with Pages
-# ==============================================================================
-# Jobs Definition
-# ==============================================================================
+  contents: read
+  pages: write
+  id-token: write
 jobs:
-  # ----------------------------------------------------------------------------
-  # Job 1: Build
-  # Compiles the Jekyll site and packages the output into a GitHub Pages artifact
-  # ----------------------------------------------------------------------------
   build:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout the repository code
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1 # Fetch only the latest commit for faster builds
-      # Step 2: Set up the Ruby runtime environment
+          fetch-depth: 1
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'   # Specify desired Ruby version
-          bundler-cache: true  # Enable automatic caching for 'bundle install'
-      # Step 3: Configure GitHub Pages metadata (site URL, baseurl, etc.)
+          ruby-version: '3.2'
+          bundler-cache: true
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      # Step 4: Debug - Search entire repo for broken assign image_ids line
       - name: Debug post layout
-        run: grep -rn "assign image_ids" . --include="*.html" --include="*.md" || echo "NOT FOUND ANYWHERE"
-      # Step 5: Build the static site using Jekyll in production mode
+        run: |
+          echo "=== Full post.html with line numbers ==="
+          cat -n _layouts/post.html
       - name: Build with Jekyll
         run: bundle exec jekyll build
         env:
-          JEKYLL_ENV: production # Optimizes output and enforces production-only code
-      # Step 6: Compress and upload generated site files (default path: ./_site)
+          JEKYLL_ENV: production
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
-  # ----------------------------------------------------------------------------
-  # Job 2: Deploy
-  # Takes the artifact from the build job and deploys it live to GitHub Pages
-  # ----------------------------------------------------------------------------
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    
     runs-on: ubuntu-latest
-    needs: build # Ensures build completes successfully before deployment starts
-    # Prevent simultaneous deployments: queue new deploys and cancel in-progress ones
+    needs: build
     concurrency:
       group: "pages"
       cancel-in-progress: true
     steps:
-      # Step 1: Deploy the uploaded artifact to GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
