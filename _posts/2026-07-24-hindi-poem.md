@@ -26,9 +26,9 @@ category: July 2026
 
 भ्## कविताएँ
 
-1. [भ्रष्टाचार का महोत्सव](https://www.hindwi.org/kavita/rashtriya-bhrashtachar-mahotsaw-ashok-chakrdhar-kavita)
-2. [एक नया अनुभव](https://poetandpoem.com/Harivansh-Rai-Bachchan/Ek-naya-Anubhav)
-3. [क्योंकि मैं लड़की हूँ मुझे पढ़ना है](https://yuvaniya.in/2021/11/15/kamla-bhasin-poem-on-patriarchy-and-girls-education/)
-4. [वर्णमाला](https://share.google/jVC6mqL4yDidl6PgX)
+1. [भ्रष्टाचार का महोत्सव](https://www.hindwi.org/kavita/rashtriya-bhrashtachar-mahotsaw-ashok-chakrdhar-kavita){:target="_blank"}
+2. [एक नया अनुभव](https://poetandpoem.com/Harivansh-Rai-Bachchan/Ek-naya-Anubhav){:target="_blank"}
+3. [क्योंकि मैं लड़की हूँ मुझे पढ़ना है](https://yuvaniya.in/2021/11/15/kamla-bhasin-poem-on-patriarchy-and-girls-education/){:target="_blank"}
+4. [वर्णमाला](https://share.google/jVC6mqL4yDidl6PgX){:target="_blank"}
 5. यह उदास लोगों की पीढ़ी है
 
