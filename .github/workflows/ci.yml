@@ -46,9 +46,9 @@ jobs:
       # Step 3: Configure GitHub Pages metadata (site URL, baseurl, etc.)
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      # Step 4: Debug - Print lines 140-160 of post.html to verify content on runner
+      # Step 4: Debug - Search entire repo for broken assign image_ids line
       - name: Debug post layout
-        run: cat -n _layouts/post.html | head -160 | tail -20
+        run: grep -rn "assign image_ids" . --include="*.html" --include="*.md" || echo "NOT FOUND ANYWHERE"
       # Step 5: Build the static site using Jekyll in production mode
       - name: Build with Jekyll
         run: bundle exec jekyll build
