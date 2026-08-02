@@ -7,11 +7,13 @@ permalink: /posts/
 
 <!-- Page-specific CSS for Tabbed Navigation & Newsletter Layout -->
 <style>
-  /* CRITICAL: Force image display on all devices */
+  /* CRITICAL: Global image display rules */
   img {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     max-width: 100%;
     height: auto;
-    display: block !important;
   }
 
   /* Outer container wrapping the academic year tabs */
@@ -156,12 +158,24 @@ permalink: /posts/
       width: 100%;
       min-width: unset;
       padding: 0 1rem;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    
+    .post-image a {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
     }
     
     .post-image img {
       width: 100%;
       height: auto;
       max-height: 350px;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
     }
 
     .post-entry {
