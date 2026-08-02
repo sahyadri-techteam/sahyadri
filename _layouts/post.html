@@ -28,15 +28,14 @@ layout: base
     width: 100%;
   }
 
-  /* Tablets and up: auto-fill with 320px minimum, no maximum column count,
-     wraps to next row automatically if space runs out */
+  /* Tablets and up: always 3 equal columns */
   @media (min-width: 576px) {
     .post-image-gallery {
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
-  /* Each image fills its grid cell with no width cap */
+  /* Each image fills its grid cell */
   .post-image-cell {
     text-align: center;
   }
@@ -168,8 +167,7 @@ layout: base
 
       <!-- ====================================================================
            3. MULTI-IMAGE GALLERY (GOOGLE DRIVE EMBEDS)
-           Phone: single column. Tablet+: auto-fill, 320px minimum per image,
-           no maximum width cap, wraps to next row automatically if needed.
+           Phone: single column. Tablet+: always 3 equal columns.
            ==================================================================== -->
       {% assign images = '' | split: '' %}
       {% if page.image  %}{% assign images = images | push: page.image  %}{% endif %}
