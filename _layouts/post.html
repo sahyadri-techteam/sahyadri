@@ -19,18 +19,40 @@ layout: base
   and image container alignment.
 -->
 <style>
-  /* Gallery grid: 3 columns on desktop, 1 column on mobile */
+  /* Gallery grid: responsive columns based on viewport width */
   .post-image-gallery {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     gap: 16px;
     margin: 25px auto 35px auto;
     width: 100%;
   }
 
-  @media (max-width: 767px) {
+  /* 2 columns on tablets (≥576px) */
+  @media (min-width: 576px) {
     .post-image-gallery {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* 3 columns on small desktops (≥768px) */
+  @media (min-width: 768px) {
+    .post-image-gallery {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* 4 columns on large desktops (≥1200px) — only when there are 4+ images */
+  @media (min-width: 1200px) {
+    .post-image-gallery:has(.post-image-cell:nth-child(4)) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* 5 columns on very wide screens (≥1400px) — only when there are 5 images */
+  @media (min-width: 1400px) {
+    .post-image-gallery:has(.post-image-cell:nth-child(5)) {
+      grid-template-columns: repeat(5, 1fr);
     }
   }
 
