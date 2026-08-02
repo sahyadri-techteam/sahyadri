@@ -29,7 +29,7 @@ layout: base
     width: 100%;
   }
 
-  /* Tablets and up: responsive columns based on image count */
+  /* Small tablets (480px - 767px): responsive columns based on image count */
   @media (min-width: 480px) {
     /* 1 image: single column */
     .post-image-gallery.gallery-1 {
@@ -41,6 +41,16 @@ layout: base
       grid-template-columns: repeat(2, 1fr);
     }
 
+    /* 3, 4, or 5 images: two columns initially */
+    .post-image-gallery.gallery-3,
+    .post-image-gallery.gallery-4,
+    .post-image-gallery.gallery-5 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Large tablets and desktops (768px+): full 3 columns */
+  @media (min-width: 768px) {
     /* 3, 4, or 5 images: three columns */
     .post-image-gallery.gallery-3,
     .post-image-gallery.gallery-4,
