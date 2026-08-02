@@ -155,7 +155,7 @@ permalink: /posts/
     
     .post-image {
       flex-shrink: 0;
-      width: 90%;
+      width: 85% !important;
       min-width: unset;
       padding: 0;
       margin: 0 auto;
@@ -173,7 +173,7 @@ permalink: /posts/
     .post-image img {
       width: 100%;
       height: auto;
-      max-height: 350px;
+      max-height: 400px;
       display: block !important;
       visibility: visible !important;
       opacity: 1 !important;
