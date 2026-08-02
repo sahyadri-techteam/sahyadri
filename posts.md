@@ -7,6 +7,13 @@ permalink: /posts/
 
 <!-- Page-specific CSS for Tabbed Navigation & Newsletter Layout -->
 <style>
+  /* CRITICAL: Force image display on all devices */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block !important;
+  }
+
   /* Outer container wrapping the academic year tabs */
   .tabs-container {
     width: 100%;
@@ -74,12 +81,13 @@ permalink: /posts/
     gap: 1.5rem;
     align-items: flex-start;
     margin-top: 1rem;
+    flex-wrap: wrap;
   }
 
   .post-image {
-    flex-shrink: 0;
+    flex: 0 0 200px;
     width: 200px;
-    min-width: 200px;
+    overflow: visible;
   }
 
   .post-image a {
@@ -93,7 +101,13 @@ permalink: /posts/
     width: 100% !important;
     height: auto !important;
     display: block !important;
-    max-width: 100%;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .post-entry {
+    flex: 1;
+    min-width: 250px;
   }
 
   .post-read-more {
@@ -137,43 +151,62 @@ permalink: /posts/
     
     .tab-link {
       padding: 0.5rem 0.25rem;
+      font-size: 0.9rem;
     }
     
     .tabs-container {
       margin: 1rem 0 2rem 0;
     }
 
-    /* Stack thumbnail above text excerpt on mobile */
+    /* Stack thumbnail above text excerpt on mobile - CRITICAL FOR VISIBILITY */
     .post-entry-container {
-      flex-direction: column;
+      flex-direction: column !important;
       gap: 1rem;
-      align-items: stretch;
+      flex-wrap: nowrap;
     }
     
     .post-image {
-      flex-shrink: 0;
-      min-width: unset !important;
+      flex: 0 0 auto !important;
       width: 100% !important;
-      margin: 0;
+      min-width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      visibility: visible !important;
+      display: block !important;
     }
     
     .post-image a {
       display: block !important;
       width: 100% !important;
+      visibility: visible !important;
     }
     
     .post-image img {
       width: 100% !important;
       height: auto !important;
-      max-height: 350px !important;
-      object-fit: cover;
+      max-height: 400px !important;
+      object-fit: contain;
       display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      margin: 0 !important;
+      padding: 0 !important;
       border-radius: 6px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
     .post-entry {
-      width: 100%;
+      width: 100% !important;
+      flex: 1 !important;
+      min-width: auto !important;
+    }
+  }
+
+  /* Extra small devices (< 480px) */
+  @media (max-width: 480px) {
+    .post-image img {
+      max-height: 300px !important;
     }
   }
 </style>
@@ -340,7 +373,7 @@ permalink: /posts/
                     {% if current_image %}
                       <div class="post-image">
                         <a href="{{ post.url | relative_url }}">
-                          <img src="https://lh3.googleusercontent.com/d/{{ current_image }}?sz=9999" alt="{{ post.title }}">
+                          <img src="https://lh3.googleusercontent.com/d/{{ current_image }}?sz=9999" alt="{{ post.title }}" loading="lazy">
                         </a>
                       </div>
                     {% endif %}
