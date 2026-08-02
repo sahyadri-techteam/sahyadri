@@ -19,21 +19,34 @@ layout: base
   and image container alignment.
 -->
 <style>
-  /* Base responsive styles for embedded post hero images */
-  .post-img {
-    max-width: 65%;
-    height: auto;
-    border-radius: 4px;
-    display: inline-block;
+  /* Gallery grid: 3 columns on desktop, 1 column on mobile */
+  .post-image-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 25px auto 35px auto;
+    width: 100%;
   }
 
-  /* Responsive image width adjustment for smaller screens/mobile devices */
   @media (max-width: 767px) {
-    .post-img {
-      max-width: 80%;
+    .post-image-gallery {
+      grid-template-columns: 1fr;
     }
   }
-    
+
+  /* Each image fills its grid cell */
+  .post-image-cell {
+    text-align: center;
+  }
+
+  .post-img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: block;
+    object-fit: cover;
+  }
+
   /* Fix content tracking behavior so it respects the top navbar height */
   .post-container {
     padding-top: 40px;
@@ -62,15 +75,6 @@ layout: base
 
   .post-subheading a:hover {
     text-decoration: underline;
-  }
-
-  /* Clearfix layout container to force post images to stay safely below header boundaries */
-  .post-image-wrapper {
-    display: block;
-    width: 100%;
-    margin: 25px auto 35px auto;
-    text-align: center;
-    clear: both;
   }
 </style>
 
@@ -162,53 +166,26 @@ layout: base
 
       <!-- ====================================================================
            3. MULTI-IMAGE GALLERY (GOOGLE DRIVE EMBEDS)
-           Renders each populated image field (image, image2, image3, image4, image5)
-           as a Google Drive direct stream link. Each field is checked explicitly
-           to ensure all images render correctly.
+           Mobile: single column stack. Desktop: 3 per row grid.
            ==================================================================== -->
-      {% if page.image %}
-        <div class="post-image-wrapper">
-          <img
-            src="https://lh3.googleusercontent.com/d/{{ page.image }}?sz=9999"
-            alt="{{ page.title }}"
-            class="post-img"
-          >
-        </div>
-      {% endif %}
-      {% if page.image2 %}
-        <div class="post-image-wrapper">
-          <img
-            src="https://lh3.googleusercontent.com/d/{{ page.image2 }}?sz=9999"
-            alt="{{ page.title }}"
-            class="post-img"
-          >
-        </div>
-      {% endif %}
-      {% if page.image3 %}
-        <div class="post-image-wrapper">
-          <img
-            src="https://lh3.googleusercontent.com/d/{{ page.image3 }}?sz=9999"
-            alt="{{ page.title }}"
-            class="post-img"
-          >
-        </div>
-      {% endif %}
-      {% if page.image4 %}
-        <div class="post-image-wrapper">
-          <img
-            src="https://lh3.googleusercontent.com/d/{{ page.image4 }}?sz=9999"
-            alt="{{ page.title }}"
-            class="post-img"
-          >
-        </div>
-      {% endif %}
-      {% if page.image5 %}
-        <div class="post-image-wrapper">
-          <img
-            src="https://lh3.googleusercontent.com/d/{{ page.image5 }}?sz=9999"
-            alt="{{ page.title }}"
-            class="post-img"
-          >
+      {% assign images = '' | split: '' %}
+      {% if page.image  %}{% assign images = images | push: page.image  %}{% endif %}
+      {% if page.image2 %}{% assign images = images | push: page.image2 %}{% endif %}
+      {% if page.image3 %}{% assign images = images | push: page.image3 %}{% endif %}
+      {% if page.image4 %}{% assign images = images | push: page.image4 %}{% endif %}
+      {% if page.image5 %}{% assign images = images | push: page.image5 %}{% endif %}
+
+      {% if images.size > 0 %}
+        <div class="post-image-gallery">
+          {% for img in images %}
+            <div class="post-image-cell">
+              <img
+                src="https://lh3.googleusercontent.com/d/{{ img }}?sz=9999"
+                alt="{{ page.title }}"
+                class="post-img"
+              >
+            </div>
+          {% endfor %}
         </div>
       {% endif %}
 
