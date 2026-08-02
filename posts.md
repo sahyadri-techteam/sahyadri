@@ -152,9 +152,10 @@ permalink: /posts/
     }
     
     .post-image {
-      width: calc(100% - 2rem);
-      padding: 1rem;
-      margin: 0;
+      flex-shrink: 0;
+      width: 100%;
+      min-width: unset;
+      padding: 0 1rem;
     }
     
     .post-image img {
@@ -165,6 +166,7 @@ permalink: /posts/
 
     .post-entry {
       width: 100%;
+      padding: 0 1rem;
     }
   }
 
