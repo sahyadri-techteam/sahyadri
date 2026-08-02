@@ -81,33 +81,20 @@ permalink: /posts/
     gap: 1.5rem;
     align-items: flex-start;
     margin-top: 1rem;
-    flex-wrap: wrap;
   }
 
   .post-image {
-    flex: 0 0 200px;
-    width: 200px;
-    overflow: visible;
-  }
-
-  .post-image a {
-    display: block;
-    width: 100%;
+    flex-shrink: 0;
+    min-width: 200px;
   }
 
   .post-image img {
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    width: 100% !important;
-    height: auto !important;
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
   }
 
   .post-entry {
     flex: 1;
-    min-width: 250px;
   }
 
   .post-read-more {
@@ -158,57 +145,30 @@ permalink: /posts/
       margin: 1rem 0 2rem 0;
     }
 
-    /* Stack thumbnail above text excerpt on mobile - CRITICAL FOR VISIBILITY */
+    /* Stack thumbnail above text excerpt on mobile */
     .post-entry-container {
-      flex-direction: column !important;
+      flex-direction: column;
       gap: 1rem;
-      flex-wrap: nowrap;
     }
     
     .post-image {
-      flex: 0 0 auto !important;
-      width: 100% !important;
-      min-width: 100% !important;
-      max-width: 100% !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      visibility: visible !important;
-      display: block !important;
-    }
-    
-    .post-image a {
-      display: block !important;
-      width: 100% !important;
-      visibility: visible !important;
+      width: calc(100% - 2rem);
+      padding: 1rem;
+      margin: 0;
     }
     
     .post-image img {
-      width: 100% !important;
-      height: auto !important;
-      max-height: 400px !important;
-      object-fit: contain;
-      display: block !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      border-radius: 6px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      width: 100%;
+      height: auto;
+      max-height: 350px;
     }
 
     .post-entry {
-      width: 100% !important;
-      flex: 1 !important;
-      min-width: auto !important;
+      width: 100%;
     }
   }
 
-  /* Extra small devices (< 480px) */
-  @media (max-width: 480px) {
-    .post-image img {
-      max-height: 300px !important;
-    }
-  }
+
 </style>
 
 {% comment %}
