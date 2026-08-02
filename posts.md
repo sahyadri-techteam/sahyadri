@@ -76,9 +76,17 @@ permalink: /posts/
     margin-top: 1rem;
   }
 
+  .post-image {
+    flex-shrink: 0;
+    min-width: 200px;
+  }
+
   .post-image img {
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 100%;
+    height: auto;
+    display: block;
   }
 
   .post-read-more {
@@ -132,11 +140,31 @@ permalink: /posts/
     .post-entry-container {
       flex-direction: column;
       gap: 1rem;
+      align-items: stretch;
+    }
+    
+    .post-image {
+      flex-shrink: 0;
+      min-width: unset;
+      width: 100%;
+      margin: 0;
     }
     
     .post-image img {
       width: 100%;
       height: auto;
+      max-height: 300px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .post-image a {
+      display: block;
+      width: 100%;
+    }
+
+    .post-entry {
+      width: 100%;
     }
   }
 </style>
