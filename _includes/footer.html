@@ -16,7 +16,6 @@
           Dist: Pune, Pin – 410513, Maharashtra, India
         </p>
       </div>
-
       <!-- Column 2: Phone Contact Numbers -->
       <div class="col-md-4 mb-4">
         <h3 class="footer-heading">Call Us</h3>
@@ -26,7 +25,6 @@
           +91 9422304276 / +91 9422308583
         </p>
       </div>
-
       <!-- Column 3: Direct Email Links & Student IT Committee Acknowledgements -->
       <div class="col-md-4 mb-4">
         <h3 class="footer-heading">Email Us</h3>
@@ -41,7 +39,6 @@
             archives@sahyadrischool.org
           </a>
         </p>
-
         <!-- Credit Box for Student Developers -->
         <div class="student-credit-box mt-3">
           <p class="footer-note">
@@ -50,12 +47,9 @@
           </p>
         </div>
       </div>
-
     </div>
-
     <!-- Section Divider Line -->
     <hr class="footer-divider">
-
     <!-- Bottom Footer Row: Social Links, Dynamic Front Matter Extras, Copyright & Designer Credits -->
     <div class="row">
       <div class="col-12 text-center">
@@ -64,7 +58,6 @@
         <div class="social-links-container mb-3">
           {% include social-networks-links.html %}
         </div>
-
         <!-- Optional Page-Specific Footer Extras defined in YAML Front Matter -->
         {% if page.footer-extra -%}
           <div class="footer-custom-content">
@@ -73,7 +66,6 @@
             {% endfor %}
           </div>
         {% endif %}
-
         <!-- Copyright Line with Dynamic Current Year and Pretty Site URL -->
         <p class="copyright text-muted">
           SAHYADRI&nbsp;&bull;&nbsp;{{ site.time | date: '%Y' }}
@@ -84,16 +76,13 @@
                 {{ site.url-pretty }}
               </a>
             </span>
-          {%- ifend %}
+          {%- endif %}
         </p>
-
         <!-- Developer / Designer Attribution -->
         <p class="design-credits text-muted">
           Made by Sailesh Mucheli
         </p>
-
       </div>
     </div>
-
   </div>
 </footer>
