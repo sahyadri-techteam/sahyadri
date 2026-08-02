@@ -6,6 +6,7 @@
 # Key Features:
 # - Custom external/internal profile link generation for authors and co-authors.
 # - Multi-image gallery loop supporting up to 5 embedded Google Drive images.
+# - Dynamic gallery columns based on image count (1, 2, 3, 4, or 5 images).
 # - GitHub repository badges (stars, watch, fork, follow).
 # - Article tags list, previous/next post pagination, and comments inclusion.
 # - Smart referrer-aware back-navigation routing to /posts feed.
@@ -16,7 +17,7 @@ layout: base
 <!-- 
   Internal Layout Styles
   Controls post image responsiveness, header offset spacing, custom author typography,
-  and image container alignment.
+  and image container alignment. Gallery columns are now dynamic based on image count.
 -->
 <style>
   /* Gallery grid: single column on phones */
@@ -28,9 +29,22 @@ layout: base
     width: 100%;
   }
 
-  /* Tablets and up: always 3 equal columns */
+  /* Tablets and up: responsive columns based on image count */
   @media (min-width: 576px) {
-    .post-image-gallery {
+    /* 1 image: single column */
+    .post-image-gallery.gallery-1 {
+      grid-template-columns: 1fr;
+    }
+
+    /* 2 images: two columns */
+    .post-image-gallery.gallery-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* 3, 4, or 5 images: three columns */
+    .post-image-gallery.gallery-3,
+    .post-image-gallery.gallery-4,
+    .post-image-gallery.gallery-5 {
       grid-template-columns: repeat(3, 1fr);
     }
   }
@@ -167,7 +181,8 @@ layout: base
 
       <!-- ====================================================================
            3. MULTI-IMAGE GALLERY (GOOGLE DRIVE EMBEDS)
-           Phone: single column. Tablet+: always 3 equal columns.
+           Dynamic columns: 1 image = 1 col, 2 images = 2 cols, 3-5 images = 3 cols
+           Phone: always single column. Tablet+: responsive based on count.
            ==================================================================== -->
       {% assign images = '' | split: '' %}
       {% if page.image  %}{% assign images = images | push: page.image  %}{% endif %}
@@ -177,7 +192,7 @@ layout: base
       {% if page.image5 %}{% assign images = images | push: page.image5 %}{% endif %}
 
       {% if images.size > 0 %}
-        <div class="post-image-gallery">
+        <div class="post-image-gallery gallery-{{ images.size }}">
           {% for img in images %}
             <div class="post-image-cell">
               <img
