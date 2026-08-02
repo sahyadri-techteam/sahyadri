@@ -155,7 +155,7 @@ permalink: /posts/
     
     .post-image {
       flex-shrink: 0;
-      width: 80%;
+      width: 90%;
       min-width: unset;
       padding: 0;
       margin: 0 auto;
