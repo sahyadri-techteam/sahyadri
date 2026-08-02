@@ -19,33 +19,40 @@ layout: base
   and image container alignment.
 -->
 <style>
-  /* Gallery grid: auto-fill with a comfortable minimum */
+  /* Gallery grid: single column on phones */
   .post-image-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: 1fr;
     gap: 16px;
     margin: 25px auto 35px auto;
     width: 100%;
   }
 
-  /* Force exactly 3 columns on tablets and up */
+  /* Tablets and up: auto-fill with 320px minimum */
+  @media (min-width: 576px) {
+    .post-image-gallery {
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    }
+  }
+
+  /* Force exactly 3 columns on small desktops */
   @media (min-width: 768px) {
     .post-image-gallery {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(320px, 1fr));
     }
   }
 
   /* 4 columns on large desktops — only when 4+ images present */
   @media (min-width: 1200px) {
     .post-image-gallery:has(.post-image-cell:nth-child(4)) {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(320px, 1fr));
     }
   }
 
   /* 5 columns on very wide screens — only when 5 images present */
   @media (min-width: 1400px) {
     .post-image-gallery:has(.post-image-cell:nth-child(5)) {
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(5, minmax(320px, 1fr));
     }
   }
 
@@ -71,7 +78,7 @@ layout: base
   /* Style the back button cleanly without breaking layout flows */
   .back-navigation {
     margin-bottom: 0.15rem;
-display: block !important;
+    display: block !important;
   }
 
   /* Target author subheadings to use custom web font (Amatic SC) */
@@ -181,7 +188,7 @@ display: block !important;
 
       <!-- ====================================================================
            3. MULTI-IMAGE GALLERY (GOOGLE DRIVE EMBEDS)
-           Responsive grid: auto-fills columns with a 200px minimum image size.
+           Mobile: single column. Tablets+: auto-fill with 320px minimum.
            ==================================================================== -->
       {% assign images = '' | split: '' %}
       {% if page.image  %}{% assign images = images | push: page.image  %}{% endif %}
