@@ -55,7 +55,7 @@ permalink: /geeth
   <!-- Document Card 1: English Transliterated Version -->
   <figure class="ninad-card">
     {% include pdf.html 
-       thumbnail_path="https://drive.google.com/thumbnail?id=1jMUgEMR5LOFygyomN17iWU47JBsXrTOR&sz=w800"
+       thumbnail_path="https://drive.google.com/thumbnail?id=1jMUgEMR5LOFygyomN17iWU47JBsXrTOR&sz=s0"
        pdf_path="https://drive.google.com/uc?export=download&id=1o1U1PIGIDH2eo_rkz38BUjVd5DxU5sDt" 
        only_thumbnail=true %} 
     <figcaption class="ninad-caption-banner">Geet Gunjan (English Transliterated)</figcaption>
@@ -63,7 +63,7 @@ permalink: /geeth
   <!-- Document Card 2: Original Version -->
   <figure class="ninad-card">
     {% include pdf.html 
-       thumbnail_path="https://drive.google.com/thumbnail?id=1jMUgEMR5LOFygyomN17iWU47JBsXrTOR&sz=w800"
+       thumbnail_path="https://drive.google.com/thumbnail?id=1jMUgEMR5LOFygyomN17iWU47JBsXrTOR&sz=s0"
        pdf_path="https://drive.google.com/uc?export=download&id=1ybQifay7oFupzEqj_le-JemM0szJZEEo" 
        only_thumbnail=true %} 
     <figcaption class="ninad-caption-banner">Geet Gunjan (Original)</figcaption>
