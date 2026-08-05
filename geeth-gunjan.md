@@ -2,9 +2,8 @@
 layout: page
 title: Geet Gunjan
 subtitle: Click thumbnail to download Geeth Gunjan
-permalink: /geet
+permalink: /geeth
 ---
-
 <!-- Embedded CSS Stylesheet for PDF Card Grid & Layout Styling -->
 <style>
   /* Flexbox Grid Container to horizontally align and wrap document cards */
@@ -15,7 +14,6 @@ permalink: /geet
     justify-content: center;
     padding: 20px 0;
   }
-
   /* Structural Card Component for individual PDF downloads */
   .ninad-card {
     display: flex;
@@ -27,12 +25,10 @@ permalink: /geet
     transition: transform 0.2s ease;
     overflow: hidden; 
   }
-
   /* Interactive hover lift effect */
   .ninad-card:hover {
     transform: translateY(-8px);
   }
-
   /* Caption Banner styling displayed below the thumbnail */
   .ninad-caption-banner {
     background-color: #f7fff7; 
@@ -42,16 +38,10 @@ permalink: /geet
     font-weight: 600;
     font-size: 1rem;
     margin: 0;
-    
-    /* 
-       Flexbox order: 1 ensures the caption displays below 
-       elements with default order: 0 (such as the thumbnail wrapper)
-    */
     order: 1; 
     margin-top: 15px; 
     border-top: 1px solid #e0e0e0; 
   }
-
   /* Forces uniform height and aspect-ratio cropping across all card thumbnails */
   .ninad-card img {
     width: 100%;
@@ -60,26 +50,22 @@ permalink: /geet
     display: block;
   }
 </style>
-
 <!-- Main Container holding the Geet Gunjan PDF items -->
 <div class="pdf-grid-container">
-
   <!-- Document Card 1: English Transliterated Version -->
   <figure class="ninad-card">
     {% include pdf.html 
-       thumbnail_path="/assets/GeethGunjan/transliterated.png" 
+       thumbnail_path="https://drive.google.com/thumbnail?id=1jMUgEMR5LOFygyomN17iWU47JBsXrTOR&sz=w800"
        pdf_path="https://drive.google.com/uc?export=download&id=1o1U1PIGIDH2eo_rkz38BUjVd5DxU5sDt" 
        only_thumbnail=true %} 
     <figcaption class="ninad-caption-banner">Geet Gunjan (English Transliterated)</figcaption>
   </figure>
-
   <!-- Document Card 2: Original Version -->
   <figure class="ninad-card">
     {% include pdf.html 
-       thumbnail_path="/assets/GeethGunjan/original.png" 
+       thumbnail_path="https://drive.google.com/thumbnail?id=1jMUgEMR5LOFygyomN17iWU47JBsXrTOR&sz=w800"
        pdf_path="https://drive.google.com/uc?export=download&id=1ybQifay7oFupzEqj_le-JemM0szJZEEo" 
        only_thumbnail=true %} 
     <figcaption class="ninad-caption-banner">Geet Gunjan (Original)</figcaption>
   </figure>
-
 </div>
