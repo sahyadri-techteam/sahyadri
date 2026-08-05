@@ -4,50 +4,19 @@ layout: null
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <!-- Site Title -->
-    {% if site.title %}
     <title>{{ site.title | xml_escape }}</title>
-    {% endif %}
-
-    <!-- Site Description -->
-    {% if site.rss-description %}
     <description>{{ site.rss-description | xml_escape }}</description>
-    {% endif %}
-
-    <!-- Link to Main Site URL -->
     <link>{{ '/' | absolute_url }}</link>
-    
-    <!-- Self-referencing Atom Link for RSS validator compliance -->
     <atom:link href="{{ 'feed.xml' | absolute_url }}" rel="self" type="application/rss+xml" />
 
-    <!-- Sets truncated post excerpt word count fallback -->
     {% assign excerpt_length = site.excerpt_length | default: 50 %}
-    
-    <!-- Loops through the 20 most recent blog posts -->
     {% for post in site.posts limit: 20 %}
     <item>
-      <!-- Post Title -->
       <title>{{ post.title | strip_html | xml_escape }}</title>
-
-      <!-- Post Author using Dublin Core namespace -->
-      {% if post.author %}
-      <dc:creator><![CDATA[{{ post.author | xml_escape }}]]></dc:creator>
-      {% elsif site.author %}
-      <dc:creator><![CDATA[{{ site.author | xml_escape }}]]></dc:creator>
-      {% endif %}
-
-      <!-- Post Description: Subtitle (if available) concatenated with truncated body text -->
-      <description>
-        {% if post.subtitle %}{{ post.subtitle | strip_html | xml_escape }} - {% endif %}{{ post.content | strip_html | xml_escape | truncatewords: excerpt_length }}
-      </description>
-
-      <!-- Post Metadata: Publication Date formatted to RFC-822 standard -->
+      <dc:creator><![CDATA[{{ post.author | default: site.author | xml_escape }}]]></dc:creator>
+      <description>{% if post.subtitle %}{{ post.subtitle | strip_html | xml_escape }} - {% endif %}{{ post.content | strip_html | xml_escape | truncatewords: excerpt_length }}</description>
       <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
-      
-      <!-- Permalink to post -->
       <link>{{ post.url | absolute_url }}</link>
-      
-      <!-- Unique Identifier for RSS Readers -->
       <guid isPermaLink="true">{{ post.url | absolute_url }}</guid>
     </item>
     {% endfor %}
