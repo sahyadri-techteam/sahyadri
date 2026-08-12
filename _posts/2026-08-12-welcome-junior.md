@@ -2,7 +2,7 @@
 layout: post
 title: WELCOME BACK TO THE SCHOOL - Junior School
 subtitle: Zara (Class 6)
-catergory: August 2026
+category: August 2026
 date: 2026-08-12
 ---
 This year’s orientation was not how I imagined. It was definitely more enthusiastic and longer than last year. Now I don’t know what seniors did. But us juniors, we had a blast!!
