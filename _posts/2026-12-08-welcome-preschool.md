@@ -1,10 +1,11 @@
 ---
 layout: post
 title: WELCOME BACK TO THE SCHOOL
-subtitle: Preschool
+subtitle: Rose Jooby (Teacher)
+profile-link: https://www.sahyadrischool.org/jooby-rose/
 date: 2026-08-12
-author: ROSE AKKA
 ---
+
 Today was the first day of school and the air itself felt full of new beginnings.  
 Rose akka did the Aarti to welcome our four angels - Ritanya, Nisarg, Eyalini and Tenzin to Pre-Primary school. Their little feet stepped in with such trust, and we welcomed them with light and blessings for the year ahead.
 Morning Welcome
