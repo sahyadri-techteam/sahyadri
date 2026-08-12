@@ -1,6 +1,6 @@
 ---
 layout: post
-title: WELCOME BACK TO THE SCHOOL
+title: WELCOME BACK TO THE SCHOOL - Pre-School
 subtitle: Rose Jooby (Teacher)
 profile-link: https://www.sahyadrischool.org/jooby-rose/
 date: 2026-08-12
