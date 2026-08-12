@@ -4,6 +4,7 @@ title: WELCOME BACK TO THE SCHOOL
 subtitle: Rose Jooby (Teacher)
 profile-link: https://www.sahyadrischool.org/jooby-rose/
 date: 2026-08-12
+category: August 2026
 ---
 
 Today was the first day of school and the air itself felt full of new beginnings.  
