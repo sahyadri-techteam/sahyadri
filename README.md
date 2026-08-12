@@ -1,288 +1,137 @@
-# Sahyadri Connect
+Sahyadri Connect
+A modern website for Sahyadri School built with Jekyll and Beautiful Jekyll.
 
-A beautiful, modern website for Sahyadri School built with [Jekyll](https://jekyllrb.com/) and [Beautiful Jekyll](https://beautifuljekyll.com/).
+Overview
+Sahyadri Connect serves as the digital hub for Sahyadri School, showcasing student articles, campus activities, event coverage, and member profiles across clean, responsive layouts.
 
-## Overview
+Features
+Responsive Layouts — Adaptive rendering optimized for desktop, tablet, and mobile devices.
 
-Sahyadri Connect is the digital hub for Sahyadri School, showcasing student activities, projects, accomplishments, and community engagement. The site features a clean, responsive design that works seamlessly across all devices.
+Fast Static Delivery — Powered by Jekyll static generation for minimal load times.
 
-## Features
+Markdown Authoring — Simple text-file content creation for posts, activities, and profiles.
 
-- **Responsive Design** — Works perfectly on desktop, tablet, and mobile devices
-- **Fast Performance** — Built with Jekyll for static site generation
-- **Easy to Maintain** — Simple Markdown-based content management
-- **Beautiful Typography** — Carefully chosen fonts and spacing
-- **SEO Optimized** — Automatic sitemap and meta tags
-- **Comments Support** — Built-in comment systems for engagement
-- **Social Sharing** — Easy sharing on social networks
-- **Dark/Light Theme** — Customizable color schemes
+Automatic Author Profile Routing — Dynamic slug generation linking author names (subtitle / subtitle2) directly to /profiles/first-last/.
 
-## Getting Started
+Google Drive Image Integration — High-performance image loading for galleries, hero images, and profile avatars using Google Drive File IDs.
 
-### Prerequisites
+Built-in Comments — Seamless integration with community comment platforms.
 
-- Ruby 3.2 or higher
-- Bundler
-- Git
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd sahyadri-connect
-   ```
-
-2. **Install dependencies**
-   ```bash
-   bundle install
-   ```
-
-3. **Run the site locally**
-   ```bash
-   bundle exec jekyll serve
-   ```
-
-4. **Open in browser**
-   Visit `http://localhost:4000` to see your site
-
-## Project Structure
-
-```
+Project Structure
+Plaintext
 sahyadri-connect/
-├── _config.yml           # Site configuration
-├── _data/                # Data files (navigation, etc.)
-├── _includes/            # Reusable HTML components
-├── _layouts/             # Page layouts
-├── _posts/               # Blog posts and articles
-├── assets/               # CSS, JS, images
-├── pages/                # Static pages (about, contact, etc.)
-├── Gemfile               # Ruby dependencies
-└── README.md             # This file
-```
+├── _config.yml         # Global site settings & configuration
+├── _data/              # Data files (navigation, menus, etc.)
+├── _includes/          # Reusable HTML snippets (footer, comments, etc.)
+├── _layouts/           # Layout templates (base, post, events, profile, page)
+├── _posts/             # Articles and school blog posts
+├── _activities/        # School events, workshops, and activities
+├── profiles/           # Student and staff bio profile pages
+├── assets/             # Site assets (CSS, JS, fallback images)
+├── pages/              # Static pages (about, contact, etc.)
+├── Gemfile             # Ruby dependencies
+└── README.md           # Repository documentation
+Getting Started
+Prerequisites
+Ruby 3.2 or higher
 
-## Configuration
+Bundler
 
-Edit `_config.yml` to customize:
+Git
 
-- **Site title and description**
-- **Author name and email**
-- **Social media links**
-- **Navigation menu**
-- **Color scheme and fonts**
-- **Analytics and comments**
+Local Setup
+Clone the repository
 
-### Example Configuration
+Bash
+git clone <repository-url>
+cd sahyadri-connect
+Install dependencies
 
-```yaml
-title: Sahyadri Connect
-description: Digital hub for Sahyadri School
-author: Sahyadri School
-email: contact@sahyadri.edu
-url: https://sahyadri-school.web
+Bash
+bundle install
+Run local server
 
-social-network-links:
-  github: sahyadri-school
-  instagram: sahyadri_school
-  facebook: sahyadriconnect
-  email: contact@sahyadri.edu
-```
+Bash
+bundle exec jekyll serve
+Access in browser
+Navigate to http://localhost:4000
 
-## Creating Content
+Content Authoring Guide
+1. Adding a Post / Article
+Create a file in _posts/ with the naming convention YYYY-MM-DD-title.md (e.g., 2025-11-25-interviewing-rohini-didi.md):
 
-### Adding a Blog Post
-
-Create a new file in `_posts/` with the format `YYYY-MM-DD-title.md`:
-
-```markdown
+YAML
 ---
 layout: post
-title: Activity Name
-subtitle: Brief description
-date: 2024-01-15
-author: Author Name
-tags: [activity, school]
+title: "Interviewing Rohini Didi"
+date: 2025-11-25
+subtitle: "Ashrith Reddy"                  # Primary Author Name (Auto-links to /profiles/ashrith-reddy/)
+subtitle2: "Riddhim Inamke (Grade 11)"     # Optional Co-Author Name
+profile-link: ""                          # Optional custom URL override for Author 1
+profile-link2: ""                         # Optional custom URL override for Author 2
+category: "November 2025"                  # Category or issue grouping
+image: "1j2nUEqjoW5XM_AtTaKuq_6v11D8DGyak" # Google Drive File ID for Image 1
+image2: ""                                # Optional Google Drive File ID for Image 2
+image3: ""                                # Optional Google Drive File ID for Image 3
+image4: ""                                # Optional Google Drive File ID for Image 4
+image5: ""                                # Optional Google Drive File ID for Image 5
 ---
 
-Your content here...
-```
+Write article content here using standard Markdown...
+2. Adding an Activity / Event
+Create a file in _activities/ or _posts/ using layout: events:
 
-### Adding a Page
-
-Create a new file in `pages/` (e.g., `pages/about.md`):
-
-```markdown
+YAML
 ---
-layout: page
-title: About
-permalink: /about/
----
-
-Your content here...
-```
-
-### Adding Photos
-
-1. Upload images to `/assets/img/`
-2. Reference in posts: `![Alt text](/assets/img/image.jpg)`
-3. Use Google Drive for large collections (see config for setup)
-
-## Customization
-
-### Colors and Fonts
-
-Edit `assets/css/beautifuljekyll.css` or use CSS variables in `_config.yml`:
-
-```yaml
-navbar-col: "#FFFFFF"
-navbar-text-col: "#404040"
-navbar-border-col: "#DDDDDD"
-```
-
-### Navigation Menu
-
-Edit `_data/navbar.yml` to customize menu items and order.
-
-### Footer
-
-Customize footer links in `_includes/footer.html` or via `_config.yml` social links.
-
-## Deployment
-
-### GitHub Pages (Recommended)
-
-1. Push to GitHub repository
-2. Enable GitHub Pages in repository settings
-3. Select `master` branch as source
-4. Site deploys automatically on push
-
-### Manual Deployment
-
-1. Build the site:
-   ```bash
-   bundle exec jekyll build
-   ```
-
-2. Upload `_site/` folder to your web host
-
-## Features Guide
-
-### Comments
-
-Enable comments in `_config.yml`:
-
-```yaml
-comments:
-  provider: "giscus"
-  giscus:
-    repo: "sahyadri-school/sahyadri-connect"
-    repo-id: "YOUR_REPO_ID"
-    category: "Announcements"
-    category-id: "YOUR_CATEGORY_ID"
-```
-
-### Social Sharing
-
-Posts automatically include social share buttons. Customize in post frontmatter:
-
-```yaml
----
-share-title: "Custom Title for Sharing"
-share-description: "Custom description"
----
-```
-
-### Analytics
-
-Add Google Analytics in `_config.yml`:
-
-```yaml
-google_analytics: "G-XXXXXXXXXX"
-```
-
-## Troubleshooting
-
-**Site not building?**
-- Run `bundle update` to update gems
-- Check for syntax errors in YAML files
-- Ensure front matter is properly formatted
-
-**Images not displaying?**
-- Check file paths are correct
-- Ensure images are in `/assets/img/`
-- Verify image permissions
-
-**Site looks different locally?**
-- Clear browser cache
-- Run `bundle exec jekyll clean` then serve again
-- Check for CSS conflicts in custom styles
-
-## Contributing
-
-To contribute to this site:
-
-1. Create a new branch for your changes
-2. Make your edits
-3. Test locally with `bundle exec jekyll serve`
-4. Submit a pull request with a clear description
-
-## Maintenance
-
-### Regular Tasks
-
-- Update dependencies: `bundle update`
-- Review and moderate comments regularly
-- Update content and posts as needed
-- Check for broken links
-
-### Backup
-
-Keep regular backups of:
-- `_posts/` directory
-- `_config.yml`
-- Custom CSS/JS files
-- Uploaded images
-
-## Performance Tips
-
-- Optimize images before uploading (use tools like TinyPNG)
-- Use responsive images for different screen sizes
-- Minimize custom CSS/JS
-- Enable browser caching
-
-## Security
-
-- Keep Ruby and gems updated
-- Use strong GitHub credentials
-- Be cautious with environment variables
-- Review third-party integrations (comments, analytics)
-
-## Support and Documentation
-
-- [Jekyll Documentation](https://jekyllrb.com/docs/)
-- [Beautiful Jekyll Documentation](https://beautifuljekyll.com/)
-- [Markdown Guide](https://www.markdownguide.org/)
-
-## License
-
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
-
-## Credits
-
-Built with:
-- [Jekyll](https://jekyllrb.com/) — Static site generator
-- [Beautiful Jekyll](https://beautifuljekyll.com/) — Beautiful Jekyll theme
-- [Bootstrap](https://getbootstrap.com/) — Responsive CSS framework
-- [Font Awesome](https://fontawesome.com/) — Icon library
-
-## Contact
-
-For questions or suggestions, please contact:
-
-📧 Email: archives@sahyadrischool.org  
-🌐 Website: https://sahyadrischool.org
-
+layout: events
+title: "Screen Addiction - Classes 7 & 8"
+subtitle: Sayantan Sen (Founder Digital Safety India, Parent of Sahyadri School)
+date: 2025-09-22
+category: Digital Safety Workshop
+image: "1j2nUEqjoW5XM_AtTaKuq_6v11D8DGyak" # Optional Hero Image Google Drive File ID
 ---
 
-**Last Updated:** July 2026
-**Version:** 1.0.0
+Write the activity description, workshop outline, and resource links here using Markdown...
+3. Adding an Author / Member Profile
+Create a file in profiles/ named first-last.md (e.g., profiles/sailesh-mucheli.md) using layout: profile. Author names listed in posts and activities (subtitle) will automatically link to this path:
+
+YAML
+---
+layout: profile
+title: "Sailesh Mucheli"
+subtitle: "Student (Class 12)"
+date: 2026-07-03
+academic-year: "2026-27"
+profile-image: "1mAZsR_SWrJkXNDxj2Z3Zioo7zuajC23P" # Google Drive File ID (Renders square 1:1 avatar)
+---
+
+I joined Sahyadri in Grade 5 to discover more about myself...
+
+Write the complete bio, achievements, and contributions here in Markdown...
+Google Drive Media Integration
+All media (profile avatars, activity hero images, and post galleries) are hosted on Google Drive using direct File IDs to keep the repository lightweight:
+
+Upload the image file to Google Drive.
+
+Set access permissions to "Anyone with the link can view".
+
+Extract the unique File ID from the share link:
+[https://drive.google.com/file/d/](https://drive.google.com/file/d/)1mAZsR_SWrJkXNDxj2Z3Zioo7zuajC23P/view
+
+Assign the extracted ID to the relevant front matter key:
+
+Profiles: profile-image: "FILE_ID"
+
+Activities: image: "FILE_ID"
+
+Posts: image: "FILE_ID", image2: "FILE_ID", etc.
+
+Customization
+Navigation Menu: Update _data/navbar.yml to alter header links and order.
+
+Global Variables & Colors: Edit _config.yml for site meta info or edit assets/css/beautifuljekyll.css for styling tweaks.
+
+Maintenance & Backups
+Regularly update dependencies using bundle update.
+
+Ensure critical content directories (_posts/, _activities/, profiles/, _config.yml) are routinely committed to GitHub version control.
