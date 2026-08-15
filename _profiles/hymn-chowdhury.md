@@ -4,7 +4,7 @@ title: "Hymn Chowdhury"
 subtitle: "Student (Class 11)"
 date: 2026-08-14
 academic-year: "2026-27"
-profile-image: "1PAVDD5Ukngjzp0kEQpeURFgMVKghL1"
+profile-image: "1PAVDD5Ukngjzp0kEQpeURFgMVKghL"
 ---
 
 I joined Sahyadri School this year, 2026.
